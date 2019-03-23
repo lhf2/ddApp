@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.11.2.js"></script>
+	<script src="../js/fun.js"></script>
+	<link rel="stylesheet" type="text/css" href="../css/resetStyle.css">
+	<style type="text/css">
+		#max{width: 200px;height: 200px; border-radius: 50%; border:1px solid red; position: relative;}
+		#min{width: 50px;height: 50px; border-radius: 50%; border:1px solid blue; position: absolute;}
+	</style>
+	<script>
+		$(function(){
+
+
+			$("#min").mousePull("",{
+				x:100,
+				y:100,
+				callback:function(obj){
+
+					var dy:number = (obj.y) - (unit.y);
+				 var dx:number = (obj.x) - (unit.x);
+				 var angle:number=(Math.round(Math.atan2(dx, dy)*180/Math.PI/(360/4))+4)%4;
+					
+					this.x = round(75,50,50,obj.x)[0];
+					this.y = round(100,50,50,obj.y)[1];
+					console.log(this.x)
+				}
+			});
+
+			var i = 0;
+			setInterval(function(){
+				i++
+				$("#min").css({
+					"left":round(75,75,75,i*2)[0],
+					"top":round(75,75,75,i*2)[1],
+				});
+			},17)
+			
+		});
+
+		function round(r/*半径*/, _x/*圆心x坐标*/, _y/*圆心y坐标*/, _val/*循环值[例如：1，2，3，4，5(在循环里面变动的值)]*/){
+			var PI = Math.PI;
+			var x = Math.cos(PI / 180 * _val%360) * r + _x,
+				y = Math.sin(PI / 180 * _val%360) * r + _y;
+			var arr = [x,y];
+			return arr
+		};
+	</script>
+</head>
+<body>
+	<div id="max">
+		<div id="min"></div>
+	</div>
+</body>
+</html>

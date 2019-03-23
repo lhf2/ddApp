@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>与我相关</title>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/lhf-base.css"/>
+    <link rel="stylesheet" href="../css/ywxg.css"/>
+    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+    <script src="../js/jquery-1.11.2.js"></script>
+    <script src="../js/pdtp.js"></script>
+    <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+    <script src="../js/xcq.js"></script>
+    <script src="../js/myinfor.js"></script>
+    <script src="../js/ywxg.js"></script>
+</head>
+<body>
+<!--top开始-->
+<div class="top-box">
+    <div class="top-detail">
+        <a href="xcq.html" target="_top">
+            <img class="top-return" src="../images/rtn.png" alt="">
+        </a>
+        <span>与我相关</span>
+    </div>
+</div>
+<!--main开始-->
+<ul class="main-link">
+    <li class="link-list dz-btn cur">
+        <a href="javascript:;">点赞</a>
+        <div class="circle"></div>
+    </li>
+    <li class="link-list comment-btn">
+        <a href="javascript:;">评论</a>
+        <div class="circle"></div>
+    </li>
+    <!-- <li class="link-list sl-btn">
+        <a href="javascript:;">私聊</a>
+        <div class="circle"></div>
+    </li> -->
+    <li class="link-list notice-btn">
+        <a href="javascript:;">通知</a>
+        <div class="circle"></div>
+    </li>
+</ul>
+<!--点赞-->
+<div class="main-box" style="display: block">
+    <ul class="main-detail dz-detail"></ul>
+</div>
+<!--评论-->
+<div class="main-box">
+    <ul class="main-detail pl-detail"></ul>
+</div>
+<!--私聊-->
+<div class="main-box chat-box">
+    <input type="hidden" name="pushid" id="input_pushid"/>
+    <ul class="main-detail chat-detail">
+        <!--<li class="detail-list chat-list">
+            <div class="icon-box">
+                <div class="icon-img">
+                    <img src="" alt=""/>
+                </div>
+                <div class="data-num">2</div>
+            </div>
+            <div class="detail-text">
+                <div class="text-top">
+                    <div class="text-name">顶顶顶</div>
+                    <div class="text-time">嘟哇嘟哇</div>
+                </div>
+                <div class="text-detail">你科二什么时候考，你开的很好啊！ </div> </div>
+        </li>-->
+    </ul>
+</div>
+<div class="mask-box1"></div>
+<ul class="alert-del">
+    <li class="alert-del-list del-btn">
+        删除该聊天
+    </li>
+    <li class="alert-del-list alert-top">
+        置顶聊天
+    </li>
+</ul>
+<div class="tip-hide">
+    同一设备用户无法进行私聊和挑战
+</div>
+<!--通知-->
+<div class="main-box notice-box">
+    <ul class="main-detail"></ul>
+</div>
+</body>
+</html>

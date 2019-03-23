@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>鉴权</title>
+	<!-- <script type="text/javascript" src="js/utils.js"></script> -->
+<script>
+	//var appId=utils.request('appId');
+	//var jsonStrUser=localStorage.getItem("wx_user");
+	//if(utils.isEmpty(jsonStrUser)){//不存在去授权
+	//	console.log(appId);
+	//if(!utils.isEmpty(appId)){
+		var appId='wx9766e4b2a8cb0844';
+		//console.log('进来了,,,');
+		var dd_redirect_uri="http://wx.dingdongxueche.com/html/me.html";
+		var backUri = "http://wx.dingdongxueche.com/wx2pay/userAuth/myInfo";
+		//var backUri = "http://wx.dingdongxueche.com/wx2pay/userAuth/auth2";
+		window.location.href= "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri="+ encodeURIComponent(backUri)+ "&response_type=code&scope=snsapi_u serinfo&state=STATE#wechat_redirect";
+		//window.location.href= "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri="+backUri+ "&response_type=code&scope=snsapi_u serinfo&state=STATE#wechat_redirect";
+	 //}else{
+	 //	console.log('appid是空的...');
+	 //}
+	 /*else{
+					var jsonUser = JSON.parse(jsonStrUser);
+					localStorage.setItem("openId",jsonUser.openId);
+				 	window.location.href="http://wx.dingdongxueche.com/index00.html";
+	 }*/
+</script>
+</head>
+<body>
+	
+</body>
+</html>

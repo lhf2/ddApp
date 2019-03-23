@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/resetStyle.css" />
+    <link rel="stylesheet" href="../css/me-child.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css">
+    <script type="text/javascript" src="../js/rem.js" ></script>		
+	<style type="text/css">
+        .addressList .list{padding:.2rem .3rem; background-color: #fff; margin-top:.3rem; border-bottom:1px solid #ddd; border-top:1px solid #ddd;}
+        .addressList .list:first-child{margin-top:0}
+        .addressList .list .top .p1{ font-size: .42rem; color:#333;}
+        .addressList .list .top .p1 .name{margin-right:.3rem;}
+        .addressList .list .top .p2{ color:#737373; font-size: .32rem;  border-bottom:1px solid #dddddd; margin-top:.1rem;margin-bottom:.2rem; padding-bottom:.2rem; }
+        .addressList .list .top .p2 .addressLf{margin-right:.3rem;}
+        .addressList .list .bottom{font-size: .32rem; overflow: hidden;}
+        .addressList .list .bottom .lf{float: left;}
+        .addressList .list .bottom .rt{float: right; color:#569DE1;}
+        .addressList .list .bottom .rt .span1{margin-right:.2rem;}
+        .main_bottom{ position:fixed; bottom:0; left:0;height:1.2rem;line-height:1.2rem;text-align: center; width: 100%; background-color: #2EA94C; font-size: .42rem;  }
+        .main_bottom a{color:#fff; display: block; width: 100%; height: 100%;}
+        .main_form{
+            background-color: #fff;
+            font-size: .36rem;
+            color:#737373;
+        }
+        .main_form input[type=text]{
+            border:0;
+            padding: 0;
+            margin: 0;
+            height:100%;
+            width: 100%;
+            font-size: .36rem;
+        }
+        .main_form .top .left{
+            min-width: 5rem;
+            width: 100%;
+        }
+
+        .main_form .leftText:first-child{
+            border-top:1px solid #ccc;
+        }
+        .main_form .leftText{
+            height: 1rem;
+            white-space:nowrap;
+            line-height: 1rem;
+            border:1px solid #ccc;
+            border-top:0;
+            padding:0 .2rem;
+        }
+    </style>
+	<script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
+  <script type="text/javascript" src="DDPOP.js"></script>
+    <script>
+        $(function(){
+            var path = "http://dd.dingdongxueche.com/DDWeb";
+            var openId = localStorage.getItem("openId");
+
+            var confirms = new DDPOP();
+            //展示列表
+            $.post(path+"/myIntegral/getAddressByOpenID.htm?openID="+openId+"",getAddress);
+            function getAddress(msg){
+                var data = $.parseJSON(msg);
+                var len = data.length;
+                var $box = $(".addressList");
+                var htmlstr ='';
+                for(var i = 0; i < len; i++){
+                    htmlstr+='<div class="list" id="'+data[i].id+'">'+
+                                '<div class="top">'+
+                                    '<p class="p1">'+
+                                        '<span class="name">'+data[i].receiver+'</span><span class="phone">'+data[i].phone+'</span>'+
+                                    '</p>'+
+                                    '<p class="p2">'+
+                                        '<span class="addressLf">'+data[i].address+'</span>'+
+//                                        '<span class="addressRt">101室</span>'+
+                                    '</p>'+
+                                '</div>'+
+                                '<div class="bottom">'+
+                                    '<div class="lf"><label><input type="radio" name="address" '+ischecked(data[i].isdefault)+' /> 默认地址</label></div>'+
+                                    '<div class="rt">'+
+                                        '<span class="span1 updates">编辑</span>'+
+                                        '<span class="span2 deletes">删除</span>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>';
+                }
+
+                $box.html(htmlstr);
+            };
+			$(".main_bottom").click(function(){
+				var len = $(".addressList").find(".list").length;
+				if(len >= 5){
+					alert("地址最多不能超过5个！")
+				}else{
+					window.location.href="../html/me-creatnew.html";
+				}
+			});
+            //选中默认地址
+            function ischecked(sel){
+                var is = "";
+                if(sel == "1"){
+                    is = "checked='checked'";
+                }
+                return is
+            };
+
+            //点击删除当前地址
+            $(".addressList").on("click",".deletes",function(){
+                var _this = $(this);
+                var len = $(".addressList").find(".list").length;
+                if(len <= 1){
+                    alert("至少保留一个地址！");
+                }else {
+                    confirm("确认删除","",{
+                        callback:{
+                            btn1:function(){
+                                var isid =  _this.parents(".list").attr("id");
+                                deleteaddress(isid);
+                            }
+                        }
+                    });
+                }
+
+            });
+
+
+
+            //radio更改默认地址
+            $(".addressList").on("change",".lf input",function(){
+                var isId = $(this).parents(".list").attr("id");
+                $.post(path+"/myIntegral/defaultAddress.htm?openID="+openId+"&ids="+isId+"",function(){
+                    $.post(path+"/myIntegral/getAddressByOpenID.htm?openID="+openId+"",getAddress);
+                });
+            });
+
+            //点击编辑当前地址
+            $(".addressList").on("click",".updates",function(){
+                var $box = $(this).parents(".list");
+                var $receiver = $box.find(".name").text(),
+                    $phone = $box.find(".phone").text(),
+                    $address = $box.find(".addressLf").text(),
+                    $radio = $box.find(".lf input");
+                var isId = $box.attr("id");
+                var sel = 0;
+                if($radio.prop("checked")){
+                    sel = 1;
+                }
+                var htmlstr = '<div class="main_form ">'+
+                        '<div class="leftText flex"><span class="txt">收货人：</span><input id="receiver" type="text" /> </div>'+
+                        '<div class="leftText flex"><span class="txt">联系方式：</span><input id="phone" type="text" /></div>'+
+                        '<div class="leftText flex"><span class="txt">收货地址：</span><input type="text" id="address" /></div>'+
+                        '<div class="leftText flex"><span class="txt">默认地址：</span><span class="txt"><input type="checkbox" id="isdefault" '+ischecked(sel)+'  /></span></div>'+
+                        '</div>';
+
+
+
+
+               confirms.init("","",{
+                    confirm:true,
+                    state:false,
+                    content:htmlstr,
+                    callback:{
+                        open:function(){
+                            pblicText($receiver,$phone,$address);
+                        },
+                        btn1:function(){
+                            var is$receiver = $("#receiver").val(), is$phone = $("#phone").val(),is$address = $("#address").val();
+                            var address = {openid:openId,receiver:is$receiver,phone:is$phone,address:is$address,isdefault:'0',id:isId};
+                            if($("#isdefault").prop("checked")){
+                                address.isdefault = "1";
+                            }
+                            updateaddress(address);
+                        }
+                    }
+                });
+            });
+
+            //点击编辑传值
+            function pblicText(_receiver,_phone,_address){
+                $("#receiver").val(_receiver);
+                $("#phone").val(_phone);
+                $("#address").val(_address);
+            }
+
+            //删除地址
+            function deleteaddress(_id){
+                $.post(path+"/myIntegral/deleteAddress.htm?ids="+_id+"",function(){
+                    $.post(path+"/myIntegral/getAddressByOpenID.htm?openID="+openId+"",getAddress);
+                });
+            };
+
+            //编辑地址
+            function updateaddress(_object){
+                if(isformtrue()){
+                    $.ajax({
+                        url:path+"/myIntegral/updateAddress.htm",
+                        data:_object,
+                        success:function(){
+                            $.post(path+"/myIntegral/getAddressByOpenID.htm?openID="+openId+"",getAddress);
+                        }
+                    });
+                }
+
+            };
+
+            //弹窗表单验证
+            //参数说明，如果s = false的话，则不弹出alert
+            function isformtrue(){
+                var msg = "";
+                var $receiver = $("#receiver").val(), $phone = $("#phone").val(), $address = $("#address").val();
+                if($receiver.length<1){
+                    msg = "收货人不能为空！";
+                    state = false;
+                }else if($phone.length<1){
+                    msg = "联系方式不能为空！";
+                    state = false;
+                }else if($address.length<1){
+                    msg = "收货地址不能为空！";
+                    state = false;
+                }else if($receiver.length>10 || $receiver.length<2){
+                    msg = "请填写正确的收货人姓名！";
+                    state = false;
+                }else if(!/^1[3,4,5,7,8]\d{9}$/.test($phone)){
+                    msg = "联系方式格式错误！";
+                    state = false;
+                }else if($address.length < 6){
+                    msg = "收货地址不能少于六个字！";
+                    state = false;
+                }else{
+                    msg = "修改成功！";
+                    state = true;
+                }
+
+
+
+                if(!state){
+                    alert(msg);
+                }else{
+                    alert(msg);
+                    confirms.close();
+                }
+                return state
+            };
+
+        });
+    </script>
+	<title>地址管理</title>
+</head>
+<body>
+
+
+	<div class="body">
+        <div class="topTitle">
+          <div class="titleMsg">地址管理</div>
+          <div class="back" onclick="window.history.back()"></div>
+          <div class="topTitleHeight"></div>
+        </div>
+
+                <div class="addressList">
+                    <!--<div class="list">-->
+                        <!--<div class="top">-->
+                            <!--<p class="p1">-->
+                                <!--<span class="name">张三</span><span class="phone">15877551002</span>-->
+                            <!--</p>-->
+                            <!--<p class="p2">-->
+                                <!--<span class="addressLf">北京市朝阳区xx路xx小区</span>-->
+                                <!--<span class="addressRt">101室</span>-->
+                            <!--</p>-->
+                        <!--</div>-->
+
+                        <!--<div class="bottom">-->
+                            <!--<div class="lf"><label><input type="radio" name="address" checked="checked" /> 默认地址</label></div>-->
+                            <!--<div class="rt">-->
+                                <!--<span class="span1">编辑</span>-->
+                                <!--<span class="span2 delete">删除</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="list">-->
+                        <!--<div class="top">-->
+                            <!--<p class="p1">-->
+                                <!--<span class="name">张三</span><span class="phone">15877551002</span>-->
+                            <!--</p>-->
+                            <!--<p class="p2">-->
+                                <!--<span class="addressLf">北京市朝阳区xx路xx小区</span>-->
+                                <!--<span class="addressRt">101室</span>-->
+                            <!--</p>-->
+                        <!--</div>-->
+
+                        <!--<div class="bottom">-->
+                            <!--<div class="lf"><label><input type="radio" name="address" /> 默认地址</label></div>-->
+                            <!--<div class="rt">-->
+                                <!--<span class="span1">编辑</span>-->
+                                <!--<span class="span2 delete">删除</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="list">-->
+                        <!--<div class="top">-->
+                            <!--<p class="p1">-->
+                                <!--<span class="name">张三</span><span class="phone">15877551002</span>-->
+                            <!--</p>-->
+                            <!--<p class="p2">-->
+                                <!--<span class="addressLf">北京市朝阳区xx路xx小区</span>-->
+                                <!--<span class="addressRt">101室</span>-->
+                            <!--</p>-->
+                        <!--</div>-->
+
+                        <!--<div class="bottom">-->
+                            <!--<div class="lf"><label><input type="radio" name="address" /> 默认地址</label></div>-->
+                            <!--<div class="rt">-->
+                                <!--<span class="span1">编辑</span>-->
+                                <!--<span class="span2 delete">删除</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+                <div style="height: 1.2rem;"></div>
+                <div class="main_bottom">
+                    <p><a> 新建地址</a></p>
+                </div>
+    </div>
+
+	
+</body>
+</html>

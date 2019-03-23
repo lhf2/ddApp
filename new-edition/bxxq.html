@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<title>班型详情</title>
+	<link rel="stylesheet" type="text/css" href="../css/resetStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../js/rem.js"></script>
+	<script type="text/javascript" src="../js/zepto.js"></script>
+  <script type="text/javascript" src="../js/touch.min.js"></script>
+  <script type="text/javascript" src="../js/fun.js"></script>
+	<script type="text/javascript" src="../js/DDPOP.js"></script>
+  <style type="text/css">
+      body{
+          background: #F5F5F5;
+      }
+  </style>
+  <script type="text/javascript">
+    $(function(){
+      var school_id = funs.getQueryString("school_id");
+      var dId = funs.getQueryString("dId");
+      // 获取班型信息
+          $.ajax({
+            url:"http://101.201.146.79:8088/dts/class/selectClassDetails?classId="+school_id+"&callbackparam=?",
+            dataType:"jsonp",
+            success:function(msg){
+              console.log(msg); 
+              $(".price").text(msg.price);
+              var feeArr = [msg.driverfee,msg.icfree,msg.physicalfree,msg.testfree,msg.trainingfee];
+              var feeText = ['工本费','IC卡费','体检费','考试费','培训费'];
+              for(var i = 0; i < feeArr.length; i++){
+                  if(feeArr[i] != 0){
+                      $('<span>'+feeText[i]+'</span>&nbsp;').appendTo($(".include"));
+                  }else{
+                      $('<span>'+feeText[i]+'</span>&nbsp;').appendTo($(".no-include"));
+                  }
+              };
+              var strArr = msg.characteristic.split(",");
+              for(var i = 0; i < strArr.length; i++){
+                  var span = $("<span>"+strArr[i]+"</span>&nbsp;");
+                  if(strArr[i] != "") span.appendTo('.char-box');
+              }
+              $('.jz-type').html(msg.drivingtype);
+              $('.car-type').html(msg.trainingmodels);
+              $('.class-time').html("<p>科二培训课时："+msg.coursehours2+"</p><p>科三培训课时："+msg.coursehours3+"</p>");
+              $('.bus-type').html(msg.bustake);
+              $('.car-person').html(msg.vehicle);
+              $('.seveice-topic').html(msg.characters);
+              $('.class-type').html(msg.classname);
+              $(".bx-type").html(msg.drivingtype);
+              $('.bx-fee').html("<p>科目一补考费："+msg.retakecost1+" 科目二补考费："+msg.retakecost1+"</p><p> 科目三补考费："+msg.retakecost1+" 科目四补考费："+msg.retakecost1+"</p>");
+              $('.mn-fee').html('<span>科目二模拟费：'+msg.simulationcost2+'</span> <span>科目三模拟费：</span>'+msg.simulationcost3);
+              $('.view-btn').click(function () {
+                  location.href='../zjx/qrmm.html?classid='+msg.id+'&drivingId='+msg.driving_id+'&fistpay='+fistpay+'&price='+msg.price+'&drivingtype='+msg.drivingtype+'&classname='+msg.classname+'&characteristic='+msg.characteristic;
+              });
+            }
+          });
+
+          // 获取驾校头像
+          $.ajax({
+            url:"http://101.201.146.79:8088/dts/drivingInfo/selectByIds?dId="+dId+"&callbackparam=?",
+            dataType:"jsonp",
+            success:function(msg){
+              $(".bx-inner-img img").attr("src","http://www.dingdongxueche.com:9080/JXWeb/editContent/logoupload/"+(msg.schoolimg));
+            }
+          });
+
+          $(".confirm").click(function(){
+            window.location.href = "qrbm.html?school_id="+school_id+"&dId="+dId;
+          });
+    });
+
+    
+
+
+    //把 字符串分割成数组并使用span标签拼接
+    function splitClassType(){
+      var charactersHtml = "";
+      var charactersArr = msg[i].characteristic.split(",");
+      if(charactersArr[0] != ''){
+          var charactersLen = charactersArr.length;
+          for(var k = 0; k < charactersLen; k++){
+              charactersHtml += "<span>"+charactersArr[k]+"</span>";
+          }
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="page-bxxq">
+    <!--top-->
+    <div class="bx-out-box">
+        <div class="bx-box flex">
+            <div class="bx-img flex">
+                <div class="bx-inner-img">
+                    <img src="../images/list.png" alt=""/>
+                </div>
+                <div class="bx-detail">
+                    <p>
+                        <span class="class-type"></span>
+                        <span class="bx-type"></span>
+                    </p>
+                    <p class="char-box"></p>
+                </div>
+            </div>
+            <div class="bx-price flex">¥ <span class="price"></span></div>
+        </div>
+    </div>
+    <!--table 费用明细-->
+      <div class="table">
+          <div class="w100 table-title">
+              费用明细
+          </div>
+          <div class="flex tr">
+              <div class="td  flex justify-content-center align-items-center">
+                  <p>总费用</p>
+              </div>
+              <div class="w100 right">
+                  <p class="price">5000元</p>
+              </div>
+          </div>
+          <div class="flex tr">
+              <div class="td  flex justify-content-center align-items-center">
+                  <p>包含</p>
+              </div>
+              <div class="w100 right">
+                  <p class="include"></p>
+              </div>
+          </div>
+          <div class="flex tr">
+              <div class="td  flex justify-content-center align-items-center">
+                  <p>不包含</p>
+              </div>
+              <div class="w100 right">
+                  <p class="no-include"></p>
+              </div>
+          </div>
+      </div>
+      <!--table 班型说明-->
+      <div class="table">
+          <div class="w100 table-title">
+              班型说明
+          </div>
+          <div class="flex tr">
+              <div class="td  flex justify-content-center align-items-center">
+                  <p>驾照类型</p>
+              </div>
+              <div class="w100 right">
+                  <p class="jz-type"></p>
+              </div>
+          </div>
+          <div class="flex tr">
+              <div class="td  flex justify-content-center align-items-center">
+                  <p>教练车型</p>
+              </div>
+              <div class="w100 right">
+                  <p  class="car-type">桑塔纳</p>
+              </div>
+          </div>
+          <div class="flex tr">
+              <div class="td  flex justify-content-center align-items-center">
+                  <p>培训课时</p>
+              </div>
+              <div class="w100 right rowspan">
+                  <p class="class-time"></p>
+              </div>
+          </div>
+          <!-- <div class="flex tr">
+              <div class="td  flex justify-content-center align-items-center">
+                  <p>接送方式</p>
+              </div>
+              <div class="w100 right">
+                  <p class="bus-type"></p>
+              </div>
+          </div> -->
+          <div class="flex tr">
+              <div class="td  flex justify-content-center align-items-center">
+                  <p>练车人数</p>
+              </div>
+              <div class="w100 right rowspan">
+                  <p class="car-person">科二：3人/车</p>
+              </div>
+          </div>
+      </div>
+      <div class="floor-fixed-confirm">
+          <div class="confirm flex align-items-center justify-content-center">
+              <span class="text">报名</span>
+          </div>
+      </div>
+  </div>
+</body>
+</html>

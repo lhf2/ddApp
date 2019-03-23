@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发表话题</title>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/lhf-base.css"/>
+    <link rel="stylesheet" href="../css/jquery.sinaEmotion.css"/>
+    <link rel="stylesheet" href="../css/fbht.css"/>
+    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+    <script src="../js/jquery-1.11.2.js"></script>
+    <script src="../js/jquery.sinaEmotion.js"></script>
+    <script src="../js/xcq.js"></script>
+    <!--<script src="../js/xcqajax.js"></script>-->
+</head>
+<body>
+<!--top开始-->
+<div class="top-box">
+    <div class="top-detail">
+        <a href="javascript:;" class="return-btn">
+            <img class="top-return" src="../images/rtn.png" alt="">
+        </a>
+        <span>发表话题</span>
+        <a class="clear-box" href="xcq.html">
+            <span>发送</span>
+        </a>
+    </div>
+</div>
+<!--main开始-->
+<div class="main-box">
+    <!--<textarea name="" cols="30" rows="5" placeholder="话题内容"></textarea>-->
+    <div id="out" data-type="textarea" contenteditable="true" placeholder="话题内容">aaaaaa</div>
+    <div class="main-add">
+        <div class="add-img" id="add-img">
+
+        </div>
+        <div class="add-btn">
+            +
+        </div>
+    </div>
+</div>
+<!--弹出-->
+<ul class="camera-box">
+    <li class="camera-list">
+        拍照
+    </li>
+    <li class="camera-list">
+        相册
+        <input id='chose-img' type="file" accept="image/*" multiple/>
+    </li>
+    <li class="camera-list cur cancel-btn">
+        取消
+    </li>
+</ul>
+<!--退出编辑-->
+<div class="quit-edit">
+    <div class="quit-title">你确定要退出此次编辑？</div>
+    <ul class="quit-btn">
+        <li class="quit-btn-list cancel-quit">
+            <a href="javascript:;">取消</a>
+        </li>
+        <li class="quit-btn-list confirm-btn">
+            <a href="javascript:;">确定</a>
+        </li>
+    </ul>
+</div>
+<!--评论-->
+<div class="comment-bottom">
+    <input type="text" class="emotion" />
+    <div class="comment-img" id="face">
+        <a href="javascript:;">
+            <img src="../images/bq.png" alt=""/>
+        </a>
+    </div>
+    <div class="comment-btn" id="analytic" onclick="out()">
+        <a href="javascript:;">
+            发送
+        </a>
+    </div>
+</div>
+<div class="mask-hide"></div>
+<script>
+    // 绑定表情
+    $('#face').SinaEmotion($('.emotion'));
+
+    // 测试本地解析
+    function out(){
+        var inputText = $('.emotion').val();
+        var text=AnalyticEmotion(inputText);
+        var text1=$('#out').html();
+        $('#out').html(text1+text);
+        return text1+text
+    }
+    //多选图片
+    var input = document.getElementById("chose-img");
+    var result,div;
+    if(typeof FileReader==='undefined'){
+        result.innerHTML = "抱歉，你的浏览器不支持 FileReader";
+        input.setAttribute('disabled','disabled');
+    }else{
+        input.addEventListener('change',readFile,false);
+    }
+    function readFile(){
+        for(var i=0;i<this.files.length;i++){
+            if (!input['value'].match(/.jpg|.gif|.png|.bmp/i)){　　//判断上传文件格式
+                return alert("上传的图片格式不正确，请重新选择")　　　　　　　　　}
+            var reader = new FileReader();
+            reader.readAsDataURL(this.files[i]);
+            reader.onload = function(e){
+                result = '<img src="'+this.result+'" alt=""/></div>';
+                div = document.createElement('div');
+                div.className='result';
+                div.innerHTML = result;
+                document.getElementById('add-img').appendChild(div);
+                $('.camera-box').hide();
+            }
+        }
+    }
+</script>
+</body>
+</html>

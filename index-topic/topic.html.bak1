@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="../css/resetStyle.css">
+	<link rel="stylesheet" type="text/css" href="../css/me-child.css">
+	<style type="text/css">
+		body,html{ overflow-x: hidden;}
+		body{background-color: #fff; position: relative;}
+		.main{overflow-x: hidden; width: 100%;}
+		.topTitle .titleMsg{ background: #F6F6F6; color: #000; border-bottom:1px solid #ccc;}
+		.back{background-image: url(../images/rtn1.png);}
+		.rightKG{background: url(../images/set.png) center no-repeat;position: fixed;right: 0;top: 0;height: .8rem;width: .8rem;background-size: .4rem;}
+		.topicContent{ font-size: .38rem; color: #333; margin: .3rem .2rem 0; line-height: .6rem; letter-spacing: 1px;}
+		.topicContent .topicType{border:1px solid; color: green; margin-right: .1rem;}
+		.topicContent .topic{}
+		.selectContent{margin: .3rem .2rem 0;font-size: .38rem; letter-spacing: 1px;}
+		.selectContent .con{padding: .15rem 0; overflow: hidden; line-height: .6rem;}
+		.selectContent .con .span1{ height: .6rem; line-height: .6rem; text-align: center; border:2px solid #888;background-color: #F9F9F9; display: inline-block; border-radius: 50%; min-width: .6rem; text-align: center; float: left;}
+		.selectContent .con .span1.r{background: url(../images/r.png) green center no-repeat;background-size:90%;}
+		.selectContent .con .span1.x{background: url(../images/x.png) red center no-repeat;background-size:90%;}
+		.selectContent .con .span1.select{background-color: #ccc; color: #000;}
+		.selectContent .con .span2{margin-left: .2rem; float: left;} 
+		.topicBox{width: 100%; overflow-x: hidden; background-color: #fff; position: absolute; left: 0; top: .8rem; bottom:1rem; transform: scale(0);}
+		.topicBox .imgs{ margin:.2rem auto; text-align: center;}
+		.topicBox .imgs img{max-height: 3rem;max-width: 6rem; margin:0 auto;}
+		.analysisTips{font-size: .32rem;}
+		.analysisTips .isline{height: .8rem; position: relative;}
+		.analysisTips .isline span{position: absolute; display: block;height:0;border-top:1px solid #888; left: 0;right: 0;top: 50%;}
+		.analysisTips .isline p{ height: .48rem; width: 1rem; text-align: center; top: 50%;left: 50%;margin-left: -.5rem; margin-top: -.26rem;  border:1px solid #888; position: absolute; background-color: #fff;}
+		.isAnswer,.analysis{margin:.2rem;}
+		.sureAws{width: 2rem; height: .8rem; line-height: .8rem; margin:.2rem auto; border-radius: .1rem; color: #fff; background-color: green; font-size: .4rem; text-align: center;}
+		.bottomCon{ position: fixed; bottom: 0;left: 0; width: 100%; font-size: .32rem; height: .99rem; background: #F6F6F6; color: #000; border-top:1px solid #ccc;}
+		
+		
+	
+		#errorTopic{color: red}
+		.practice img{ height: .4rem;  }
+		.formal img{height: .4rem; margin-right: .05rem;}
+		#submit img{margin-right: 0;}
+		.bottomCon .page{ }
+		.bottomCon .page .max{color: red;}
+		.bottomCon .ts{background: url(../images/ts.png); background-size: 100% 100%; width: .6rem;height: .6rem;}
+		.bottomCon .rIcon{padding: 0 .2rem; text-align: center;}
+		.loading{height: .4rem; margin: 0 auto; margin-top:-.2rem;width: 100%; text-align: center; position: fixed; z-index: 999; top: 50%; } 
+		.loading span{ display: inline-block; width: 8px; height: 100%; border-radius: 4px; background: lightgreen; -webkit-animation: load 1s ease infinite; } 
+		@-webkit-keyframes load{ 
+			0%,100%{ 
+				height: .4rem; background: lightgreen; 
+			} 
+			50%{ 
+				height: .7rem; margin: -.15rem 0; background: lightblue;
+			} 
+		} 
+		.loading span:nth-child(2){ -webkit-animation-delay:0.2s; } 
+		.loading span:nth-child(3){ -webkit-animation-delay:0.4s; } 
+		.loading span:nth-child(4){ -webkit-animation-delay:0.6s; } 
+		.loading span:nth-child(5){ -webkit-animation-delay:0.8s; }
+	</style>
+	<script type="text/javascript" src="../js/rem.js"></script>
+	<script type="text/javascript" src="../js/zepto.js"></script>
+	<script type="text/javascript" src="../js/fun.js"></script>
+	<script type="text/javascript" src="../js/touch.min.js"></script>
+	<script>
+		$(function(){
+
+
+
+			$(".back").click(function(e){
+				e.stopPropagation();
+				window.history.back()
+			});
+			var Topic = {
+				attr:{
+					/*--option--*/
+					timeOutval:40,//模拟考试 倒计时时间
+					currentPage:0,//当前页数
+					city:"北京",//城市
+					openid:"",
+					score:0,//分数 在这个基础上增加
+
+					/*--attr--*/
+					vehicleType:"小车",//车型
+					subjectType:"",//科目几
+					topicId:null,//id
+					trainType:"0",//0顺序 1随机 2 章节 3 专项 4模拟考试
+					chapterId:"",//章节练习ID
+					pageCount:100,//总页数[默认100]
+					topicType:[],//题类型：判断/单选/多选
+					topic:"",//题
+					imgSrc:"",//图片路径
+					optionTitle:[],//A,B,C,D题
+					optionSanswer:[],//题的答案
+					analysis:"",//题的解析
+					isPractice:false,//当前不是练习模式[没有答案提示]
+					answerAfter:"",//答过的题的ID,用逗号间隔，用indexOf判断
+					answerState:[],//记录答题状态 ["id" + 0/1] 对0 错1  
+					isCollection:false,//这道题是否被收藏
+					isShield:"",//哪些题被屏蔽，用逗号间隔，用indexOf判断
+					correctNumber:0,//正确数量
+					errorNumber:0,//错误数量
+					yesAnswerNumber:0,//已答数量
+					noAnswerNumber:0,//未答数量
+					nightMode:false,//当前没有开启夜间模式
+					data:null,//ajax请求回来的数据
+					dataSuccess:false,//ajax数据是否请求完毕,请求之后再次赋值为false防止重复请求。
+					dataLength:20,//每多少条请求一次。
+					dataNum:1,//第几批数据
+					startTime:false,//开始倒计时
+					timeVal:0,//秒 用了多少时间
+				},
+				start:function(){
+					this.init();
+					this.request();
+					this.clickOnTheAnswer.click();
+					this.jumpPage();
+					this.clickSwitch();
+				},
+				init:function(){
+					var _this = this;
+					//章节练习ID
+					$(window).on("swipeleft",function(){
+						_this.flip.next();
+					}).on("swiperight",function(){
+						_this.flip.prev();
+					});
+			        var openId=localStorage.getItem("openId");
+			        var vtype=localStorage.getItem("vtype");
+
+					$.extend(_this.attr,{
+						trainType:funs.getQueryString("testtype") || "0",
+						city:funs.getQueryString("city") || "北京",
+						chapterId:funs.getQueryString("chapterId") || "",
+						subjectType:funs.getQueryString("stype") || "科目一",
+						specialName:funs.getQueryString("specialName") || "仪表题",
+						vehicleType:vtype,
+						openid:openId
+					});
+
+					var meType = funs.getQueryString("me");
+					if(meType){
+						titleText = meType
+					}else{
+						switch(this.attr.trainType){
+							case "0":titleText = "顺序练习";break
+							case "1":titleText = "随机练习";break
+							case "2":titleText = "章节练习";break
+							case "3":titleText = "专项练习";break
+							case "4":titleText = "模拟考试";break
+							default :titleText = "练习题" ; break
+						}
+					}
+					
+					if(this.attr.trainType == "4"){
+						$(".formal").show();
+						$(".practice").hide();
+						this.attr.startTime = true;
+					}else{
+						$(".formal").hide();
+						$(".practice").show();
+					}
+
+					if(!funs.getQueryString("me")){
+						if(_this.attr.subjectType == "科目四"){
+							_this.attr.pageCount = 50
+						}
+					}else{
+						$(".practice").hide();
+					}
+					
+					document.title = titleText;
+					$(".titleMsg").text(titleText);
+
+					$("#submit").click(_this.clickOnTheAnswer.submit);
+				},
+				//请求数据
+				request:function(){
+					var _this = this;
+					var dataTime = null;
+					var dataTimeNum = 0;
+					//获取数据
+					if(!this.attr.dataSuccess){
+						_this.attr.dataNum = (((parseInt((Topic.attr.currentPage)/(this.attr.dataLength)))+1));
+						var ajaxUrl = 'http://dd.dingdongxueche.com/DDWeb/wxquestion/getQuestionsByInfo.htm?'+
+						'subjectType='+_this.attr.subjectType+'&'+
+						'vehicleType='+_this.attr.vehicleType+'&'+
+						'city='+_this.attr.city+'&'+
+						'trainType='+_this.attr.trainType+'&'+
+						'currentNum='+_this.attr.dataNum+'&'+
+						'count='+this.attr.dataLength+'&'+
+						'openid='+this.attr.openid+'&'+
+						'chapterId='+this.attr.chapterId+'&'+
+						'specialName='+this.attr.specialName
+
+
+						var meType = funs.getQueryString("me");
+						var ajaxUrl = "";
+						if(meType == "我的错题"){
+							ajaxUrl = "http://dd.dingdongxueche.com/DDWeb/wxquestion/getQuestionRecords.htm?flag=1&"+
+							'openid='+_this.attr.openid+'&'+
+							'subjectType='+_this.attr.subjectType+'&'+
+							'vehicleType='+_this.attr.vehicleType;
+							console.log(ajaxUrl)
+						}else if(meType == "屏蔽的题"){
+							ajaxUrl = "http://dd.dingdongxueche.com/DDWeb/wxquestion/getQuestionRecords.htm?flag=2&"+
+							'openid='+_this.attr.openid+'&'+
+							'subjectType='+_this.attr.subjectType+'&'+
+							'vehicleType='+_this.attr.vehicleType;
+							console.log(ajaxUrl)
+						}else if(meType == "我的收藏"){
+							ajaxUrl = "http://dd.dingdongxueche.com/DDWeb/wxquestion/getQuestionRecords.htm?flag=3&"+
+							'openid='+_this.attr.openid+'&'+
+							'subjectType='+_this.attr.subjectType+'&'+
+							'vehicleType='+_this.attr.vehicleType;
+							console.log(ajaxUrl)
+						}else{
+							ajaxUrl = 'http://dd.dingdongxueche.com/DDWeb/wxquestion/getQuestionsByInfo.htm?'+
+							'subjectType='+_this.attr.subjectType+'&'+
+							'vehicleType='+_this.attr.vehicleType+'&'+
+							'city='+_this.attr.city+'&'+
+							'trainType='+_this.attr.trainType+'&'+
+							'currentNum='+_this.attr.dataNum+'&'+
+							'count='+this.attr.dataLength+'&'+
+							'openid='+_this.attr.openid+'&'+
+							'chapterId='+this.attr.chapterId+'&'+
+							'specialName='+this.attr.specialName
+						}
+						$.post(ajaxUrl,ajaxData);
+						console.log("正在加载第"+(((parseInt((Topic.attr.currentPage)/(this.attr.dataLength)))+1))+"批数据("+_this.attr.dataLength+"条/批)");
+						var dataTime = setInterval(function(){
+							dataTimeNum++
+						},10);
+						$(".loading").show();
+						function ajaxData(msg){
+							var isData = $.parseJSON(msg);
+							var page = (Topic.attr.currentPage)%_this.attr.dataLength;
+							if(!funs.getQueryString("me")){
+								_this.attr.data = isData
+								_this.attr.pageCount = isData.size || _this.attr.pageCount,//总页数
+								isData = isData.data
+							}else{
+								_this.attr.data = isData
+								_this.attr.pageCount = (isData.length)//总页数
+							}
+							if(isData){
+								$.extend(_this.attr,{
+									dataSuccess:true,//ajax数据是否请求完毕,请求之后再次赋值为false防止重复请求。
+									topicId:isData[page].id,//id
+									topicType:isData[page].questionType,//题类型：判断/单选
+									topic:isData[page].details,//题
+									optionTitle:_this.deleteNull(isData[page].optionsValue.split(";")),//A,B,C,D题
+									optionSanswer:isData[page].rightAnswers,//题的答案。
+									subjectType:isData[page].subjectType,//科目几
+									vehicleType:isData[page].vehicleType,//车型
+									noAnswerNumber:(_this.attr.pageCount - _this.attr.yesAnswerNumber)//未答数量
+								});
+							}else{
+								console.log("error:数据加载失败！");
+							}
+
+							
+							if(_this.attr.dataSuccess){
+								clearInterval(dataTime)
+								console.log("success:数据请求完毕，开始执行。请求时间："+dataTimeNum/100+"秒");
+								$(".loading").hide();
+								_this.attr.startTime && _this.time.init();
+								_this.flip.init();
+								_this.attr.dataSuccess = false;
+								_this.attr.startTime = false;
+							}
+						}
+					}
+				},
+				//获取被屏蔽题的ID
+				getShieldRequest:function(){
+					var getShield = "openid="+Topic.attr.openid+"&subjectType="+Topic.attr.subjectType+
+					  "&vehicleType="+Topic.attr.vehicleType+
+					  "&flag=2";
+					$.post("http://dd.dingdongxueche.com/DDWeb/wxquestion/getQuestionRecords.htm?"+getShield,this.ShieldHide);
+				},
+				//翻页
+				flip:{
+					boxClone : null,
+					isNext : true,
+					detection : "",
+					detectionAnimate : "",
+					//下页
+					next:function(){
+						if(this.isNext && Topic.attr.data){
+							if((Topic.attr.currentPage+1) >= Topic.attr.pageCount){
+								Topic.attr.currentPage == Topic.attr.pageCount;
+							}else{
+								Topic.attr.currentPage++;
+								this.detection = "";
+								this.detectionAnimate = "-";
+								if((Topic.attr.currentPage) % (Topic.attr.dataLength) == 0){
+									Topic.request();
+								}else{
+									this.init();
+								}
+								
+							}
+						}
+					},
+					//上页
+					prev:function(){
+						if(this.isNext && Topic.attr.data){
+							if(Topic.attr.currentPage <= 0){
+								Topic.attr.currentPage == 0;
+							}else{
+								Topic.attr.currentPage--;
+								this.detection = "-";
+								this.detectionAnimate = "";
+								if((Topic.attr.currentPage+1) % (Topic.attr.dataLength) == 0){
+									Topic.request();
+								}else{
+									this.init();
+								}
+							}
+						}
+					},
+					init:function(){
+						var _this = this;
+						if(_this.isNext){
+							//如果不是练习模式，则重置为可答题状态
+							if(!Topic.attr.isPractice){
+								Topic.clickOnTheAnswer.more =  Topic.clickOnTheAnswer.single = true;
+							}
+							var isData = Topic.attr.data;
+							var page = (Topic.attr.currentPage)%Topic.attr.dataLength;
+							_this.isNext = false;
+							_this.boxClone = $(".topicBox").eq(0).clone();
+							if(!funs.getQueryString("me")){
+								isData = isData.data
+							}
+							$.extend(Topic.attr,{
+								topicId:isData[page].id,//id
+								topicType:isData[page].questionType,//题类型：判断/单选
+								topic:isData[page].details,//题
+								optionTitle:Topic.deleteNull(isData[page].optionsValue.split(";")),//A,B,C,D题
+								optionSanswer:isData[page].rightAnswers,//题的答案。
+								analysis:isData[page].analysis,//题的解析
+								imgSrc:isData[page].picture || isData[page].gif
+							});
+							
+							//数据不为空的时候再去执行
+							if(Topic.attr.data){
+								$(".bottomCon").find(".page").html(parseInt(Topic.attr.currentPage+1)+"/<span class='max'>"+(Topic.attr.pageCount)+'</span>');
+								_this.boxClone.find(".isTopic").html(Topic.attr.topic);
+								_this.boxClone.find(".topicType").html(Topic.attr.topicType);
+								_this.boxClone.find(".selectContent").html(Topic.optionsValueHtml());
+								_this.boxClone.find(".isAnswerText").html(Topic.attr.optionSanswer);
+								_this.boxClone.find(".analysis").html(Topic.attr.analysis);
+								_this.boxClone.find(".analysisTips").hide();
+								if(Topic.attr.imgSrc){
+									_this.boxClone.find(".imgs").html("<img src='http://101.201.146.79:8090/dts/picture/question-img/"+Topic.attr.imgSrc+"' />")
+								}else{
+									_this.boxClone.find(".imgs").html("");
+								}
+							}
+
+							/*-----------------------------动画start------------------------------*/
+							/**/    
+							/**/
+							/**/	_this.boxClone.css({
+							/**/		//"left":_this.detection+$(window).width()+"px",
+							/**/		"transform":" translate("+_this.detection+$(window).width()+"px,0)",
+							/**/		"opacity":1,
+							/**/	});
+							/**/	$(".main").append(_this.boxClone);
+							/**/	$(".topicBox").eq(0).animate({
+							/**/		//left:_this.detectionAnimate+($(window).width()/3)+"px",
+							/**/		"transform":" translate("+_this.detectionAnimate+$(window).width()/2+"px,0) scale(.7)",
+							/**/	},"ease",500);
+							/**/	
+							/**/	_this.boxClone.animate({
+							/**/		//left:0,
+							/**/		"transform":" translate(0,0)",
+							/**/		"opacity":1
+							/**/	},400,"ease",animateCallback);
+							/**/
+							/**/
+							/*-----------------------------动画over------------------------------*/
+
+							
+							if($.inArray(Topic.attr.topicId+",0",Topic.attr.answerState) != -1){
+								//console.log("这道题答对了")
+								$(".analysisTips").eq(1).hide();
+								Topic.autoIsTrue();
+								$(".selectContent").eq(1).find(".span1").each(function(){
+									if($(this).hasClass("x")){
+										var text = $(this).attr("option");
+										$(this).text(text).removeClass("x")
+									}
+								});
+							}else if($.inArray(Topic.attr.topicId+",1",Topic.attr.answerState) != -1){
+								//console.log("这道题答错了")
+								$(".analysisTips").eq(1).show();
+								Topic.autoIsTrue()
+							}
+
+							if(isData[page].isCollect == 1){
+								Topic.attr.isCollection = true;
+								$("#shoucang").find("img").attr("src","../images/like1.png")
+							}else{
+								Topic.attr.isCollection = false;
+								$("#shoucang").find("img").attr("src","../images/like.png")
+							}
+							
+
+							Topic.attr.isPractice && Topic.autoIsTrue(true);
+
+							function animateCallback(){
+								_this.isNext = true;
+								$(".topicBox").eq(0).remove();
+							};
+						}
+					}
+				},
+				autoIsTrue:function(_true){
+					//展示答案
+					$(".selectContent").eq(1).find(".con").each(function(){
+						var text = $(this).find(".span1").attr("option");
+						if(Topic.attr.optionSanswer.indexOf(text) != -1){
+							$(this).find(".span1").addClass("r");	
+						}else{
+							$(this).find(".span1").addClass("x");
+						}
+					});
+					$(".selectContent").eq(1).find(".span1").html("");
+					_true && $(".analysisTips").eq(1).show();
+					Topic.clickOnTheAnswer.single = false;
+					Topic.clickOnTheAnswer.more = false;
+				},
+				//删除数组里最后一个
+				deleteNull:function(_arr){
+					var len = _arr.length-1;
+					_arr.splice(len,1);
+					return _arr
+				},
+				//创建选项结构
+				optionsValueHtml:function(){
+					var str = "";
+					var len = this.attr.optionTitle.length;
+					var arr = ["A","B","C","D"];
+					var isBtn = "<div class='sureAws'>确认答案</div>"
+					for(var i = 0; i < len; i++){
+						str+='<p class="con flex">'+
+								'<span class="span1" option='+arr[i]+'>'+arr[i]+'</span>'+
+								'<span class="span2">'+this.attr.optionTitle[i]+'</span>'+
+							'</p>';
+					}
+					if(this.attr.topicType == "多选题"){
+						str+=isBtn;
+					}
+					return str
+				},
+				//点击答案
+				clickOnTheAnswer:{
+					//如果这两个不是true,则视为该题已被答过
+					single:true,//是否答过[单选题] 
+					more:true,//是否答过[多选题]
+					click:function(){
+						var _this = this;
+						var selAnswer = "";
+						var selLen = 0;
+						$(".main").on("click",".con",function(e){
+							e.stopPropagation();
+							if(Topic.flip.isNext){
+								if(Topic.attr.topicType == "多选题"  && _this.more){
+									if($(this).find(".span1").attr("select") == "select"){
+										$(this).find(".span1").attr("select","")
+										$(this).find(".span1").removeClass("select");
+									}else{
+										$(this).find(".span1").attr("select","select")
+										$(this).find(".span1").addClass("select");
+									}
+								}else if(_this.single){
+									_this.single = false;
+									selAnswer = $(this).find(".span1").attr("option");//选择的答案
+									istrue($(this));
+									//已答数量
+									Topic.attr.yesAnswerNumber++;
+									//剩余数量
+									Topic.attr.noAnswerNumber = Topic.attr.pageCount - Topic.attr.yesAnswerNumber;
+								}
+							}
+							console.log("已答数量:"+Topic.attr.yesAnswerNumber+",答错："+Topic.attr.errorNumber+",答对"+Topic.attr.correctNumber+",剩余："+Topic.attr.noAnswerNumber+",分数："+Topic.attr.score)
+						});
+
+						$(".main").on("click",".sureAws",function(){
+							if(_this.more){
+								if(Topic.flip.isNext){
+									Topic.flip.boxClone.find(".selectContent .con").find(".span1").removeClass("select");
+									selAnswer = "";
+									Topic.flip.boxClone.find(".selectContent .con").find(".span1").each(function(){
+										if($(this).attr("select") == "select"){
+											selAnswer+=$(this).attr("option");
+											selLen++;
+										}
+									});
+								}
+								if(selLen>0){
+									istrue($(this));
+									//已答数量
+									Topic.attr.yesAnswerNumber++;
+									//剩余数量
+									Topic.attr.noAnswerNumber = Topic.attr.pageCount - Topic.attr.yesAnswerNumber;
+									_this.more = false;
+									selLen = 0;
+								}else{
+									alert("请选择答案。");
+								}
+							}else if(!Topic.attr.isPractice){
+								//如果不是练习模式
+								alert("已经答过该题。")
+							}
+							console.log(Topic.attr.yesAnswerNumber)
+						});
+						function istrue($this){
+							var num = 0;
+							//如果该题已经答过，则记录该题ID
+							if(Topic.attr.answerAfter.indexOf(Topic.attr.topicId+",") == -1){
+								Topic.attr.answerAfter+=Topic.attr.topicId+",";
+								if(Topic.attr.optionSanswer == selAnswer){
+									Topic.attr.answerState.push(Topic.attr.topicId+",0");
+								}else{
+									Topic.attr.answerState.push(Topic.attr.topicId+",1");
+								}
+							}else{
+								//剩下的就是未答的题
+							}
+
+							
+							if(Topic.attr.optionSanswer == selAnswer){
+								num = 0;
+							}else{
+								num = 1;
+							}
+
+							//判断对错
+							$this.eq(0).parents(".selectContent").find(".span1").each(function(){
+								var text = $(this).attr("option");
+								if(Topic.attr.optionSanswer.indexOf(text) != -1){
+									$(this).addClass("r").html("");
+								}else if(num == 1){
+									$(this).addClass("x");
+								}
+							});
+
+							//如果正确，执行下一页
+							if(Topic.attr.optionSanswer == selAnswer){
+								$this.eq(0).parents(".selectContent").find(".span1").each(function(i){
+									if($(this).hasClass("r")){
+										$(this).text("");
+									}
+								});
+								_this.correct(Topic.attr.optionSanswer,_this);
+							}else{
+								$this.eq(0).parents(".selectContent").find(".span1").each(function(i){
+									if($(this).hasClass("x")){
+										$(this).text("");
+									}
+								});
+								_this.error(Topic.attr.optionSanswer,_this);
+							}
+
+							//如果到最后一页
+							(Topic.attr.currentPage+1 == Topic.attr.pageCount) && _this.last()
+						}
+					},
+					//答错的时候执行的代码
+					error:function(msg,$this){
+						var questionRecord = {
+							subjectType:Topic.attr.subjectType,
+							vehicleType:Topic.attr.vehicleType,
+							openid:Topic.attr.openid,
+							errorIds:Topic.attr.topicId
+						};
+
+						//错题数量增加
+						Topic.attr.errorNumber++;
+						$("#errorTopicNum").text(Topic.attr.errorNumber);
+						
+
+						//发送错题ID
+						$.post("http://dd.dingdongxueche.com/DDWeb/wxquestion/addQuestionRecord.htm?flag=1",questionRecord,function(){
+							(Topic.attr.trainType == "4") && Topic.flip.next();
+						});
+						if(Topic.attr.trainType != "4") $(".analysisTips").show();
+					},
+					//答对的时候执行的代码
+					correct:function(msg,$this){
+						var page = Topic.attr.currentPage;
+						var isData = Topic.attr.data
+						//正确数量增加
+						Topic.attr.correctNumber++
+						//分数增加
+						if(!funs.getQueryString("me")){
+							isData = Topic.attr.data.data
+						}
+						Topic.attr.score+=parseInt(isData[page].score);
+						Topic.flip.next();
+					},
+					//答完最后一题之后执行的代码
+					last:function(){
+						alert("答题完成");
+						if(funs.getQueryString("testtype") == "4"){
+							this.submit();
+						}
+					},
+					//交卷
+					submit:function(){
+						var isqualified = 0;
+						if(Topic.attr.score >= 90){
+							isqualified = 1
+						}
+						var record = {
+							userId:Topic.attr.openid,
+							errorCount:Topic.attr.errorNumber,
+							correctNumber:Topic.attr.correctNumber,
+							unanswerCount:Topic.attr.noAnswerNumber,
+							timeConsuming:Topic.attr.timeVal,
+							isqualified:isqualified,
+							score:Topic.attr.score,
+							subjectType:Topic.attr.subjectType,
+							vehicleTypeId:Topic.attr.vehicleType
+						}
+						//提交分数
+						$.post("http://dd.dingdongxueche.com/DDWeb/examRecord/saveRecord.htm?",record,function(msg){
+							if(msg == 1){
+								alert("提交成功！")
+								if(isqualified == 1){
+									window.location.href = "../kmy/jj1.html?score="+Topic.attr.score+"&time="+Topic.attr.timeVal;
+								}else{
+									window.location.href = "../kmy/jj.html?score="+Topic.attr.score+"&time="+Topic.attr.timeVal;
+								}
+							}else{
+								alert("提交失败！请重试！")
+							}
+
+						});
+					}
+				},
+				time:{
+					times:null,
+					init:function(){
+						this.timeout();
+					},
+					callback:function(){
+						alert("时间到！考试结束！");
+						Topic.clickOnTheAnswer.submit();
+					},
+					//倒计时
+					timeout:function(){
+						var s = 60;
+						var dom = $("#timeShow");
+						var _this = this;
+						var timeM = 0;
+						var timeS = 0;
+						dom.text(minNum(Topic.attr.timeOutval)+":00");
+						Topic.attr.timeOutval--
+						this.times = setInterval(function(){
+							s--;
+							if(s < 0){
+								Topic.attr.timeOutval--
+								s = 59
+							}
+
+							dom.text(minNum(Topic.attr.timeOutval)+":"+minNum(s));
+							timeS++
+							if(timeS>59){
+								timeS = 0
+								timeM++
+							}
+
+							Topic.attr.timeVal = minNum(timeM)+":"+minNum(timeS)
+							if(Topic.attr.timeOutval<=0 && s <=0){
+								console.log(Topic.attr.timeOutval)
+								clearInterval(_this.times);
+								_this.callback();
+							}
+						},1000);
+
+						function minNum(n){
+							var a = n
+							if(a < 10){
+								a = "0"+a
+							}
+							return a
+						}
+					}
+				},
+				//跳页
+				jumpPage:function(){
+					var _this = this;
+					$(".bottomCon").find(".ts").click(function(){
+						 var page = prompt("请输入页数");
+						 if(page == ""){
+						 	alert("页数不能为空！");
+						 	return
+						 }else if(parseInt(page) > _this.attr.pageCount || parseInt(page-1) < 0){
+						 	alert("请输入正确页数");
+						 	return
+						 }else{
+						 	_this.attr.currentPage = parseInt(page)-1
+						 }
+						 //如果输入的页数的数据没有被请求，则去请求数据，否则直接跳页，防止浪费流量
+						if(_this.attr.dataNum != (((parseInt((_this.attr.currentPage)/(_this.attr.dataLength)))+1))){
+							_this.request();
+						}else{
+							_this.flip.init();
+						}
+						//console.log("答过题的ID："+_this.attr.answerState)
+					});
+				},
+
+				//各种开关
+				clickSwitch:function(){
+					var _this = this;
+
+					//练习模式开关
+					$("#lianxi").click(function(){
+						if(_this.flip.isNext){
+							if(_this.attr.isPractice){
+								_this.attr.isPractice = false;
+								$(this).find(".lx").text("练习");
+								$(this).find("img").attr("src","../images/lx.png")
+								_this.flip.init();
+							}else{
+								_this.attr.isPractice = true;
+								$(this).find(".lx").text("背题");
+								$(this).find("img").attr("src","../images/lx1.png")
+								_this.flip.init();
+							}
+						}
+					});
+
+					//夜间模式开关
+					var nightModeCSS= '<style type="text/css">'+
+										'body{background-color: #000;}'+
+										'.rightKG{background-image:url(../images/set1.png);}'+
+										'.back{background-image:url(../images/rtn.png);}'+
+										'.topTitle .titleMsg{background-color : #294A5D; color: #fff}'+
+										'.topicBox{background-color: #294A5D; color: #fff;}'+
+										'.topicBox .span1{color: #000;}'+
+										'.topicBox .isTopic{color: #fff;}'+
+										'.bottomCon{background-color: #294A5D;}'+
+										'.bottomCon .rIcon{color: #fff;}'+
+										'.bottomCon .page{color: #fff;}'+
+										'.topicContent .topicType{color: #0CDE26}'+
+										'.analysisTips .isline p{color: #000;}'+
+									'</style>';
+					$(".rightKG").click(function(){
+						if(_this.attr.nightMode){
+							_this.attr.nightMode = false;
+							$("#nightModeStyle").html("");
+						}else{
+							_this.attr.nightMode = true;
+							$("#nightModeStyle").html(nightModeCSS);
+						}
+					});
+
+					//收藏开关
+					$("#shoucang").click(function(){
+						if(Topic.flip.isNext){
+							var state = "add";
+							var questionRecord = {
+								subjectType:Topic.attr.subjectType,
+								vehicleType:Topic.attr.vehicleType,
+								openid:Topic.attr.openid,
+								collectIds:Topic.attr.topicId
+							};
+							_this.attr.isCollection && (state = "update");
+							//添加收藏
+							$.post("http://dd.dingdongxueche.com/DDWeb/wxquestion/"+state+"QuestionRecord.htm?flag=3",questionRecord,addOrUpdatesuccess);
+						}
+							//取消或者收藏成功
+							function addOrUpdatesuccess(msg){
+								//重新请求一次
+								Topic.request();
+							}
+					});
+
+
+					//屏蔽开关
+					$("#pingbi").click(function(){
+						var questionRecord = {
+							subjectType:Topic.attr.subjectType,
+							vehicleType:Topic.attr.vehicleType,
+							openid:Topic.attr.openid,
+							shieldIds:Topic.attr.topicId
+						};
+						$.post("http://dd.dingdongxueche.com/DDWeb/wxquestion/addQuestionRecord.htm?flag=2",questionRecord,addOrUpdatesuccess);
+						//屏蔽成功
+						function addOrUpdatesuccess(msg){
+							//重新请求一次
+							Topic.request();
+						}
+					});
+					
+				},
+			};
+
+			//启动程序
+			Topic.start();
+
+			
+			
+		});
+	</script>
+</head>
+<body>
+<div id="nightModeStyle" style="display: none">
+	<!--<style type="text/css">
+		body{background-color: #000;}
+		.rightKG{background-image:url(../images/set1.png);}
+		.back{background-image:url(../images/rtn.png);}
+		.topTitle .titleMsg{background-color : #294A5D; color: #fff}
+		.topicBox{background-color: #294A5D; color: #fff;}
+		.topicBox .span1{color: #000;}
+		.topicBox .isTopic{color: #fff;}
+		.bottomCon{background-color: #294A5D;}
+		.bottomCon .rIcon{color: #fff;}
+		.bottomCon .page{color: #fff;}
+		.topicContent .topicType{color: #0CDE26}
+		.analysisTips .isline p{color: #000;}
+	</style>-->
+</div>
+	<div class="main">
+		<div class="loading"> <span></span> <span></span> <span></span> <span></span> <span></span> </div>
+		<div class="topTitle">
+			<div class="titleMsg">顺序练习</div>
+			<div class="back"></div>
+			<div class="rightKG"></div>
+			<div class="topTitleHeight"></div>
+		</div>
+		<div class="topicBox">
+			<div class="topicContent">
+				<p class="topic"><span class="topicType"> </span><span class="isTopic"> </span></p>
+				<div class="imgs"></div>
+			</div>
+			<div class="selectContent"></div>
+			<div class="analysisTips" style="display: none;">
+				<div class="isline"><span></span><p>解析</p></div>
+				<div class="isAnswer">答案：<span class="isAnswerText"></span></div>
+				<div class="analysis"></div>
+			</div>
+		</div>
+		<div class="bottomCon flex justify-content-space-around align-items-center">
+			<div class="ts"></div>
+			<div class="page"></div>
+			<div class="rIcon practice flex_center_y" id="pingbi"><p><img src="../images/pb1.png" /></p><span class="pb">屏蔽</span></div>
+			<div class="rIcon practice flex_center_y" id="shoucang"><p><img src="../images/like1.png" /></p><span class="sc">收藏</span></div>
+			<div class="rIcon practice flex_center_y" id="lianxi"><p><img src="../images/lx.png" /></p><span class="lx">练习</span></div>
+			<div class="rIcon formal flex_center" id="errorTopic"><img src="../images/pc.png" /><span id="errorTopicNum">0</span></div>
+			<div class="rIcon formal flex_center" id="istime"><img src="../images/clock.png" /><span id="timeShow">00:00</span></div>
+			<div class="rIcon formal flex_center_y" id="submit"><p><img / src="../images/jj1.png" /></p>交卷</div>
+		</div>
+	</div>
+</body>
+</html>

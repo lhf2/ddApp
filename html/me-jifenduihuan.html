@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/resetStyle.css" />
+    <link rel="stylesheet" href="../css/me-child.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css">
+    <script type="text/javascript" src="../js/rem.js" ></script>		
+	<style type="text/css">
+    .rtbl{color: #1C7BD8; float: right; margin-right: .2rem; font-size: .32rem;}
+	</style>
+	<script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
+  <script type="text/javascript" src="DDPOP.js"></script>
+
+	<title>积分兑换</title>
+</head>
+<body>
+  
+
+
+
+	<div class="body">
+    <div class="topTitle">
+      <div class="titleMsg">积分兑换</div>
+      <div class="back" onclick="window.history.back()"></div>
+      <div class="topTitleHeight"></div>
+    </div>
+		<div class="jf_title">当前积分：<span class="num"></span> <span class="rtbl">当前可兑换的商品</span></div>
+    <div class="dh_listBox">
+      <ul>
+        <!--<li class="flex flex-cloum justify-content-space-between">-->
+          <!--<div class="tx1">-->
+            <!--<p class="t1"><img src="../images/child.jpg" width=""></p>-->
+          <!--</div>-->
+          <!--<div class="tx2 flex flex-column justify-content-space-around">-->
+            <!--<p class="t1">天堂正品纯色晴雨伞</p>-->
+            <!--<p class="t2 flex justify-content-space-between">-->
+              <!--<span class="lf">原价：￥69</span>-->
+              <!--<span class="rt">现价：4000积分</span>-->
+              <!--<span class="btn"><a href="../html/me-jiangpinxiangqing.html">兑换</a></span>-->
+            <!--</p>-->
+          <!--</div>-->
+        <!--</li>-->
+        <!--<li class="flex flex-cloum justify-content-space-between">-->
+          <!--<div class="tx1">-->
+            <!--<p class="t1"><img src="../images/child.jpg" width=""></p>-->
+          <!--</div>-->
+          <!--<div class="tx2 flex flex-column justify-content-space-around">-->
+            <!--<p class="t1">天堂正品纯色晴雨伞</p>-->
+            <!--<p class="t2 flex justify-content-space-between">-->
+              <!--<span class="lf">原价：￥69</span>-->
+              <!--<span class="rt">现价：4000积分</span>-->
+              <!--<span class="btn"><a href="../html/me-jiangpinxiangqing.html">兑换</a></span>-->
+            <!--</p>-->
+          <!--</div>-->
+        <!--</li>-->
+        <!--<li class="flex flex-cloum justify-content-space-between">-->
+          <!--<div class="tx1">-->
+            <!--<p class="t1"><img src="../images/child.jpg" width=""></p>-->
+          <!--</div>-->
+          <!--<div class="tx2 flex flex-column justify-content-space-around">-->
+            <!--<p class="t1">天堂正品纯色晴雨伞</p>-->
+            <!--<p class="t2 flex justify-content-space-between">-->
+              <!--<span class="lf">原价：￥69</span>-->
+              <!--<span class="rt">现价：4000积分</span>-->
+              <!--<span class="btn"><a href="../html/me-jiangpinxiangqing.html">兑换</a></span>-->
+            <!--</p>-->
+          <!--</div>-->
+        <!--</li>-->
+      </ul>
+    </div>
+	</div>
+    <script>
+      var path = "http://dd.dingdongxueche.com/DDWeb";
+      var openId = localStorage.getItem("openId");
+      var city = localStorage.getItem("city");
+      
+      //展示当前积分
+        $.post(path+"/myIntegral/getIntegralByOpenID.htm?openID="+openId+"",jifen);
+        function jifen(msg){
+            var data = $.parseJSON(msg)
+            if(data.length > 0){
+                $(".jf_title").find("span").eq(0).text(data[0].integral);
+            }else{
+                $(".jf_title").find("span").eq(0).text(0);
+            }
+        };
+
+      //点击展示当前可兑换商品
+      $(".jf_title").find(".rtbl").click(function(){
+        var thisNum = parseInt($(".jf_title").find(".num").text());
+        $.post(path+"/wxGoodsController/queryGoodsInfo.htm?currentNum=1&integral="+thisNum+"&city="+city+"",shoplist);
+      });
+
+      $(".body").on("click",".dh_listBox li",function(){
+        window.location.href = $(this).attr("url");
+      });
+
+      //展示全部商品
+      $.post(path+"/wxGoodsController/queryGoodsInfo.htm?currentNum=1&integral=-1&city="+city+"",shoplist);
+      function shoplist(msg){
+        var data = $.parseJSON(msg);
+        var len = data.length;
+        var $box = $(".dh_listBox").find("ul");
+        var htmlstr ='';
+        console.log(data);
+        for(var i = 0; i < len; i++){
+          htmlstr+=' <li class="flex flex-cloum justify-content-space-between" url="../html/me-jiangpinxiangqing.html?id='+data[i].id+'">'+
+                  '<div class="tx1">'+
+                  '<p class="t1"><img src="'+path+splitsrc(data[i].photos)+'" width=""></p>'+
+                  '</div>'+
+                  '<div class="tx2 flex flex-column justify-content-space-around">'+
+                  '<p class="t1">'+data[i].name+'</p>'+
+                  '<p class="t2 flex">'+
+                  '<span class="lf">原价：￥'+data[i].price+'</span>'+
+                  '<span class="rt">现价：'+data[i].integral+'积分</span>'+
+                  // '<span class="btn"><a href="../html/me-jiangpinxiangqing.html?id='+data[i].id+'">兑换</a></span>'+
+                  '</p>'+
+                  '</div>'+
+                  '</li>';
+        }
+        $box.html(htmlstr);
+      }
+
+      //如果展示列表图片有多张则分割显示第一张
+      function splitsrc(_src){
+        var src = _src.split(",");
+        var s = "";
+        if(src.length > 1){
+            s = src[0]
+        }else{
+          s = _src;
+        }
+        return s
+      };
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+/*top开始*/
+body,html{
+    background: #fff!important;
+}
+.top-box{
+    background: linear-gradient(#20AA8E 0%,#28B793 50%,#34CC9C 100%);
+    background: -webkit-linear-gradient(#20AA8E 0%,#28B793 50%,#34CC9C 100%);
+    background: -moz-linear-gradient(#20AA8E 0%,#28B793 50%,#34CC9C 100%);
+    background: -o-linear-gradient(#20AA8E 0%,#28B793 50%,#34CC9C 100%);
+}
+.top-box span{
+    font-size: 18px;
+}
+.top-box .top-detail{
+    color: #fff;
+    text-align: center;
+    padding: .3rem 0;
+}
+.top-box .top-detail img{
+    display: block;
+    width: .3125rem;
+    height: .5625rem;
+    float: left;
+    padding-left: .4375rem;
+    vertical-align: bottom;
+}
+.top-box .top-detail span{
+    line-height:.5625rem ;
+}
+.top-box .top-icon{
+    padding: .78rem 0;
+    padding-bottom: .2rem;
+    text-align: center;
+}
+.top-box .top-icon .icon-img img{
+    width: 2.375rem;
+    height: 2.375rem;
+}
+.top-box .top-icon span{
+    color: #fff;
+    display: block;
+    font-size: 16px;
+    margin-top: .3rem;
+}
+.top-box .top-icon .ling-icon{
+    width:1.5625rem;
+    height: 1.5625rem;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -o-border-radius:50%;
+    overflow: hidden;
+    margin: 0 auto;
+    /*text-align: center;*/
+    background: #fff;
+}
+.top-box .top-icon .ling-icon img{
+    width:1.5625rem;
+    height: 1.5625rem;
+    object-fit: cover;
+}
+/*main开始*/
+.main-detail{
+    font-size: 16px;
+}
+.main-detail .main-details .main-list{
+    cursor: pointer;
+    padding: .5rem 0;
+    border-bottom: 1px solid #C6C6C6;
+}
+.main-detail .main-details .main-list a{
+    display: block;
+    width: 100%;
+}
+.main-list a:hover{
+    text-decoration: none;
+}
+.main-detail .main-details .main-list .ling{
+    color: #313131;
+    margin-left: .46875rem;
+}
+.main-detail .main-details .main-list .ling-detail{
+    color: #707070;
+    margin-left: .625rem;
+}
+.main-detail .main-details .main-list .ling-detail img{
+    display: inline-block;
+    width: .3125rem;
+    height: .469rem;
+    float: right;
+    margin-right: .625rem;
+}
+.main-btn .btn-list{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 18px;
+    margin-top: .46rem;
+    padding: .4375rem 0;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    border: 1px solid #C6C6C6;
+    box-shadow: 2px 2px 10px #F0F0F0;
+    background:linear-gradient(#FEFEFE 0%,#FAFAFA 50%,#F5F5F5 100%) ;
+    background:-webkit-linear-gradient(#FEFEFE 0%,#FAFAFA 50%,#F5F5F5 100%) ;
+    background:-moz-linear-gradient(#FEFEFE 0%,#FAFAFA 50%,#F5F5F5 100%) ;
+    background:-o-linear-gradient(#FEFEFE 0%,#FAFAFA 50%,#F5F5F5 100%) ;
+}
+.main-btn .btn-list a{
+    color: #434343;
+}
+.main-btn .btn-list a:hover{
+    text-decoration: none;
+}
+.main-btn .cur{
+    border: 1px solid #16B163;
+    box-shadow: 2px 2px 10px #E5E5E5;
+    background:linear-gradient(#26C081 0%,#1BB66C 50%,#11AD5B 100%) ;
+    background:-webkit-linear-gradient(#26C081 0%,#1BB66C 50%,#11AD5B 100%) ;
+    background:-moz-linear-gradient(#26C081 0%,#1BB66C 50%,#11AD5B 100%) ;
+    background:-o-linear-gradient(#26C081 0%,#1BB66C 50%,#11AD5B 100%) ;
+}
+.main-btn .cur a{
+    color: #fff;
+}
+.icon-lists{
+    overflow: hidden;
+    margin: 0 auto;
+    margin-top: .4rem;
+    width: 55%;
+    display:-webkit-flex;
+}
+.icon-lists .icon-list{
+    overflow: hidden;
+    text-align: center;
+    /*float: left;*/
+    flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    -o-flex:1;
+}
+.icon-lists .icon-list a{
+    overflow: hidden;
+    /*margin-left: .3rem;*/
+ }
+.icon-lists .icon-list a img{
+    float: left;
+    width: .78rem;
+    height: .78rem;
+}
+.icon-lists .icon-list a span{
+    float: left;
+    margin-top: 0!important;
+    margin-left: .3rem;
+    line-height: .78rem;
+}
+.icon-lists .icon-list a:hover{
+    text-decoration: none;
+}
+.tip-hide,.chose-km{
+    width: 85%;
+    height: 3rem;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
+    line-height: 3rem;
+    font-size: 14px;
+    color: #313131;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -o-border-radius:8px;
+    z-index:100000;
+    background: linear-gradient(#FFFFFF 0%,#FEFEFE 10%,#FDFDFD 20%,#FCFCFC 30%,#FBFBFB 40%,#F9F9F9 50%,#F8F8F8 60%,#F7F7F7 70%,#F6F6F6 80%,#F5F5F5 90%,#F4F4F4 100%);
+    background: -webkit-linear-gradient(#FFFFFF 0%,#FEFEFE 10%,#FDFDFD 20%,#FCFCFC 30%,#FBFBFB 40%,#F9F9F9 50%,#F8F8F8 60%,#F7F7F7 70%,#F6F6F6 80%,#F5F5F5 90%,#F4F4F4 100%);
+    background: -moz-linear-gradient(#FFFFFF 0%,#FEFEFE 10%,#FDFDFD 20%,#FCFCFC 30%,#FBFBFB 40%,#F9F9F9 50%,#F8F8F8 60%,#F7F7F7 70%,#F6F6F6 80%,#F5F5F5 90%,#F4F4F4 100%);
+    background: -o-linear-gradient(#FFFFFF 0%,#FEFEFE 10%,#FDFDFD 20%,#FCFCFC 30%,#FBFBFB 40%,#F9F9F9 50%,#F8F8F8 60%,#F7F7F7 70%,#F6F6F6 80%,#F5F5F5 90%,#F4F4F4 100%);
+    display: none;
+}
+.chose-km{
+    height: 4.73rem;
+}
+.chose-km .chose-btn .chose-list-btn{
+    cursor: pointer;
+    width: 2.5rem;
+    height: 1.2rem;
+    background: linear-gradient(#27C183 0%,#26C081 10%,#25BF7F 20%,#24BE7E 30%,#20BB76 40%,#1CB76F 50%,#1AB56B 60%,#18B367 70%,#15B162 80%,#12AE5D 90%,#10AC59 100%);
+    background: -webkit-linear-gradient(#27C183 0%,#26C081 10%,#25BF7F 20%,#24BE7E 30%,#20BB76 40%,#1CB76F 50%,#1AB56B 60%,#18B367 70%,#15B162 80%,#12AE5D 90%,#10AC59 100%);
+    background: -moz-linear-gradient(#27C183 0%,#26C081 10%,#25BF7F 20%,#24BE7E 30%,#20BB76 40%,#1CB76F 50%,#1AB56B 60%,#18B367 70%,#15B162 80%,#12AE5D 90%,#10AC59 100%);
+    background: -o-linear-gradient(#27C183 0%,#26C081 10%,#25BF7F 20%,#24BE7E 30%,#20BB76 40%,#1CB76F 50%,#1AB56B 60%,#18B367 70%,#15B162 80%,#12AE5D 90%,#10AC59 100%);
+    text-align: center;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius:5px;
+    line-height: 1.2rem;
+    color: #fff;
+}
+.chose-km .chose-btn .chose-list-btn:nth-child(1){
+    float: left;
+    margin-left: .9rem;
+}
+.chose-km .chose-btn .chose-list-btn:nth-last-child(1){
+    float:right;
+    margin-right: .9rem;
+}

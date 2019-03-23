@@ -1,0 +1,8 @@
+<script>
+localStorage.setItem('vtype','小车');
+var backUri = "http://wx.dingdongxueche.com/wx2pay/userAuth/zjxInfo";
+window.location.href= "https://open.weixin.qq.com/connect/oauth2/authorize?"
+						+ "appid=wx9766e4b2a8cb0844&redirect_uri="
+						+ encodeURIComponent(backUri)
+						+ "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+</script>

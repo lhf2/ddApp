@@ -1,0 +1,126 @@
+body,html{background: #F1F1F1!important;}
+/*main¿ªÊ¼*/
+.main-box{
+    padding-top: .23rem;
+    padding-bottom: 1rem;
+}
+.main-box .main-img img,.main-box .main-img1 img{
+    display: block;
+    width:100%;
+    height: .55rem;
+    margin: 0 auto;
+    vertical-align: top;
+    font-size: 0;
+}
+.main-box .main-img1 img{
+    margin-top: -.05rem;
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+}
+.main-box .main-detail{
+    width: 90%;
+    padding-top: .4rem;
+    background: #F0A026;
+    margin: 0 auto;
+    margin-top: -.05rem;
+}
+.main-box .main-detail .main-title{
+    text-align: center;
+    background: #fff;
+    opacity: .7;
+    font-size: 24px;
+    color: #F0A026;
+    padding: .3125rem;
+    width: 80%;
+    margin: 0 auto;
+}
+.main-box .main-detail .main-my{
+    padding: .54rem 0;
+}
+.main-box .main-detail .main-my .main-my-img{
+    width: 1.5625rem;
+    height: 1.5625rem;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -o-border-radius: 50%;
+    overflow: hidden;
+    background: #fff;
+    margin: 0 auto;
+    text-align: center;
+}
+.main-box .main-detail .main-my .main-my-img img{
+    width: 1.5625rem;
+    /*height: 1.5625rem;*/
+    display: block;
+    object-fit: cover;
+    margin: 0 auto;
+}
+.main-box .main-detail .main-my .main-my-detail .main-my-list{
+    width:55%;
+    margin: 0 auto;
+    margin-top: .3rem;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.main-my .main-my-detail .main-my-list span{
+    color: #fff;
+    font-size: 14px;
+}
+.main-bottom{
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 18px;
+}
+.line{
+    width: 90%;
+    height: 1px;
+    background: #C6C6C6;
+    margin: 0 auto;
+}
+.main-bottom p{
+    font-size: 14px;
+    color: #707070;
+    text-align: left;
+    margin-top: .4rem;
+}
+.main-bottom .main-btn{
+    overflow: hidden;
+    margin-top: .89rem;
+}
+.main-bottom .main-btn .main-btn-list a{
+    padding: .4rem 0;
+    width: 40%;
+    font-size: 16px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    text-align: center;
+    box-shadow: 0px 0px 10px #C6C6C6;
+    float: left;
+    background: linear-gradient(#F09C37 0%,#ED8D29 50%,#EA7A16 100%);
+    background: -webkit-linear-gradient(#F09C37 0%,#ED8D29 50%,#EA7A16 100%);
+    background: -moz-linear-gradient(#F09C37 0%,#ED8D29 50%,#EA7A16 100%);
+    background: -o-linear-gradient(#F09C37 0%,#ED8D29 50%,#EA7A16 100%);
+    color: #fff;
+}
+.main-bottom .main-btn .main-btn-list a:hover{
+    text-decoration: none;
+}
+.ling-btn-list a{
+    float: right!important;
+    background: #fff!important;
+    color: #434343!important;
+}
+.main-bottom .sx-text{
+    text-align: center;
+    line-height: 1.5;
+    margin-top: 2.2rem;
+    font-size: 20px;
+}

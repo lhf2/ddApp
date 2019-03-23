@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/resetStyle.css" />
+    <link rel="stylesheet" href="../css/me-child.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css">
+    <script type="text/javascript" src="../js/rem.js" ></script>
+	<script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
+    <script>
+    var path = "http://dd.dingdongxueche.com/DDWeb";
+    var openId = localStorage.getItem("openId");
+        $(function(){
+            //展示当前积分
+            $.post(path+"/myIntegral/getIntegralByOpenID.htm?openID="+openId+"",jifen);
+            function jifen(msg){
+                var data = $.parseJSON(msg)
+                if(data.length > 0){
+                    $(".jf_title").find("span").text(data[0].integral);
+                }else{
+                    $(".jf_title").find("span").text(0);
+                }
+            }
+
+
+            //展示列表
+            $.post(path+"/myIntegral/getIntegralDetailByOpenID.htm?openID="+openId+"",islist);
+            function islist(msg){
+                var data = $.parseJSON(msg);
+                var len = data.length;
+                var $box = $(".jf_listBox").find("ul");
+                var htmlstr = '';
+                for(var i = 0; i < len; i++){
+                    htmlstr+='<li class="flex justify-content-space-between">'+
+                            '<div class="tx1">'+
+                            '<p class="t1">'+data[i].mark+'</p>'+
+                            '<p class="t2">'+data[i].time+'</p>'+
+                            '</div>'+
+                            '<div class="tx2 flex align-items-center">'+
+                            '<p class="t1">'+numtype(data[i].type)+data[i].integral+'</p>'+
+                            '</div>'+
+                            '</li>';
+                }
+                $box.append(htmlstr);
+                //判断正负
+                function numtype(_type){
+                    var a = "-";
+                    if(_type == "1") a = "+";
+                    return a
+                };
+
+            }
+        });
+    </script>
+	<title>积分详情</title>
+</head>
+<body>
+	<div class="body">
+    <div class="topTitle">
+      <div class="titleMsg">积分详情</div>
+      <div class="back" onclick="window.history.back()"></div>
+      <div class="topTitleHeight"></div>
+    </div>
+		<div class="jf_title">当前积分：<span>0</span></div>
+    <div class="jf_listBox">
+      <ul>
+        <!--<li class="flex justify-content-space-between">-->
+          <!--<div class="tx1">-->
+            <!--<p class="t1">签到获得积分</p>-->
+            <!--<p class="t2">2016-12-15 11:29</p>-->
+          <!--</div>-->
+          <!--<div class="tx2 flex align-items-center">-->
+            <!--<p class="t1">+20</p>-->
+          <!--</div>-->
+           <!--&lt;!&ndash;<div class="tx3 flex align-items-center">&ndash;&gt;-->
+            <!--&lt;!&ndash;<p class="t1">去签到</p>&ndash;&gt;-->
+          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--</li>-->
+      </ul>
+    </div>
+	</div>
+	
+</body>
+</html>

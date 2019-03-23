@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<title>pjax</title>
+	<link rel="stylesheet" type="text/css" href="../css/resetStyle.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../js/rem.js"></script>
+	<script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
+	<script type="text/javascript" src="../js/jquery.pjax.js"></script>
+  <script type="text/javascript" src="../js/doPjax.js"></script>
+	<script type="text/javascript" src="../js/touch.min.js"></script>
+	<script type="text/javascript" src="../js/DDPOP.js"></script>
+  <style type="text/css">
+    .demo-index{transition: .3s; transform: translate3d(90%,0,0);}
+    .demo-index.show{transform: translate3d(0,0,0);}
+  </style>
+</head>
+<body>
+
+
+
+<a href="javascript:window.history.back()">返回</a>
+<a href="javascript:window.history.go(1)">前进</a>
+
+
+  <a href="bm-dom.html" class="pjax">主页</a>
+
+  <a href="bm-dom2.html" class="pjax2">主页2</a>
+
+
+
+
+
+
+  <div class="page-index">
+  </div>
+  
+  <div class="page-next">
+    
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+<script type="text/javascript">
+    $(function(){
+
+      var doPjax = new PJAX({
+        selector:".pjax",
+        dom:".page-next",
+        callback:{
+          start:function(e){
+            console.log("准备替换结构");
+          },
+          send:function(e){
+          console.log("开始请求")
+          },
+          complete:function(e){
+            console.log("请求完毕")
+            $(".page-index").addClass("show");
+          },
+          end:function(e){
+            console.log("结构替换完毕")
+          },
+          popstate:function(e){
+            console.log(e.direction);
+            if(e.direction == "back"){
+              $(".page-index").removeClass("show");
+            }else{
+              $(".page-index").addClass("show");
+            }
+          }
+        }
+      });
+
+
+
+
+    });
+  </script>
+</html>

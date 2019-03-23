@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>鉴权</title>
+	<script type="text/javascript" src="js/rem.js" ></script>
+	<script type="text/javascript" src="js/jquery-1.11.2.js" ></script>
+	<script type="text/javascript" src="js/zepto.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
+
+</head>
+<body>
+	鉴权成功返回页面：
+	<div class="tss" id="openId">openId:</div>
+	<div class="tss" id="nickname">nickname:</div>
+	<div class="tss" id="area">area:</div>
+	<div class="tss" ><img id="header" class="header" src=""/></div>
+		<script type="text/javascript">
+
+		        var openId=utils.request('openId');
+        		var nickname=utils.request('nickname');
+        		var area=utils.request('area');
+        		var header=utils.request('image');
+
+        		$('#openId').text('openId:'+openId);
+        		$('#nickname').text('nickname:'+nickname);
+        		$('#area').text('area:'+area);
+        		$('#header').attr('src',header);
+	    </script>
+	    <br/>
+	  
+</body>
+</html>

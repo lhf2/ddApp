@@ -1,0 +1,331 @@
+/*main开始*/
+.main-box{
+    margin-bottom: 1.6rem;
+}
+.main-box .main-title{
+    overflow: hidden;
+    padding:0 .7rem;
+    border-bottom: 3px solid #F1F1F1;
+}
+.main-box .main-title .main-title-list a{
+    padding: .3rem 0;
+    display: block;
+    width: 33.333%;
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    color: #434343;
+}
+.main-box .main-title .cur a{
+    color: #1EA68C;
+}
+.main-box .main-title .main-title-list a:hover{
+    text-decoration: none;
+}
+.main-box .main-title .main-title-list:nth-child(1) a{
+    text-align: left;
+}
+.main-box .main-title .main-title-list:nth-last-child(1) a{
+    text-align: right;
+}
+.battle-title{
+    padding: .3rem 0;
+}
+.battle-title .battle-inner{
+    background: url("../images/ltb.png") no-repeat;
+    background-size: 100%;
+    width: 100%;
+    height: 1.9rem;
+    margin: 0 auto;
+    font-size: 24px;
+    color: #fff;
+    text-align: center;
+    line-height: 1.9rem;
+}
+.battle-title .battle-inner a{
+    line-height: 1.9rem;
+    color: #fff;
+}
+.battle-title .battle-inner a:hover{
+    text-decoration: none;
+}
+.battle-box .battle-top{
+    overflow: hidden;
+    background: #FFE9C8;
+    /*padding: 0 .47rem;*/
+}
+#day-list{
+    margin-left: .47rem;
+}
+#mouth-list{
+    margin-right: .47rem;
+}
+.battle-box .battle-top .battle-top-list{
+    display: inline-block;
+    width: 33%;
+    padding: .43rem 0;
+    /*float: left;*/
+    text-align: center;
+    overflow: hidden;
+}
+.battle-box .battle-top .battle-top-list:nth-child(1){
+    text-align: left;
+    float: left;
+}
+.battle-box .battle-top .battle-top-list:nth-last-child(1){
+    float: right;
+    text-align: right;
+}
+.battle-box .battle-top .battle-top-list a{
+    text-align: center;
+    font-size: 16px;
+    color: #CD6F00;
+}
+.battle-box .battle-top .battle-top-list a:hover{
+    text-decoration: none;
+}
+.curlist{
+    background: #F7D29A;
+}
+.battel-center,.battel-center1{
+    position: relative;
+    /*overflow: hidden;*/
+    padding: 0.97rem .25rem;
+    /*border-bottom: 1px solid #C6C6C6;*/
+}
+.battel-center1{
+    padding-bottom: 0!important;
+    display: flex;
+    justify-content: space-between;
+}
+.battel-center .battle-cen-list,.battel-center1 .battle-cen-list{
+    width: 3rem;
+    text-align: center;
+    /*display: none;*/
+}
+.battel-center .battle-cen-list .battle-win,.battel-center1 .battle-cen-list .battle-win{
+    width: 1.875rem;
+    height: 2.94rem;
+    font-size: 16px;
+    color: #434343;
+    text-align: center;
+    line-height: 2rem;
+    margin: 0 auto;
+}
+.battel-center .win-one,.battel-center1 .win-one{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: .97rem;
+    right: 0;
+    margin: auto;
+}
+.battel-center .win-two,.battel-center1 .win-two{
+    padding-top: .625rem;
+    display: inline-block;
+    /*float: left;*/
+}
+.battel-center .win-three,.battel-center1 .win-three{
+    padding-top: .625rem;
+     display: inline-block;
+    /*float: right;*/
+}
+.battel-center .win-one .battle-win,.battel-center1 .win-one .battle-win{
+    background: url("../images/win1.png") no-repeat center center;
+    background-size: 100%;
+}
+.battel-center .win-two .battle-win,.battel-center1 .win-two .battle-win{
+    background: url("../images/win2.png") no-repeat;
+    background-size: 100%;
+}
+.battel-center .win-three .battle-win,.battel-center1 .win-three .battle-win{
+    background: url("../images/win3.png") no-repeat;
+    background-size: 100%;
+}
+.battel-center .battle-cen-list a:hover,.battel-center1 .battle-cen-list a:hover{
+    text-decoration: none;
+}
+.battel-center .battle-cen-list a .battle-text .battle-name{
+     font-size: 16px;
+    color: #434343;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+ }
+.battel-center .battle-cen-list a .battle-text .battle-score{
+     font-size: 14px;
+     margin-top: .3rem;
+    color: #707070;
+ }
+.battel-center .battle-cen-list a .battle-text .battle-time{
+    font-size: 14px;
+    margin-top: .1rem;
+    color: #707070;
+}
+.battel-bot .battel-num a{
+    display: block;
+    padding:.23rem 0;
+    padding-left: .55rem;
+    padding-right: .23rem;
+    border-bottom: 1px solid #C6C6C6;
+    overflow: hidden;
+}
+.battel-bot .battel-num a:hover{
+    text-decoration: none;
+}
+.battel-bot .battel-num a .num-left{
+    float: left;
+    line-height: .84rem;
+    width: 59%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.battel-bot .battel-num a .num-left .battel-number{
+    font-size: 20px;
+    font-weight: bold;
+    color: #434343;
+}
+.battel-bot .battel-num a .num-left .num-img img{
+    width: .84rem;
+    height: .84rem;
+    vertical-align: middle;
+    margin-left: .3rem;
+}
+.battel-bot .battel-num a .num-left .num-name{
+    font-size: 18px;
+    color: #434343;
+    margin-left: .3rem;
+}
+.battel-bot .battel-num a .num-right{
+    float: right;
+}
+.battel-bot .battel-num a .num-right span{
+    color: #707070;
+    font-size: 16px;
+    line-height: .84rem;
+}
+.battel-bot .battel-num a .num-right .num-score{
+    margin-right: .3rem;
+}
+/*bottom开始*/
+.bottom-fix{
+    padding: .23rem 0;
+    border: 1px solid #C6C6C6;
+    border-left: 0;
+    border-right: 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    z-index: 100;
+    overflow: hidden;
+}
+.bottom-fix .bottom-left{
+    float: left;
+}
+.bottom-fix .bottom-left .bottom-img{
+    display:block;
+    float: left;
+    width: .84rem;
+    height: .84rem;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -o-border-radius:50%;
+    overflow: hidden;
+    background: #fff;
+    margin-left: .5rem;
+}
+.bottom-fix .bottom-left .bottom-img img{
+    width: .84rem;
+    height: .84rem;
+    vertical-align: middle;
+    /*margin-left: .5rem;*/
+}
+.bottom-fix .bottom-left .bottom-text{
+    margin-left: .3rem;
+    font-size: 14px;
+    color: #313131;
+    line-height: .84rem;
+}
+.bottom-fix .bottom-right{
+    float: right;
+}
+.bottom-fix .bottom-right a{
+    display: block;
+    color: #fff;
+    padding:0.23rem .75rem;
+    font-size: 14px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    margin-right: .25rem;
+    background: linear-gradient(#26C081 0%,#1EB872 50%,#11AD5B 100%);
+    background: -webkit-linear-gradient(#26C081 0%,#1EB872 50%,#11AD5B 100%);
+    background: -moz-linear-gradient(#26C081 0%,#1EB872 50%,#11AD5B 100%);
+    background: -o-linear-gradient(#26C081 0%,#1EB872 50%,#11AD5B 100%);
+}
+.bottom-fix .bottom-right a:hover{
+    text-decoration: none;
+}
+.bottom-fix-wdl{
+    z-index: 200;
+}
+.bottom-fix-ydl{
+    z-index: 100;
+}
+.load-img{
+    width:32px;
+    height: 32px;
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+/*提示*/
+.city-detail-hide{
+    display: none;
+}
+.battle-cen-list a .battle-text{
+    font-size: 16px;
+    color: #707070;
+}
+
+.battel-tip{
+    position:absolute;
+    left:0;
+    bottom: 1rem;
+    right: 0;
+}
+
+.battel-tip .battel-tip-title{
+    font-size: 18px;
+    color: #313131;
+    text-align: center;
+}
+.battel-tip .battel-tip-btn{
+    cursor: pointer;
+    width: 2.34rem;
+    color: #fff;
+    padding: .23rem 0;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: .5rem;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius:5px;
+    background: -webkit-linear-gradient(#26C082 0%,#1AB66D 50%,#10AE5A 100%);
+    background: linear-gradient(#26C082 0%,#1AB66D 50%,#10AE5A 100%);
+    background: -moz-linear-gradient(#26C082 0%,#1AB66D 50%,#10AE5A 100%);
+    background: -o-linear-gradient(#26C082 0%,#1AB66D 50%,#10AE5A 100%);
+}
+.battel-center{
+    padding: 0;
+    height: 0;
+}

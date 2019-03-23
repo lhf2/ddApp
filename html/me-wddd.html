@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/resetStyle.css" />
+    <link rel="stylesheet" href="../css/me-child.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css">
+    <script type="text/javascript" src="../js/rem.js" ></script>		
+	<script type="text/javascript" src="../js/jquery-1.7.2.min.js" ></script>
+	<script type="text/javascript" src="../js/doAjax.js"></script>
+	<script type="text/javascript" src="../js/utils.js" ></script>
+	<script type="text/javascript" src="../js/Math.uuid.js"></script>
+	<script type="text/javascript" src="../js/me.js" ></script>
+	<script type="text/javascript" >
+	   function toRedirect(){
+	     window.location.href="http://wx.dingdongxueche.com/html/me.html";
+	   }
+
+	</script>
+	<style type="text/css">
+		.mask{position: fixed; left: 0;top: 0;right: 0;bottom: 0; display: flex; justify-content: center; align-items: center; flex-direction: column; flex-wrap: wrap; overflow: hidden; display: none; background-color: rgba(0,0,0,.5);}
+		.tabx2_Content{transition:transform .5s,height .3s; height: 2.21rem;}
+		.animation{ transform: translate(0,10rem);}
+	</style>
+	<title>我的订单</title>
+</head>
+<body>
+	<div class="body">
+		<div class="topTitle">
+			<div class="titleMsg">我的订单</div>
+			<div class="back" onclick="toRedirect()"></div>
+			<div class="topTitleHeight"></div>
+		</div>
+		
+		<div class="tabx2_parent">
+			<div class="tabx2_child cur">未完成订单</div>
+			<div class="tabx2_child">已完成订单</div>
+		</div>
+		<div class="isContentTabBox">
+			<div class="topClick">
+				<p class="paddmarg">
+					<span class="span1">券</span>
+					<span class="span2">点击使用优惠券</span>
+				</p>
+			</div>
+			<div id="wwcdd"></div>
+			<div style="height: 1.2rem;"></div>
+			<div class="rightBtn" id="myOrder">结算</div>
+		</div>
+		
+		<div class="isContentTabBox" style="display: none" id="ywcdd">
+			
+
+			<!-- <div class="shopList">
+				<div class="leftContnt">
+					<div class="left">
+						<img src="../images/aaa.png" width="100%" height="100%">
+					</div>
+					<div class="right">
+						<p class="p1">海淀驾校--C1/周末班</p>
+						<p class="p2">微信首付款：￥600</p>
+						<p class="p2">剩余款项：￥3400</p>
+						<p class="p2">总额：￥4000</p>
+					</div>
+				</div>
+			</div> -->
+
+			
+
+
+		</div>
+	</div>
+
+	<div class="mask" id="wddd-mask">
+		<!-- <div class="tabx2_Content animation">
+			<div class="thisIsQuan">
+				<div class="lf">
+					<p class="p1">驾校报名现金券<span class="erweima"></span></p>
+					<p class="p2">使用期限：2016.11.8-2016.12.27</p>
+				</div>
+				<div class="rt">
+					<p class="p1">￥100元</p>
+					<p class="p2">点击使用</p>
+				</div>
+			</div>
+			<div class="thisIsMore" attr="hide">查看详细规则</div>
+			<div class="thisIsContent">
+				此优惠卷仅用于驾校学员报名使用，可直接抵现，可累计不可拆分，请在规定日期内使用。最终解释权归本公司所有。
+			</div> -->
+		</div>
+	</div>
+</body>
+</html>

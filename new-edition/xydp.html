@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<title>学员点评</title>
+	<link rel="stylesheet" type="text/css" href="../css/resetStyle.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../js/rem.js"></script>
+	<script type="text/javascript" src="../js/zepto.js"></script>
+	<script type="text/javascript" src="../js/touch.min.js"></script>
+    <script type="text/javascript" src="../js/DDPOP.js"></script>
+    <script type="text/javascript" src="../js/fun.js"></script>
+    <script type="text/javascript" src="js/request.js"></script>
+  <style type="text/css">
+      body{
+          background: #F1F1F1;
+      }
+  </style>
+  <script type="text/javascript">
+
+
+      $(function(){
+
+
+      //   this.encodeHtml = function(s){  
+      //     return (typeof s != "string") ? s :  
+      //         s.replace(this.REGX_HTML_ENCODE,  
+      //                   function($0){  
+      //                       var c = $0.charCodeAt(0), r = ["&#"];  
+      //                       c = (c == 0x20) ? 0xA0 : c;  
+      //                       r.push(c); r.push(";");  
+      //                       return r.join("");  
+      //                   });  
+      // };  
+
+      
+
+
+
+        var school_id = funs.getQueryString("school_id");
+        var openId = localStorage.getItem("openId");
+        getCom();
+        function getCom(){
+            $.ajax({
+              url:"http://101.201.146.79:8088/dts/evaluate/selectEvaluates?drivingId="+school_id+"&userId="+openId+"&currentNum=1&count=100&callbackparam=?",
+              dataType:"jsonp",
+              success:function(msg){
+                var str = "";
+                 //评分 星星
+                 function pingfenDom(i){
+                  var pingfenDom = "";
+                   for(var k = 0; k <  Math.round(msg[i].average); k++){
+                      pingfenDom+='<img src="../images/star2.png">';
+                    }
+                    for(var k = 0; k <  5-Math.round(msg[i].average); k++){
+                      pingfenDom+='<img src="../images/star1.png">';
+                    }
+                    return pingfenDom
+                 };
+
+                 //评论中的图片
+                 function imagesComment(i){
+                  var url = msg[i].pictures.split(",");
+                  var str = "";
+                   for(var k = 0; k <  url.length; k++){
+                      str+='<span class="align-items-center flex"><img src="http://101.201.146.79:8088/dts/evaluate/'+url[k]+'" /></span>';
+                    }
+                    return str
+                 };
+
+                for(var i = 0; i < msg.length; i++){
+                    str+='<li class="flex" userid="'+msg[i].userId+'" id="'+msg[i].id+'">'+
+                        '<div class="header-img-left">'+
+                            '<img src='+(msg[i].isHide == 1 ? "../images/logo.png" : msg[i].image)+'>'+
+                       ' </div>'+
+                        '<div class="text-box-right flex flex-column justify-content-space-between">'+
+                            '<div class="t1">'+
+                                '<span class="nick-name">'+(msg[i].isHide == 1 ? "匿名用户" : msg[i].nickname)+'</span>'+
+                                '<span class="rt-date">'+msg[i].evaluate_time+'</span>'+
+                            '</div>'+
+                            '<div class="t2 flex">'+
+                                pingfenDom(i)+
+                            '</div>'+
+                            '<div class="t3">'+
+                                msg[i].evaluate+
+                                '<p class="flex t3-img" style="display:'+(msg[i].pictures == ""?"none":"flex")+'">'+   //评论图片
+                                    // '<span><img src="../images/v2.jpg"></span>'+
+                                    // '<span><img src="../images/v2.jpg"></span>'+
+                                    // '<span><img src="../images/v2.jpg"></span>'+
+                                    imagesComment(i)+
+                                '</p>'+
+                                // '<p class="t3-time">'+
+                                //     '2017年3月11日 13:05'+
+                                // '</p>'+
+                                '<div class="pinglun" style="display:none">'+
+                                // '<div class="pinglun-text">'+
+                                //     '<p class="txt">'+
+                                //         '<span class="txt-green">学员1：</span>一人有两人有三人又'+
+                                //     '</p>'+
+                                //     '<p class="txt">'+
+                                //         '<span class="txt-green">学员2</span>回复<span class="txt-green">学员1：</span>'+'你是都比吗？你是都比吗？你是都比吗？你是都比吗？你是都比吗？'+
+                                //     '</p>'+
+                                // '</div>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="t4">'+
+                                '<div class="good-line ispinglun  flex" isid="'+msg[i].id+'">'+
+                                    '<span class="img">'+
+                                        '<img src="../images/pinglun.png">'+
+                                    '</span>'+
+                                    '<span class="num">'+
+                                        '评论'+
+                                    '</span>'+
+                                '</div>'+
+                                '<div class="good-line islike flex" isid="'+msg[i].id+'">'+
+                                    '<span class="img">'+
+                                        '<img src="../images/good'+(msg[i].isZambia == "1"?"":"1")+'.png" isgood="'+(msg[i].isZambia == "1"?"1":"0")+'" />'+
+                                    '</span>'+
+                                    '<span class="num">'+
+                                        msg[i].zambia+
+                                    '</span>'+
+                                    '<span class="border-left"></span>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'+
+                     '</li>';
+                };
+
+                $(".list-box-pinglun").html(str);
+                 commentSwicth();
+
+              }
+            });
+        };
+
+                //评论
+                $(".list-box-pinglun").on("click",".ispinglun",function(){
+                    var buserId = $(this).parents("li").attr("userid");
+                    var pubid = $(this).parents("li").attr("id");
+                    pinglunpop(buserId,pubid);
+                });
+
+                //回复
+                $(".list-box-pinglun").on("click",".pinglun-text",function(){
+                   var nickname = $(this).find(".txt-green").text();
+                   var buserId = $(this).attr("userid");
+                   var pubid = $(this).parents("li").attr("id");
+                    huifupop(buserId,pubid,nickname);
+                });
+
+                //回复
+                function huifupop(buserId,pubid,nickname){
+                    console.log(pubid)
+                    ddpop("","",{
+                        input:[{
+                            placeholder:"回复"+nickname+"(不超过100字)",
+                            maxlength:100
+                        }],
+                        button:[{
+                            text:"发送",
+                            callback:function(obj){
+                                obj.that.close();
+                                if(obj.value[0] == ""){
+                                    autoClose("请输入内容！","",{
+                                        callback:{
+                                            close:pinglunpop
+                                        }
+                                    });
+                                }else{
+                                    var content = obj.value[0];
+                                    $.ajax({
+                                        url : 'http://101.201.146.79:8088/dts/comment/addComment?userId='+openId+'&buserId='+buserId+'&publishId='+pubid+'&content='+content+"&callbackparam=?",
+                                        dataType : 'jsonp',
+                                        success:function(){
+                                            autoClose("发送成功","",{
+                                                callback:{
+                                                    close:commentSwicth
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        },{
+                            text:"取消",
+                            type:"1",
+                            callback:function(obj){
+                                obj.that.close();
+                            }  
+                        }]
+                    });
+                }
+
+                //评论
+                function pinglunpop(buserId,pubid){
+                    faceComment(function(_content){
+                        console.log(_content)
+                        $.ajax({
+                            url : 'http://101.201.146.79:8088/dts/comment/addComment?userId='+openId+'&buserId=&publishId='+pubid+'&content='+_content+"&callbackparam=?",
+                            dataType : 'jsonp',
+                            success:function(){
+                                autoClose("评论成功","",{
+                                    callback:{
+                                        close:commentSwicth
+                                    }
+                                });
+                            }
+                        });
+                    });
+                    // ddpop("请输入评论内容","",{
+                    //     input:[{
+                    //         placeholder:"不超过100字",
+                    //         maxlength:100,
+                    //     }],
+                    //     button:[{
+                    //         text:"评论",
+                    //         callback:function(obj){
+                    //             obj.that.close();
+                    //             if(obj.value[0] == ""){
+                    //                 autoClose("请输入评论内容！","",{
+                    //                     callback:{
+                    //                         close:pinglunpop
+                    //                     }
+                    //                 });
+                    //             }else{
+                    //                 var content = obj.value[0];
+                    //                 $.ajax({
+                    //                     url : 'http://101.201.146.79:8088/dts/comment/addComment?userId='+openId+'&buserId=&publishId='+pubid+'&content='+content+"&callbackparam=?",
+                    //                     dataType : 'jsonp',
+                    //                     success:function(){
+                    //                         autoClose("评论成功","",{
+                    //                             callback:{
+                    //                                 close:commentSwicth
+                    //                             }
+                    //                         });
+                    //                     }
+                    //                 });
+                    //             }
+                    //         }
+                    //     },{
+                    //         text:"取消",
+                    //         type:"1",
+                    //         callback:function(obj){
+                    //             obj.that.close();
+                    //         }  
+                    //     }]
+                    // });
+                }
+
+
+                //调用 评论
+                function commentSwicth(){
+                    var aBox = $(".list-box-pinglun li");
+                    var aLen = aBox.length;
+                    for(var a = 0; a < aLen; a++){
+                        commentData(a);
+                    }
+                }
+
+
+
+        //查找对别人的评论
+        function commentData(i){
+            var aBox = $(".list-box-pinglun li");
+            var pubid = aBox.eq(i).attr("id");
+            var str = '';
+            $.ajax({
+                url : 'http://101.201.146.79:8088/dts/comment/getCommentById?publishId='+pubid+'&callbackparam=?',
+                dataType : 'jsonp',
+                success:function(data){
+                    for(var a = 0; a < data.length; a++){
+                        var nickname = data[a].nickname;
+                        var content = data[a].content;
+                        str += '<div class="pinglun-text" pubid="'+data[a].id+'" userid="'+data[a].userId+'" >';
+                            if(!data[a].buserId){
+                                str+='<p class="txt">'+
+                                    '<span class="txt-green">'+(nickname||"游客")+'</span>:'+
+                                    content+
+                                '</p>';
+                            }else{
+                                str+='<p class="txt">'+
+                                '<span class="txt-green">'+(nickname||"游客")+'</span>'+
+                                '回复'+
+                                '<span class="txt-green">'+(data[a].bnickname||"游客")+'</span>:'+
+                                content+
+                                '</p>';
+                            }
+                        str+='</div>';
+                    }
+                    if(data.length == 0){
+                        $(".list-box-pinglun li").find(".t3 .pinglun").eq(i).hide();
+                    }else{
+                        $(".list-box-pinglun li").find(".t3 .pinglun").eq(i).show();
+                    }
+                    $(".list-box-pinglun li").eq(i).find(".t3 .pinglun").html(str);
+                }
+            })
+        }
+
+
+        //平均分
+        $.ajax({
+            url:"http://101.201.146.79:8088/dts/evaluate/selectAverages?drivingId="+school_id+"&callbackparam=?",
+            dataType:"jsonp",
+            success:function(msg){
+                $(".view-num span").text(msg.count);
+                $(".view-score").text(msg.average);
+
+                $(".review-list").eq(0).append(pingfenDom(msg.serveavg))
+                $(".review-list").eq(1).append(pingfenDom(msg.teachavg))
+                $(".review-list").eq(2).append(pingfenDom(msg.fieldavg))
+                $(".review-list").eq(3).append(pingfenDom(msg.feeavg))
+
+                //评分 星星
+                 function pingfenDom(num){
+                  var pingfenDom = "";
+                   for(var k = 0; k <  Math.round(num); k++){
+                      pingfenDom+='<img src="../images/star2.png">';
+                    }
+                    for(var k = 0; k <  5-Math.round(num); k++){
+                      pingfenDom+='<img src="../images/star1.png">';
+                    }
+                    return pingfenDom
+                 };
+
+            }
+        })
+
+
+
+
+        //点赞
+          $(".list-box-pinglun").on("click",".islike",function(){
+            var num = parseInt($(this).find(".num").text());
+            var isgood = $(this).find("img").attr("isgood");
+            var _this = $(this);
+            $.ajax({
+              url:"http://101.201.146.79:8088/dts/evaluate/updZambias?id="+$(this).attr("isid")+"&userId="+openId+"&updType="+(isgood=="1"?"0":"1")+"&callbackparam=?",
+              dataType:"jsonp",
+              success:function(msg){
+                //getCom();
+                getlikeNum(_this);
+              }
+            });
+          });
+
+          //刷新点赞数量
+          function getlikeNum(_this){
+            $.ajax({
+                  url:"http://101.201.146.79:8088/dts/evaluate/selectEvaluates?drivingId="+school_id+"&userId="+openId+"&currentNum=1&count=100&callbackparam=?",
+                  dataType:"jsonp",
+                  success:function(msg){
+                    var index =  _this.parents("li").index();
+                    console.log(index)
+                    var str = '<span class="img">'+
+                                '<img src="../images/good'+(msg[index].isZambia == "1"?"":"1")+'.png" isgood="'+(msg[index].isZambia == "1"?"1":"0")+'" />'+
+                            '</span>'+
+                            '<span class="num">'+
+                                msg[index].zambia+
+                            '</span><span class="border-left"></span>';
+
+
+                    _this.html(str);
+                  }
+              });
+          }
+
+          $(".confirm").click(function(){
+            var url = "http://dd.dingdongxueche.com/DDWeb/comment/isSignup.htm";
+            $.ajax({
+                url:url+"?openid="+openId+"&drivingid="+school_id,
+                success:function(msg){
+                    if(msg == "0"){
+                        ddpop("不能对未报名的驾校进行评论！","",{
+                            autoClose:2500
+                        });
+                    }else{
+                        window.location.href = "../zjx/xydp.html?id="+school_id;
+                    }
+                }
+            });
+          });
+  
+
+      });
+  </script>
+</head>
+<body>
+  <div class="page-xydp">
+    <div class="flex main-top justify-content-space-between">
+        <div class="view-box">
+            <div class="school-view">
+                <div class="view-item">平均分</div>
+                <div class="view-score"></div>
+                <div class="view-num">
+                    <span></span>人评价
+                </div>
+            </div>
+        </div>
+        <div class="w100 flex flex-column justify-content-space-around">
+            <div class="review-list flex align-items-center">
+                <div class="review-name">服务</div>
+                <div class="star_bg flex">
+                </div>
+            </div>
+            <div class="review-list flex align-items-center">
+                <div class="review-name">教学</div>
+                <div class="star_bg flex">
+                </div>
+            </div>
+            <div class="review-list flex align-items-center">
+                <div class="review-name">场地</div>
+                <div class="star_bg flex">
+                </div>
+            </div>
+            <div class="review-list flex align-items-center">
+                <div class="review-name">收费</div>
+                <div class="star_bg flex">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-jxxq">
+          <div class="dd-school-list">
+           <div class="list-school-box show">
+             <div class="list-box">
+               <ul class="list-box-pinglun"><!-- 
+                 <li class="flex">
+                    <div class="header-img-left">
+                        <img src="../images/icon3.png">
+                    </div>
+                    <div class="text-box-right flex flex-column justify-content-space-between">
+                        <div class="t1">
+                            <span class="nick-name">昵称</span>
+                            <span class="rt-date">2017年3月11日 13:05</span>
+                        </div>
+                        <div class="t2 flex">
+                            <img src="../images/star2.png">
+                            <img src="../images/star2.png">
+                            <img src="../images/star2.png">
+                            <img src="../images/star2.png">
+                        </div>
+                        <div class="t3">
+                            这个驾校真好啊真想去啊我了个去！这个驾校真好啊真想去啊我了个去！这个驾校真好啊真想去啊我了个去！
+                            <p class="flex t3-img">
+                                <span><img src="../images/v2.jpg"></span>
+                            </p>
+                            <p class="t3-time">
+                                2017年3月11日 13:05
+                            </p>
+                            <div class="pinglun">
+                                <div class="pinglun-text">
+                                    <p class="txt">
+                                        <span class="txt-green">学员1：</span>一人有两人有三人又
+                                    </p>
+                                    <p class="txt">
+                                        <span class="txt-green">学员2</span>回复<span class="txt-green">学员1：</span>你是都比吗？你是都比吗？你是都比吗？你是都比吗？你是都比吗？
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="t4">
+                            <div class="good-line flex">
+                                <span class="img">
+                                    <img src="../images/pinglun.png">
+                                </span>
+                                <span class="num">
+                                    评论
+                                </span>
+                            </div>
+
+                            <div class="good-line flex">
+                                <span class="img">
+                                    <img src="../images/good1.png">
+                                </span>
+                                <span class="num">
+                                    赞
+                                </span>
+
+                                <span class="border-left"></span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                 </li>
+                 <li class="flex">
+                    <div class="header-img-left">
+                        <img src="../images/icon3.png">
+                    </div>
+                    <div class="text-box-right flex flex-column justify-content-space-between">
+                        <div class="t1">
+                            <span class="nick-name">昵称</span>
+                            <span class="rt-date">2017年3月11日 13:05</span>
+                        </div>
+                        <div class="t2 flex">
+                            <img src="../images/star2.png">
+                            <img src="../images/star2.png">
+                            <img src="../images/star2.png">
+                            <img src="../images/star2.png">
+                        </div>
+                        <div class="t3">
+                            这个驾校真好啊真想去啊我了个去！这个驾校真好啊真想去啊我了个去！这个驾校真好啊真想去啊我了个去！
+                            <p class="flex t3-img">
+                                <span><img src="../images/v2.jpg"></span>
+                                <span><img src="../images/v2.jpg"></span>
+                                <span><img src="../images/v2.jpg"></span>
+                            </p>
+                            <p class="t3-time">
+                                2017年3月11日 13:05
+                            </p>
+                        </div>
+                        <div class="t4">
+                            <div class="good-line flex">
+                                <span class="img">
+                                    <img src="../images/pinglun.png">
+                                </span>
+                                <span class="num">
+                                    评论
+                                </span>
+                            </div>
+
+                            <div class="good-line flex">
+                                <span class="img">
+                                    <img src="../images/good1.png">
+                                </span>
+                                <span class="num">
+                                    赞
+                                </span>
+                                
+                                <span class="border-left"></span>
+                            </div>
+                        </div>
+                    </div>
+                 </li>
+                 <li class="flex">
+                    <div class="header-img-left">
+                        <img src="../images/icon3.png">
+                    </div>
+                    <div class="text-box-right flex flex-column justify-content-space-between">
+                        <div class="t1">
+                            <span class="nick-name">昵称</span>
+                            <span class="rt-date">2017年3月11日 13:05</span>
+                        </div>
+                        <div class="t2 flex">
+                            <img src="../images/star2.png">
+                            <img src="../images/star2.png">
+                            <img src="../images/star2.png">
+                            <img src="../images/star2.png">
+                        </div>
+                        <div class="t3">
+                            这个驾校真好啊真想去啊我了个去这个驾校真好啊真想去啊我了个去这个驾校真好啊真想去啊我了个去这个驾校真好啊真想去啊我了个去
+                            <p class="flex t3-img">
+                                <span><img src="../images/v2.jpg"></span>
+                                <span><img src="../images/v2.jpg"></span>
+                            </p>
+                            <p class="t3-time">
+                                2017年3月11日 13:05
+                            </p>
+                        </div>
+                        <div class="t4">
+                            <div class="good-line flex">
+                                <span class="img">
+                                    <img src="../images/pinglun.png">
+                                </span>
+                                <span class="num">
+                                    评论
+                                </span>
+                            </div>
+
+                            <div class="good-line flex">
+                                <span class="img">
+                                    <img src="../images/good1.png">
+                                </span>
+                                <span class="num">
+                                    赞
+                                </span>
+                                
+                                <span class="border-left"></span>
+                            </div>
+                        </div>
+                    </div>
+                 </li>
+                --></ul>
+             </div>
+           </div>
+        </div>
+      </div>
+      <div class="floor-fixed-confirm">
+          <div class="confirm flex align-items-center justify-content-center">
+              <span class="text">我要点评</span>
+          </div>
+      </div>
+  </div>
+</body>
+</html>

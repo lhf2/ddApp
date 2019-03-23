@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付信息</title>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/lhf-base.css"/>
+    <link rel="stylesheet" href="../css/qrmm.css"/>
+     <style type="text/css">
+        html{height: 100%;}
+        body{height: 100%;background: #fff !important; }
+        .main-box{background: #fff !important; height: 100%; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; flex-direction: column;}
+        .main-top{font-size: .5rem;text-align: center; margin-top: -3rem;}
+        .main-top p{margin-top: .5rem;}
+        .tj-btn{background-color: #fff; margin-top: 0; width: 80%;}
+        .tj-btn a{margin: 0; display: block; width: 100%;}
+        #isPrice{font-size: .8rem;}
+        .scool{width: 2.73rem;}
+        .yhq{background-color: #FA5168; width: 5.84rem; font-size: .4rem;  color: #fff100; border-radius: .2rem; padding: .2rem 0; transform: scale(1.5) translate(0,.5rem);}
+        .yhq .top{ overflow: hidden;}
+        .yhq .top .lf{ font-size: 1rem;text-align: center;font-weight: bold; float: left;  }
+        .yhq .top .rt{margin-left: .2rem;padding-top: .1rem; float: left;}
+        .yhq .top .rt p:nth-child(1){ font-size: .48rem;}
+        .yhq .top .rt p:nth-child(2){ font-size: .36rem;}
+        .yhq .bottom{ }
+        .yhq .bottom p{display: flex; width: 4.69rem; height: 1rem; line-height: 1rem;  margin: 0 auto; background: url(../images/asd01.png) no-repeat center; background-size: 4.69rem; color: #b20a44;}
+        .yhq .bottom span{display: block; text-align: center;width: 100%; font-size: .34rem;}
+        .yhq .bottom span:nth-child(1){ min-width: 2.88rem; }
+        .isicon{ font-size: .2rem; margin-left: .2rem; display: inline-block; float: left;}
+    </style>
+</head>
+<body>
+<!--top开始-->
+<div class="top-box">
+    <div class="top-detail">
+        <a href="javascript:;">
+            <img class='top-return' src="../images/rtn.png" alt="">
+        </a>
+        <span>支付信息</span>
+        <span class="isRight"></span>
+    </div>
+</div>
+<!--main开始-->
+<div class="main-box">
+    <div class="main-top">
+        <img src="../images/true.jpg" class="scool" alt="">
+        <p>恭喜您！报名成功！</p>
+    </div>
+    <div id="coupons_div" class="yhq" style="display: none;">
+       <div class="top"  id="couponsno" lang="">
+           <div class="isicon">￥</div>
+           <div id="coupons" lang=""  class="lf">
+               0
+           </div>
+           <div class="rt">
+               <p>优惠券</p>
+               <p>满3000元可用</p>
+           </div>
+       </div>
+       <div class="bottom">
+          <p><span>限驾校报名使用</span><span id="lingqu" onclick="doAjax();">立即领取</span></p>
+       </div>
+    </div>
+</div>
+<div class="mask-box"></div>
+<div class="alertxz-hide">
+    <div class="alertxz-text"></div>
+    <div class="alertxz-btn">
+        <a href="javascript:;">确定</a>
+    </div>
+</div>
+<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+<script src="../js/jquery-1.11.2.js"></script>
+<script src="../js/DDPOP.js"></script>
+<script src="../js/pdtp.js"></script>
+<script src="../js/zjx.js"></script>
+<!--
+<script src="../js/eachclass.js"></script>
+<script src="../js/Pop.js">></script>
+-->
+<script src="../js/utils.js"></script>
+<script src="../js/Math.uuid.js"></script>
+<script type="text/javascript" src="../js/doAjax.js"></script>
+
+<script>
+    var path ='http://wx.dingdongxueche.com';
+
+    
+
+   //var pop = new Pop();
+
+    
+    function call_doleCoupons(data){
+        switch(data){
+            case "success":
+			window.location.href = path+"/html/me-wdzh.html";
+           // pop.close_fun = function(){window.location.href = "../html/me-wdzh.html"}
+           // pop.init("领取成功！");
+            break;
+            case "redo":
+			window.location.href = path+"/html/me-wdzh.html";
+           // pop.close_fun = function(){window.location.href = "../html/me-wdzh.html"}
+           // pop.init("已经领取过了，请勿重复领取！");
+            break;
+            case "fail":
+			window.location.href = path;
+           // pop.close_fun = function(){window.location.href = "../html/me-wdzh.html"}
+           // pop.init("领取失败！");
+            break;
+            case "error":
+			window.location.href = path;
+           // pop.close_fun = function(){window.location.href = "../html/me-wdzh.html"}
+           // pop.init("参数错误，请重新进入页面..");
+            break;
+        }
+    }
+
+    //openId是从localStorage
+    function doAjax(){
+       // console.log('域名:'+path);
+        var   openId = localStorage.getItem("openId");
+		    var couponsId=$("#coupons").attr("lang");
+        var couponsno=$("#couponsno").attr("lang");
+        var couponvalue=$("#coupons").text();
+        var param='?openId='+openId+'&couponsId='+couponsId+'&couponno='+couponsno+'&couponvalue='+couponvalue;
+  		if(!utils.isEmpty(openId)&&!utils.isEmpty(couponsId)){
+            $.ajaxDone("http://dd.dingdongxueche.com/DDWeb/personal/checkCoupons.htm?openId="+openId,function(msg){
+              if(msg == 1){
+                autoClose("您已经领取过了，不能重复领取！","",{
+                  callback:{
+                    close:function(){
+                      window.location.href = path+"/html/me-wdzh.html";
+                    }
+                  }
+                });
+              }else if(msg == 0){
+                autoClose("领取成功！","",{
+                  callback:{
+                    close:function(){
+                      $.ajaxDone(path+"/wx2pay/coupons/doleCoupons"+param,call_doleCoupons);
+                    }
+                  }
+                });
+                
+              }
+            });
+             
+  		}else{
+  		  alert('网络出错！');
+  		}
+    }
+
+   
+
+    $(function(){
+			function call_valueCoupons(data){
+				//console.log(data);
+				if(data!=null&&data!=""){
+				     var coupons=JSON.parse(data);
+					 //$('.isicon').text(coupons.id);
+           var coupons_id=Math.uuid(32); 
+            $("#coupons_div").show();
+					    $("#coupons").attr("lang",coupons.id);
+              $("#couponsno").attr("lang",coupons_id);
+				      $("#coupons").text(coupons.moneny);
+				}else{
+				  $("#coupons_div").hide();
+				}
+				
+			}
+	    	var param='?openId='+localStorage.getItem("openId");
+			$.ajaxDone(path+"/wx2pay/coupons/valueCoupons"+param,call_valueCoupons);
+	
+	
+        /*var $lingqu = $("#lingqu");
+        $lingqu.click(function(){
+            doAjax();
+        });*/
+        
+    })
+</script>
+</body>
+</html>

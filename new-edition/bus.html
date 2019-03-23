@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<title>班车/公交直达</title>
+	<link rel="stylesheet" type="text/css" href="../css/resetStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../js/rem.js"></script>
+	<script type="text/javascript" src="../js/zepto.js"></script>
+  <script type="text/javascript" src="../js/fun.js"></script>
+	<script type="text/javascript" src="../js/touch.min.js"></script>
+	<script type="text/javascript" src="../js/DDPOP.js"></script>
+    <style type="text/css">
+        body{
+            background: #fff;
+
+        }
+        .page-menu-box{
+          top:.6rem;
+        }
+    </style>
+    <script type="text/javascript">
+      $(function(){
+        var school_id = funs.getQueryString("school_id");
+
+
+        function busajax(i){
+          $.ajax({
+            url:"http://101.201.146.79:8088/dts/drivingInfo/selectBusDetails?routeId="+$(".page-menu-box.city .c-left-list li").eq(i).attr("isid")+"&callbackparam=?",
+            dataType:"jsonp",
+            success:function(msg){
+              var str = "";
+                console.log(msg)
+                for(var i = 0; i < msg.length; i++){
+
+                  $('.class-time1 div').html(msg[i].classTimeOne);
+                  $('.class-time2 div').html(msg[i].classTimeTwo);
+                  $('.class-time3 div').html(msg[i].classTimeThree);
+
+                  str += '<tr>'+
+                              '<td>'+msg[i].stations+'</td>'+
+                              '<td>'+msg[i].position+'</td>'+
+                              '<td>'+msg[i].stationTimeOne+'</td>'+
+                              '<td>'+msg[i].stationTimeTwo+'</td>'+
+                              '<td>'+msg[i].stationTimeThree+'</td>'+
+                          '</tr>';
+                }
+                $("#school-bus tbody").html(str);
+              }
+            });
+        }
+
+        function buslist(){
+          $.ajax({
+            "url":"http://101.201.146.79:8088/dts/drivingInfo/selectTraffics?drivingId="+school_id+"&busType=1&callbackparam=?",
+            dataType:"jsonp",
+            success:function(msg){
+              console.log(msg);
+              if(!msg){
+                ddpop("暂无班车信息","",{
+                  autoClose:1000
+                });
+                return
+              }
+              var str = "";
+              for(var i = 0; i < msg.length; i++){
+                str+="<li isid='"+msg[i].id+"''>"+msg[i].busRoute+"</li>";
+              }
+              $(".c-left-list").html(str);
+
+               
+              
+
+
+
+              $(".page-menu-box.city .c-left-list li").click(function(){
+
+                var index = $(this).index();
+                busajax(index);
+                classCur($(this))
+                  $.ajax({
+                    url:"http://101.201.146.79:8088/dts/drivingInfo/selectBusDetails?routeId="+$(this).attr("isid")+"&callbackparam=?",
+                    dataType:"jsonp",
+                    success:function(msg){
+                      var str = "";
+                      console.log(msg)
+                      for(var i = 0; i < msg.length; i++){
+                        str+="<li isid='"+msg[i].id+"'>"+msg[i].stations+"</li>"
+                      }
+                      $(".c-right-list").html(str);
+                    
+                    }
+                  });
+              });
+
+              $(".c-left-list li").eq(0).click();
+            }
+          })
+        }
+
+
+        
+
+
+        function classCur(_this){
+          _this.addClass("cur").siblings().removeClass("cur");
+        }
+
+        buslist();
+        $(".buslist").click(function(){
+          menu_show($(".page-menu-box.city"));
+           // buslist()
+        });
+
+
+
+
+        $(".page-menu-box.city .city-box").click(function(e){
+          e.stopPropagation();
+        });
+
+        function menu_show(dom){
+          if(!dom.is(".show")){
+            $(".page-menu-box").removeClass("show");
+            dom.addClass("show");
+          }else{
+            dom.removeClass("show");
+          }
+        }
+
+        $(".top-box .top-list").click(function(){
+          var index = $(this).index();
+          $(".main-box").eq(index).show().siblings('.main-box').hide();
+          $(this).addClass("cur").siblings().removeClass("cur");
+          $.ajax({
+            url:"http://101.201.146.79:8088/dts/drivingInfo/selectTraffics?drivingId="+school_id+"&busType=2&callbackparam=?",
+            dataType:"jsonp",
+            success:function(msg){
+              console.log(msg)
+              if(!msg){
+                ddpop("暂无公交信息","",{
+                  autoClose:1000
+                });
+                return
+              }
+
+              var str = "";
+              if(index == 1){
+                for(var i = 0; i < msg.length; i++){
+                  str+='<div class="bus-list flex justify-content-space-between" isid='+msg[i].id+'>'+
+                          '<div class="w100 bus-num flex align-items-center">'+
+                              '<div>'+ msg[i].busRoute+'路</div>'+
+                          '</div>'+
+                          '<div class="bus-detail w100 flex flex-column justify-content-space-between">'+
+                              '<p>'+
+                                  '<span class="start-station">'+msg[i].startStation+'</span><img src="../images/kw.png" alt=""><span class="end-station">'+msg[i].endStation+'</span>'+
+                              '</p>'+
+                              '<p>'+msg[i].startTime+'-'+msg[i].endTime+'</p>'+
+                              '<p class="detail-text text-overflow">'+msg[i].posDirect+'</p>'+
+                          '</div>'+
+                          '<div class="w100">'+
+                              '<p class="transit-destination">'+msg[i].destination+'</p>'+
+                              '<p class="destination-btn">目的地</p>'+
+                          '</div>'+
+                      '</div>';
+                }
+                $("#gongjiao").html(str);
+              }
+              
+            }
+          });
+
+        })
+      });
+    </script>
+</head>
+<body>
+  <div class="page-bus">
+  <div class="page-menu-box city">
+      <div class="city-box flex">
+        <ul class="c-left-list w100"></ul>
+        <ul class="c-right-list w100"><li>暂无数据</li></ul>
+      </div>
+    </div>
+    <!--top-->
+    <div style="height: .9rem;"></div>
+      <div class="top-box flex">
+          <div class="top-list w100 cur buslist">
+              班车
+              <img src="../images/v.png" alt=""/>
+          </div>
+          <div class="top-list w100">
+              公交直达
+          </div>
+      </div>
+      <!--班车 main-->
+      <div class="main-box">
+          <table id="school-bus">
+              <thead>
+              <tr>
+                  <th>车站名</th>
+                  <th>位置说明</th>
+                  <th class="class-time1"><div>7:00</div>上课训练</th>
+                  <th class="class-time2"><div>12:30</div>上课训练</th>
+                  <th class="class-time3"><div>17:30</div>上课训练</th>
+              </tr>
+              </thead>
+              <tbody>
+              <!-- <tr>
+                  <td>大钟寺</td>
+                  <td>公交车站西过街天桥下</td>
+                  <td>13:07</td>
+                  <td>10:07</td>
+                  <td>03:27</td>
+              </tr> -->
+              </tbody>
+          </table>
+      </div>
+      <!--公交直达 main-->
+      <div class="main-box" id="gongjiao" style="display: none">
+          <!-- <div class="bus-list flex justify-content-space-between">
+              <div class="w100 bus-num">
+                  <div>201</div>路
+              </div>
+              <div class="bus-detail w100 flex flex-column justify-content-space-between">
+                  <p>
+                      <span class="start-station">汽车站</span><img src="../images/kw.png" alt=""><span class="end-station">酒仙桥站</span>
+                  </p>
+                  <p>6:00-20:00</p>
+                  <p class="detail-text text-overflow">下车前行50米，红绿灯右拐100米处</p>
+              </div>
+              <div class="w100">
+                  <p class="transit-destination">北方驾校站</p>
+                  <p class="destination-btn">目的地</p>
+              </div>
+          </div> -->
+      </div>
+  </div>
+</body>
+</html>

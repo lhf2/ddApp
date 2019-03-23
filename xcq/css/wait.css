@@ -1,0 +1,119 @@
+/*top开始*/
+body,html{
+    background: #fff!important;
+}
+.top-box{
+    background: linear-gradient(#20AA8E 0%,#28B793 50%,#34CC9C 100%);
+    background: -webkit-linear-gradient(#20AA8E 0%,#28B793 50%,#34CC9C 100%);
+    background: -moz-linear-gradient(#20AA8E 0%,#28B793 50%,#34CC9C 100%);
+    background: -o-linear-gradient(#20AA8E 0%,#28B793 50%,#34CC9C 100%);
+}
+.top-box span{
+    font-size: 18px;
+}
+.top-box .top-detail{
+    color: #fff;
+    text-align: center;
+    padding: .3rem 0;
+}
+.top-box .top-detail img{
+    display: block;
+    width: .3125rem;
+    height: .5625rem;
+    float: left;
+    padding-left: .4375rem;
+    vertical-align: bottom;
+}
+.top-box .top-detail span{
+    line-height:.5625rem ;
+}
+.top-box .top-icon{
+    padding: .78rem 0;
+    /*padding-bottom: .2rem;*/
+    text-align: center;
+}
+.top-box .top-icon .top-name{
+    color: #fff;
+    display: block;
+    font-size: 16px;
+    margin-top: .3rem;
+}
+.top-box .top-icon .ling-icon{
+    width:1.5625rem;
+    height: 1.5625rem;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -o-border-radius:50%;
+    overflow: hidden;
+    margin: 0 auto;
+    text-align: center;
+}
+.top-box .top-icon .ling-icon img{
+    width:1.5625rem;
+    height: 1.5625rem;
+    object-fit: cover;
+}
+.top-box .top-icon .my-detail{
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
+    margin: 0 auto;
+}
+.top-box .top-icon .my-detail div{
+    margin-top: .1rem;
+}
+/*main开始*/
+.main-box .main-btn a{
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    color: #434343;
+    padding: .42rem 0;
+    border: 1px solid #C6C6C6;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+    background: linear-gradient(#FEFEFE 0%,#FAFAFA 50%,#F5F5F5 100%);
+    background: -webkit-linear-gradient(#FEFEFE 0%,#FAFAFA 50%,#F5F5F5 100%);
+    background: -moz-linear-gradient(#FEFEFE 0%,#FAFAFA 50%,#F5F5F5 100%);
+    background: -o-linear-gradient(#FEFEFE 0%,#FAFAFA 50%,#F5F5F5 100%);
+    margin-top: 1.7rem;
+}
+.main-box .main-btn a:hover{
+    text-decoration: none;
+}
+.detail-btn {
+    width: 100%;
+    position: fixed;
+    bottom: .5rem;
+    overflow: hidden;
+    background: #fff;
+}
+.detail-btn .detail-list {
+    width: 33.333333%;
+    float: left;
+    text-align: center;
+    margin: 0 auto;
+}
+.detail-btn a:hover {
+    text-decoration: none;
+}
+.detail-btn .detail-list .detail-img img {
+    margin: 0 auto;
+    width: 1.35rem;
+    height: 1.35rem;
+    display: block;
+}
+.detail-btn .detail-list .detail-text {
+    margin-top: 0.55rem;
+    font-size: 18px;
+    color: #434343;
+}
+.btn-ts{
+    color: #959595;
+    margin-top: .2rem;
+}

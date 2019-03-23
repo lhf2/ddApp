@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>叮咚学车</title>
+    <link rel="stylesheet" href="css/lhf-base.css"/>
+    <link rel="stylesheet" href="css/kmy.css"/>
+    <link rel="stylesheet" href="css/me.css"/>
+    <link rel="stylesheet" type="text/css" href="css/iconfont.css">
+    <style>
+        .w100{width: 100%;}
+        /*flex*/
+        a{color:#333;}
+        .flex_center{ display: flex; align-items: center;}
+        .flex_center_y{ display: flex; justify-content: space-between; align-items: center; flex-direction: column;}
+        .flex_between{ align-items: center; }
+        .span0 img{width: .5rem;margin-left: .5rem; margin-top: .3rem;float: left;padding-top: 1px;}
+        .subjectTwo-video-single p .span1.span1{margin-left: .1rem;}
+        .flex{display: flex;-webkit-display: flex; }
+        .flex-column{flex-direction: column;-webkit-flex-direction: column}
+        .justify-content-center{-webkit-justify-content: center;justify-content: center;}
+        .justify-content-space-between{-webkit-justify-content: space-between;justify-content: space-between;}
+        .justify-content-space-around{-webkit-justify-content: space-around;justify-content: space-around;}
+        .align-items-center{ -webkit-align-items: center;align-items: center; }
+        .isvideo{position: relative;}
+        .playIcon{width: 1rem; position: absolute; top: 50%;left: 50%;margin-left: -.5rem;margin-top: -.5rem;}
+        .con-list-bottom img{ width: .5rem; margin-right: .24rem; margin-bottom: -.05rem; }
+        .errTop{display: block;padding: 0.6rem;width: 0.78125rem;height: 0.78125rem;text-align: center;margin: 0 auto;}
+        .errTop .num{width: 0.78125rem;height: 0.78125rem; border-radius: 50%;background:  linear-gradient(to bottom, #E66986 20%,#ffffff 150%); color: #fff; font-size: .4rem; line-height: 0.78125rem;}
+
+
+         .main-tab-bar{
+          height: 1.8rem;
+          margin-top: .2rem;
+        }
+        .main-tab-bar-fixed{
+          position: fixed;
+          left:0;
+          right: 0;
+          bottom:0;
+          height: 1.3rem;
+          z-index: 100;
+          background:-webkit-gradient(linear, 0% 0%, 0% 90%, from(#fff), to(#E6E6E6));
+          border-top:1px solid #ebebeb;
+        }
+        .main-tab-bar .tab{
+          width: 100%;
+          height: 100%;
+        }
+        .main-tab-bar .tab .main-tab-title{
+          height: 100%;
+          width: 100%;
+          text-align: center;
+        }
+      
+        .main-tab-bar a{
+         color:#8B8B8B;
+        }
+
+        .main-tab-bar .tab{
+          color:#8B8B8B;
+          font-size: .34rem;
+        }
+        .main-tab-bar .tab img{
+          height: .54rem;
+          display: inline;
+        }
+        .main-tab-bar .tab.cur span{
+          color: #0586FF;
+        }
+
+        .swiper-pagination-bullet-active{
+            background-color: #EE9912;
+        }
+    </style>
+    <script type="text/javascript">
+        //在页面未加载完毕之前显示的loading Html自定义内容
+        var _LoadingHtml = '<div id="loadingDiv" style="position:fixed;left:0;width:100%;height:100%;display:flex; justify-content:center; align-items:center; top:0;background:rgba(0,0,0,.5) url(images/loadIcon.gif) center no-repeat;background-size:200px; opacity:1;filter:alpha(opacity=100);z-index:10000;"></div>';
+        //呈现loading效果
+        document.write(_LoadingHtml);
+
+        //window.onload = function () {
+        //    var loadingMask = document.getElementById('loadingDiv');
+        //    loadingMask.parentNode.removeChild(loadingMask);
+        //};
+
+        //监听加载状态改变
+        document.onreadystatechange = completeLoading;
+
+        //加载状态为complete时移除loading效果
+        function completeLoading() {
+            if (document.readyState == "complete") {
+                var loadingMask = document.getElementById('loadingDiv');
+                loadingMask.parentNode.removeChild(loadingMask);
+            }
+        }
+    </script>
+</head>
+<body style="height: 100%;background: #f1f1f1!important;">
+<!--微信分享链接时显示的logo-->
+<div style="width: 0; height: 0; margin: 0 auto; overflow: hidden;">
+    <img src='http://c.hiphotos.baidu.com/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=af11139f4b166d222c7a1dc6274a6292/48540923dd54564e68b2706dbbde9c82d0584f8b.jpg' title="科目一" />
+</div>
+<div class="page" page="1">
+    <!--头部导航栏-->
+    <div id="fix-both">
+        <ul>
+            <!-- <li class="kmclick"><a href="javascript:zjxForAuoth2();">找驾校</a></li> -->
+            <li  class="kmclick curClick"><a href="javascript:;"  class="cur">科目一</a></li>
+            <li class="kmclick curClick"><a href="javascript:;">科目二</a></li>
+            <li class="kmclick curClick"><a href="javascript:;">科目三</a></li>
+            <li  class="kmclick curClick"><a href="javascript:;">科目四</a></li>
+        </ul>
+    </div>
+    <div class="thisis-main-box-parentbox" >
+        <div class="isparents" >
+            <!--main 开始-->
+            <div class="main-box" >
+                <ul class="top">
+                    <li class="main-list ling1">
+                        <a href="javascript:;">
+                            <div>
+                                <span>顺序练习</span>
+                                <div class="main-img">
+                                    <img src="images/ic1.png" alt=""/>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="main-list ling2">
+                        <a href="javascript:;">
+                            <span>随机练习</span>
+                            <div class="main-img">
+                                <img src="images/ic2.png" alt=""/>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="main-list ling3">
+                        <a href="javascript:;">
+                            <div class="main-img">
+                                <img src="images/ic3.png" alt=""/>
+                            </div>
+                            <span>章节练习</span>
+                        </a>
+                    </li>
+                    <li class="main-list ling4">
+                        <a href="javascript:;">
+                            <div class="main-img">
+                                <img src="images/ic4.png" alt=""/>
+                            </div>
+                            <span>专项练习</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="big-circle">
+                    <a class="score" href="javascript:;">
+                        <div class="score-img">
+                            <img src="images/score.png" alt=""/>
+                        </div>
+                        <div class="score-text">模拟考试</div>
+                    </a>
+                </div>
+            </div>
+            <!--list开始-->
+            <div class="list-box list-box1">
+                <ul class="lists-box">
+                    <li class="lists alert-xz">
+                        <span>VIP包过</span>
+                        <img src="images/list1.png" alt=""/>
+                    </li>
+                    <li class="lists alert-xz">
+                        <a href="kmy/kaoshijiqiao.html">
+                            <span>考试技巧</span>
+                            <img src="images/list2.png" alt=""/>
+                        </a>
+                    </li>
+                    <li class="lists alert-xz">
+                        <a href="kmy/kaoshijilu.html">
+                            <span>考试记录</span>
+                            <img src="images/list3.png" alt=""/>
+                        </a>
+                    </li>
+                    <li class="lists alert-xz">
+                        <a href="xcq/ltb/ltb.html">
+                            <span>擂台榜</span>
+                            <img src="images/list4.png" alt=""/>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="lists-box">
+                    <li class="lists">
+                        <!-- <a href="javascript:getCodeForAuoth2();">
+                            <span>个人中心</span>
+                            <img src="images/list5.png" alt=""/>
+                        </a> -->
+                        <a class="stype" id="wdsc">
+                            <span>我的收藏</span>
+                            <img src="images/list5.png" alt=""/>
+                        </a>
+                    </li>
+                    <li class="lists alert-xz">
+                        <a class="stype" id="wdct">
+                            <span>我的错题</span>
+                            <!-- <img src="images/list6.png" alt=""/> -->
+                            <div class="errTop">
+                                <div class="num"></div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="lists alert-xz">
+                        <a  class="stype" id="pbdt">
+                            <span>屏蔽的题</span>
+                            <img src="images/list7.png" alt=""/>
+                        </a>
+                    </li>
+                    <li class="lists alert-xz">
+                        <a href="javascript:;">
+                            <span id="isnum">科一考规</span>
+                            <img src="images/list8.png" alt=""/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="isparents" style="display: none">
+            <div class="subjectTwo-top bgcolor-white flex justify-content-space-around w100">
+                <!-- <div class="con-list flex align-items-center">
+                   <p>考场实录</p>
+                   <p>我的下载</p>
+                    
+                </div> -->
+
+                <div class="con-list-bottom flex_center_y">
+                    <p class="" id="keerkaogui"><img src="images/kekg.png" alt=""/><span id="single-Rules-text">科二考规</span></p>
+                    <p id="hegebiaozhun"><img src="images/hgbz.png" />合格标准</p>
+                </div>
+                <div class="con-list-bottom flex_center_y">
+                    <p id="kaoshigonglve"><img src="images/ksgl.png" />考试攻略</p>
+                    <p id="zixuezhikao"><img src="images/zxzk.png" />自学直考</p>
+                </div>
+            </div>
+
+            <div class="subjectTwo-video-single bgcolor-white">
+                <p><span class="span0" ><img src="images/isplay.png"/></span><span class="span1" id="single-text">科目二视频</span> <span class="span2">共<span id="video-num">6</span>个视频</span></p>
+            </div>
+
+            <div class="subjectTwo-video-list justify-content-center">
+               <ul>
+                  <!--  <li>
+                       <p class="isvideo"></p>
+                       <p class="istitle">侧方停车</p>
+                   </li>
+                   <li>
+                       <p class="isvideo"></p>
+                       <p class="istitle">侧方停车</p>
+                   </li>
+                   <li>
+                       <p class="isvideo"></p>
+                       <p class="istitle">侧方停车</p>
+                   </li>
+                   <li>
+                       <p class="isvideo"></p>
+                       <p class="istitle">侧方停车</p>
+                   </li>
+                   <li>
+                       <p class="isvideo"></p>
+                       <p class="istitle">侧方停车</p>
+                   </li>
+                   <li>
+                       <p class="isvideo"></p>
+                       <p class="istitle">侧方停车</p>
+                   </li> -->
+               </ul>
+            </div>
+
+
+
+        </div>
+        <div class="isparents bgcolor-white" style="display: none">
+            <p>科目3</p>
+        </div>
+            <div class="main-tab-bar">
+                <div class="main-tab-bar-fixed flex w100 justify-content-space-between">
+                  <div class="tab">
+                    <a href="new-edition/bm.html">
+                        <p class="main-tab-title flex justify-content-center flex-column">
+                          <span><img src="images/baoming-icon.png"></span>
+                          <span>报名</span>
+                        </p>
+                    </a>
+                  </div>
+                  <div class="tab cur">
+                      <a href="index00.html">
+                        <p class="main-tab-title flex justify-content-center flex-column">
+                            <span><img src="images/jiakao-icon-cur.png"></span>
+                            <span>驾考</span>
+                        </p>
+                      </a>
+                  </div>
+                  <div class="tab">
+                      <a href="xcq/xcq/xcq.html">
+                        <p class="main-tab-title flex justify-content-center flex-column">
+                          <span><img src="images/xuechequan-icon.png"></span>
+                          <span>学车圈</span>
+                        </p>
+                      </a>
+                  </div>
+                  <div class="tab">
+                    <a href="html/me.html">
+                    <p class="main-tab-title flex justify-content-center flex-column">
+                      <span><img src="images/my-icon.png"></span>
+                      <span>我的</span>
+                    </p>
+                  </div>
+                </div>
+            </div>
+    </div>
+</div>
+<!--alert-->
+<!-- <div class="mask-box"></div>
+<div class="alertxz-hide">
+    <div class="alertxz-text">体验更多功能，请下载APP</div>
+    <div class="alertxz-btn">
+        <a href="http://101.201.146.79:8088/dts/system/downLoad">下载App</a>
+    </div>
+</div> -->
+<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+<script type="text/javascript" src="js/zepto.js"></script>
+<script type="text/javascript" src="js/touches1.js"></script>
+<script type="text/javascript" src="js/pdtp.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/utils.js"></script>
+<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=zGpaGNFrPIB2MvScZPO29xtD"></script>-->
+<script src="js/map.js"></script>
+<script type="text/javascript">
+
+
+    var titleText =  "科目二";
+    // $(".curClick").each(function(i){
+    //     if($(this).find("a").text() == titleText && titleText!="找驾校"){
+    //         window.onload = function(){
+    //             $(".kmclick a").eq(i).click()
+    //         }
+    //         return false
+    //     }
+    // });      
+     
+    
+    $(".kmclick").click(function(){
+        titleText =  $(this).text();
+        if(titleText != "找驾校"){
+            $.post("http://dd.dingdongxueche.com/DDWeb/phoneVideo/getPageVideos.htm?subjectType="+titleText+"",videoList)
+        }
+    });
+
+    $("#hegebiaozhun").click(function(){
+        var istitle = $(this).text()
+        if(titleText == "科目二"){
+            window.location.href = "kmy/kaoshijiqiao_de.html?istitle="+istitle+"&html=keerhegebiaozhun.html";
+        }else{
+            window.location.href = "kmy/kaoshijiqiao_de.html?istitle="+istitle+"&html=kesanhegebiaozhun.html";
+        }
+    });
+    $("#kaoshigonglve").click(function(){
+        if(titleText == "科目二"){
+            window.location.href = "kmy/kaoshigonglve.html?type=1&subjectType="+titleText;
+        }else{
+            window.location.href = "kmy/kaoshigonglve.html?type=1&subjectType="+titleText;
+        }
+    });
+    $("#zixuezhikao").click(function(){
+        if(titleText == "科目二"){
+            window.location.href = "kmy/kaoshigonglve.html?type=0&subjectType="+titleText;
+        }else{
+            window.location.href = "kmy/kaoshigonglve.html?type=0&subjectType="+titleText;
+        }
+    })
+
+    $("#keerkaogui").click(function(){
+        var istitle = $(this).text()
+        if(istitle == "科二考规"){
+            window.location.href = "kmy/kaoshijiqiao_de.html?istitle="+istitle+"&html=keerkaogui.html";
+        }else{
+            window.location.href = "kmy/kaoshijiqiao_de.html?istitle="+istitle+"&html=kesankaogui.html";
+        }
+    });
+
+    $("#isnum").parents("li").click(function(){
+        var istitle =$("#isnum").text()
+        if(istitle == "科一考规"){
+            window.location.href = "kmy/kaoshijiqiao_de.html?istitle="+istitle+"&html=keyikaogui.html";
+        }else{
+            window.location.href = "kmy/kaoshijiqiao_de.html?istitle="+istitle+"&html=kesikaogui.html";
+        }
+    });
+
+    function videoList(msg){
+        var data = $.parseJSON(msg);
+        var str = "";
+        for (var i = 0; i < data.length; i++) {
+            str+='<li>'+
+                       '<p class="isvideo"><a href="kmy/video.html?src='+data[i].videoName+'&videoExplain='+data[i].videoExplain+'&id='+data[i].id+'"><img src="http://dd.dingdongxueche.com/DDWeb/photos/'+data[i].image+'" width="100%" height="100%" /><img src="http://dd.dingdongxueche.com/DDWeb/photos/playIcon.png" class="playIcon" /></p>'+
+                       '<p class="istitle">'+data[i].videoExplain+'</a></p>'+
+                   '</li>';
+        }
+        $(".subjectTwo-video-list").find("ul").html(str);
+        $("#video-num").text(data.length)
+        
+    }
+
+    window.onload = function(){
+
+        var kemu = localStorage.getItem("kemu") || "科目一";
+        var kemustr = "科目一";
+        $(".curClick").click(function(){
+            localStorage.setItem("kemu",$(this).find("a").text());
+            kemustr = $(this).find("a").text();
+        });
+
+        $("#wdct").click(function(){
+            window.location.href = "kmy/wodecuoti.html?stype="+kemustr
+        });
+        $("#pbdt").click(function(){
+            window.location.href = "kmy/pingbideti.html?stype="+kemustr
+        });
+        $("#wdsc").click(function(){
+            window.location.href = "kmy/wodeshoucang.html?stype="+kemustr
+        });
+
+
+        $(".curClick").each(function(){
+            if($(this).find("a").text() == kemu){
+                $(this).click();
+            }
+        });
+
+        var openId=localStorage.getItem("openId");
+        var subject = localStorage.getItem("kemu") || "科目一";
+        var vehicleType = localStorage.getItem("vtype");
+        var ajaxUrl = "http://dd.dingdongxueche.com/DDWeb/wxquestion/getQuestionRecords.htm?flag=1&"+
+        'openid='+openId+'&'+
+        'subjectType='+subject+'&'+
+        'vehicleType='+vehicleType;
+        $.post(ajaxUrl,function(msg){
+            var data = $.parseJSON(msg);
+            var len = data.length || 0;
+            $("#wdct .num").text(len)
+        });
+    }
+
+</script>
+<script type="text/javascript">
+    // 百度地图API功能
+ localStorage.setItem('city',"");
+ localStorage.setItem('latitude',"");
+ localStorage.setItem('longitude',"");
+    var geolocation = new BMap.Geolocation();
+    
+    geolocation.getCurrentPosition(function(r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            var geoc = new BMap.Geocoder();
+            var pt = r.point;
+            geoc.getLocation(pt, function(rs){
+                var addComp = rs.addressComponents;
+                var ml=addComp.city+addComp.district+addComp.street+addComp.streetNumber;
+                localStorage.setItem('city','');
+                localStorage.setItem('city',addComp.city);
+                localStorage.setItem('mylocation','');
+                localStorage.setItem('mylocation',ml);
+                localStorage.setItem('latitude','');
+                localStorage.setItem('latitude',r.point.lat);
+                localStorage.setItem('longitude','');
+                localStorage.setItem('longitude',r.point.lng);
+            });
+
+        }
+        else {
+            console.log('failed:'+this.getStatus());
+        }
+    },{enableHighAccuracy: true}) 
+    
+    
+    
+    function DingWei(){
+    	var geolocation = new BMap.Geolocation();
+        geolocation.getCurrentPosition(function(r){
+            if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                var geoc = new BMap.Geocoder();
+                var pt = r.point;
+                geoc.getLocation(pt, function(rs){
+                    var addComp = rs.addressComponents;
+                    var ml=addComp.city+addComp.district+addComp.street+addComp.streetNumber;
+                    localStorage.setItem('city','');
+                    localStorage.setItem('city',addComp.city);
+                    localStorage.setItem('mylocation','');
+                    localStorage.setItem('mylocation',ml);
+                    localStorage.setItem('latitude','');
+                    localStorage.setItem('latitude',r.point.lat);
+                    localStorage.setItem('longitude','');
+                    localStorage.setItem('longitude',r.point.lng);
+                });
+
+            }
+            else {
+                console.log('failed:'+this.getStatus());
+            }
+        },{enableHighAccuracy: true})
+    }
+    
+    if(localStorage.getItem('city')==""||localStorage.getItem('latitude')==""||localStorage.getItem('longitude')==""){
+    	DingWei();
+    }
+    
+//当打开个人中心页面默认鉴权
+	/*function getCodeForAuoth2() {
+				//看用户是否使用过,保存的缓存信息
+			 	var jsonStrUser=localStorage.getItem("wx_user");
+				if(utils.isEmpty(jsonStrUser)){//不存在去授权
+					//console.log('对象不存在去授权');
+					var backUri = "http://wx.dingdongxueche.com/wx2pay/userAuth/myInfo";
+					//鉴权获取用户信息
+					window.location.href= "https://open.weixin.qq.com/connect/oauth2/authorize?"
+						+ "appid=wx9766e4b2a8cb0844&redirect_uri="
+						+ encodeURIComponent(backUri)
+						+ "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+				}else{
+				 	//console.log('对象存在去中心');
+					var jsonUser = JSON.parse(jsonStrUser);
+					localStorage.setItem("openId",jsonUser.openId);
+				 	window.location.href="http://wx.dingdongxueche.com/html/me.html";
+				}
+				
+	}*/
+	//当打开找驾校页面默认鉴权
+	function zjxForAuoth2() {
+				//看用户是否使用过,保存的缓存信息
+				var jsonStrUser=localStorage.getItem("wx_user");
+				if(utils.isEmpty(jsonStrUser)){//不存在去授权
+					//console.log('对象不存在去授权');
+					var backUri = "http://wx.dingdongxueche.com/wx2pay/userAuth/zjxInfo";
+					//鉴权获取用户信息
+					window.location.href= "https://open.weixin.qq.com/connect/oauth2/authorize?"
+						+ "appid=wx9766e4b2a8cb0844&redirect_uri="
+						+ encodeURIComponent(backUri)
+						+ "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+				}else{
+				 	//console.log('对象存在去中心');
+					var jsonUser = JSON.parse(jsonStrUser);
+					localStorage.setItem("openId",jsonUser.openId);
+				 	window.location.href="http://wx.dingdongxueche.com/zjx/zjx.html";
+				}
+	}
+
+    //看用户是否使用过,保存的缓存信息
+    var jsonStrUser=localStorage.getItem("wx_user");
+    if(utils.isEmpty(jsonStrUser)){//不存在去授权
+        //console.log('对象不存在去,获取url参数');
+        var openId=utils.request('openId');
+        var nickname=utils.request('nickname');
+        if(nickname.indexOf('+')>-1){
+          nickname=nickname.replace('+','&nbsp;&nbsp;');
+        }
+        
+        var area=utils.request('area');
+        var image=utils.request('image');
+      
+        //把信息缓存
+         var jsonobj = { openId:''+openId+'',nickname:''+nickname+'',area:''+area+'',header:''+image+'' }; 
+         var strUserInfo = JSON.stringify(jsonobj);
+        //console.log('要缓存的对象:'+strUserInfo);
+        if(!utils.isEmpty(openId)){
+           localStorage.setItem("openId",openId);
+         }else{
+           window.location.href="http://wx.dingdongxueche.com/";
+         }
+        localStorage.setItem("wx_user",strUserInfo);
+    }else{//对象存在,从缓存中取出
+        //重新转换为对象 
+        var jsonUser = JSON.parse(jsonStrUser);
+        if(!utils.isEmpty(jsonUser.openId)){
+           localStorage.setItem("openId",jsonUser.openId);
+         }else{
+           window.location.href="http://wx.dingdongxueche.com/";
+         }
+     
+    }
+</script>
+</body>
+</html>

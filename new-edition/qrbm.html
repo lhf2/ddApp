@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<title>确认报名</title>
+	<link rel="stylesheet" type="text/css" href="../css/resetStyle.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../js/rem.js"></script>
+	<script type="text/javascript" src="../js/zepto.js"></script>
+	<script type="text/javascript" src="../js/touch.min.js"></script>
+  <script type="text/javascript" src="../js/fun.js"></script>
+	<script type="text/javascript" src="../js/DDPOP.js"></script>
+  <style type="text/css">
+      body{
+          background: #fff;
+      }
+  </style>
+  <script type="text/javascript">
+    $(function(){
+      var school_id = funs.getQueryString("school_id");
+      var dId = funs.getQueryString("dId");
+      var fistpay;
+      var price;
+      var isPriceS;
+      // 获取班型信息
+          $.ajax({
+            url:"http://101.201.146.79:8088/dts/class/selectClassDetails?classId="+school_id+"&callbackparam=?",
+            dataType:"jsonp",
+            success:function(msg){
+              console.log(msg)
+              $("#price").text(msg.price);
+              var strArr = msg.characteristic.split(",");
+              for(var i = 0; i < strArr.length; i++){
+                  var span = $("<span>" +strArr[i]+"</span>&nbsp;");
+                  if(strArr[i] != "") span.appendTo('.char-box');
+              }
+              $('.class-type').html(msg.classname);
+              $(".bx-type").html(msg.drivingtype);
+              //获取驾照类型
+              getjztype();
+              function getjztype(){
+                var arr = splitdt(msg.drivingtype);
+                var str = joinDom(arr);
+                $("#jzlx").append(str);
+              }
+              fistpay=msg.fistpay;
+              price=msg.price;
+              isPriceS='';
+              $("#firstpay").val(fistpay=="0"?$("#firstpay").parents(".form-group").hide():fistpay+" 元");
+            }
+          });
+
+          // 获取驾校头像
+          $.ajax({
+            url:"http://101.201.146.79:8088/dts/drivingInfo/selectByIds?dId="+dId+"&callbackparam=?",
+            dataType:"jsonp",
+            success:function(msg){
+              $(".bx-inner-img img").attr("src","http://www.dingdongxueche.com:9080/JXWeb/editContent/logoupload/"+(msg.schoolimg));
+            }
+          });
+
+
+          var valPOP = new DDPOP()
+          $(".confirm").click(function(){
+            var name = $("#name").val();
+            var idcard = $("#auth-id").val();
+            var idcard_RegExp = new RegExp(/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/);
+            var phone = $("#tel").val();
+            var phone_RegExp = new RegExp(/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/);
+            var yanzhengma = $("#yam").val();
+            var pop = "";
+            if($.trim(name)==""){
+              pop = "请输入您的姓名！";
+            }else if($.trim(idcard) == ""){
+              pop = "请输入身份证号码";
+            }else if(!idcard_RegExp.test(idcard)){
+              pop = "身份证填写错误";
+            }else if($.trim(phone) == ""){
+              pop = "请输入手机号码";
+            }else if(!phone_RegExp.test(phone)){
+              pop = "手机号码写错误";
+            }else if($(".yzm-btn").attr("issend") == "false"){
+              pop = "请先发送验证码。";
+            }else if(yanzhengma == ""){
+              pop = "请输入验证码。";
+            }else{
+              // 验证成功
+              pop = "";
+              tjperson();
+            }
+            if(pop != ""){
+              valPOP.init(pop,"",{
+                autoClose:1000
+              });
+            }
+          });
+
+
+        $(".yzm-btn").click(function(){
+          var phone = $("#tel").val();
+          var phone_RegExp = new RegExp(/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/);
+
+          if($.trim(phone) == ""){
+            valPOP.init("请输入手机号码","",{
+              autoClose:1000
+            });
+          }else if(!phone_RegExp.test(phone)){
+              valPOP.init("手机号码写错误","",{
+                autoClose:1000
+              });
+          }else if($(this).attr("send") == "0"){
+            // 验证成功
+            yzm(phone);
+            timeoutBtn();
+            $(this).attr("send","1");
+            $(this).attr("issend","true");
+          }
+          
+        });
+
+
+
+        function timeoutBtn(){
+          var time = 60;
+          var timeout = setInterval(function(){
+            $(".yzm-btn").text(time).addClass("send");
+            if(time < 1){
+              time = 60;
+              $(".yzm-btn").attr("send","0").removeClass("send").text("发送短信");
+              clearInterval(timeout);
+            }
+            time--;
+          },1000)
+        }
+
+
+
+        //拼接驾照类型为标签
+        function joinDom(_arr){
+          var str = "";
+          var len = _arr.length;
+          for(var i = 0; i < len; i++){
+            var ischecked = ((i==0?"checked":" "));
+            str+='<div class="radio-btn">'+
+                  '<input type="radio" id="jz'+i+'" name="jztype" checked="'+ischecked+'" value="'+_arr[i]+'" />'+
+                  '&nbsp;<label for="jz'+i+'">'+_arr[i]+'</label>'+
+              '</div>';
+          }
+          return str
+        }
+
+        //将"C1C2"这样的驾照类型的字符串分割成[C1,C2]这样的数组;
+        function splitdt(_str){
+          var str = _str;
+          var len = str.length;
+          var arr = [];
+          for(var i = 0; i < len; i++){
+            if(i%2){
+              arr.push(str.substring(i-1,i+1));
+            }
+          };
+          return arr
+        };
+          //验证码
+          function yzm(phoneNum){
+              $.ajax({
+                  // type : 'post',
+                  // contentType : "application/json;charset=utf-8",
+                  url : 'http://dd.dingdongxueche.com/DDWeb/signup/sendVerifyCode.htm?phoneNum='+phoneNum,
+                  cache : false,
+                  // dataType : 'jsonp',
+                  // jsonp : "callbackparam",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(默认为:callback)
+                  //data : {id:recordid},//recordid
+                  success : function(msg) {
+                      if(msg == "fail" || msg == ""){
+                          valPOP.init("发送失败，请重试！","",{
+                            autoClose:1000
+                          });
+                      }else{
+                          console.log(1);
+                          valPOP.init("发送成功！","",{
+                            autoClose:1000
+                          });
+                      }
+                  },
+                  error : function(XMLHttpRequest, textStatus, errorThrown){
+                      console.log(XMLHttpRequest.status + ' '
+                      + XMLHttpRequest.readyState + ' ' + textStatus);
+                  }
+              })
+          }
+
+          function tjperson(){
+            var openId=localStorage.getItem('openId');
+            var userName=$('#name').val();
+            var phone=$('#tel').val();
+            var drivingId=dId;
+            var classId=school_id;
+            var classType=$(".class-type").text();
+            var verification=$('#yam').val();
+            var sex = $('input[name="sex"]:checked').val();
+            var drivingtype=$('input[name="jztype"]:checked').val();
+            var auth_id = $("#auth-id").val();
+            signup(openId,userName,sex,phone,drivingId,classId,classType,verification,drivingtype,auth_id);
+          }
+
+
+
+          function signup(openId,userName,sex,phone,drivingId,classId,classType,verification,drivingtype,auth_id){
+          $.ajax({
+            url : 'http://dd.dingdongxueche.com/DDWeb/signup/insertRegistration.htm?&userName='+userName+'&userId='+auth_id+'&sex='+sex+'&phone='+phone+'&drivingId='+drivingId+'&classId='+classId+'&classType='+classType+'&verification='+verification+'&licenseLevel='+drivingtype+'&area='+localStorage.getItem('city')+"&content=&openId="+openId,
+            cache : false,
+            success : function(msg) {
+                var titMsg = "";
+                switch(msg){
+                    case "fail":
+                    alert("信息提交失败！"); 
+                    break;
+                    case "timeout":
+                     alert("验证码超时！"); 
+                    break;
+                    case "error":
+                     alert("验证码错误！");               
+                    break;
+                    case "phone":
+                     alert("请输入手机号！");            
+                    break;
+                    case "sendcode":
+                    alert("请先发送验证码！");          
+                    break;
+                    case "exists":
+                    alert("不能重复报名！");                  
+                    break;
+                    case "empty":
+                    window.location.href = "http://wx.dingdongxueche.com";
+                    break;
+                    case "success" :
+                    // 信息提交成功!;
+                    // 
+                    //是否为首付首付
+                    vfistpayS(fistpay,price);
+                    function vfistpayS(fistpay,price){
+                        if(fistpay == 0){
+                            isPriceS=price;
+                        }else{
+                            isPriceS=fistpay;
+                        };
+                    }
+                    window.location.href = "../zjx/qrzf.html?fistpay="+fistpay+"&isPriceS="+isPriceS+"&drivingId="+drivingId+"&classId="+classId+"";
+                    break;
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown){
+                console.log(XMLHttpRequest.status + ' '
+                + XMLHttpRequest.readyState + ' ' + textStatus);
+            }
+        })
+    }      
+
+          
+    });
+  </script>
+</head>
+<body>
+  <div class="page-qrbm">
+    <!-- 在这里面写 -->
+      <!--top-->
+      <div class="page-bxxq">
+        <div class="bx-out-box">
+        <div class="bx-box flex">
+            <div class="bx-img flex">
+                <div class="bx-inner-img">
+                    <img src="../images/list.png" alt=""/>
+                </div>
+                <div class="bx-detail">
+                    <p>
+                        <span class="class-type"></span>
+                        <span class="bx-type"></span>
+                    </p>
+                    <p class="char-box"></p>
+                </div>
+            </div>
+            <div class="bx-price flex">¥ <span id="price"></span></div>
+        </div>
+    </div>
+      </div>
+      <!--学员信息录入-->
+      <div class="form-box w100">
+          <div class="form-top flex">
+              <img src="../images/Shape-276.png" alt=""/>
+              学员信息录入
+          </div>
+          <div class="form-group flex">
+              <span class="label-name">首付</span>
+              <input type="text"  id="firstpay" readonly="readonly" value="--" />
+          </div>
+          <div class="form-group flex">
+              <span class="label-name">学员姓名</span>
+              <input type="text" placeholder="请输入您的姓名" id="name" />
+          </div>
+          <div class="form-group flex" class="select_sex">
+              <span class="label-name">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</span>
+              <div class="radio-btn">
+                  <input type="radio" id="man" name="sex" checked="checked" value="1"/>
+                  <label for="man">男</label>
+              </div>
+              <div class="radio-btn">
+                  <input type="radio" id="woman" name="sex" value="0"/>
+                  <label for="woman">女</label>
+              </div>
+          </div>
+          <div class="form-group flex" id="jzlx">
+              <span class="label-name">驾照类型</span>
+          </div>
+          <div class="form-group flex">
+              <span class="label-name">身份证号</span>
+              <input type="text" id="auth-id" placeholder="请输入您的身份证号"/>
+          </div>
+          <div class="form-group flex">
+              <span class="label-name">手机号码</span>
+              <input type="text" id="tel" placeholder="请填写您的手机号"/>
+              <div class="yzm-btn" send="0" issend="false">
+                  发送短信
+              </div>
+          </div>
+          <div class="form-group flex">
+              <span class="label-name">验&nbsp;&nbsp;证&nbsp;码</span>
+              <input type="text" id="yam"/>
+          </div>
+      </div>
+      <div class="floor-fixed-confirm">
+          <div class="confirm flex align-items-center justify-content-center">
+              <span class="text">确认报名</span>
+          </div>
+      </div>
+  </div>
+</body>
+</html>

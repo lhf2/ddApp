@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我要点评</title>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/lhf-base.css"/>
+    <link rel="stylesheet" href="../css/resetStyle.css"/>
+    <link rel="stylesheet" href="../css/xydp.css"/>
+    <link rel="stylesheet" href="../css/star.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/sweet-alert.css">
+    <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="../js/fun.js"></script>
+    <style type="text/css">
+        .floor-fixed-confirm{
+          height: 1rem;
+          margin-top: .2rem;
+        }
+
+        .floor-fixed-confirm .confirm{
+          position: fixed;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 1rem;
+          background-color: #19C6D6;
+          color: #fff;
+          font-size: .4rem;
+          z-index: 20;
+        }
+        .page-jxxq .top-banner img{
+  height: 4.3rem;
+}
+
+.page-jxjj .page-jxxq .school-info-box{
+  margin-top: 0;
+  background-color: #fff;
+}
+
+.page-jxjj .page-jxxq .school-info-box .school-info-right{
+  height: 1.1rem;
+  padding:0 0 .2rem;
+  overflow: hidden;
+}
+
+.page-jxjj .page-jxxq .school-info .school-info-right .title .t1{
+  color: #333;
+}
+.page-jxjj .page-jxxq .school-path{
+  line-height: 1em;
+  margin-top: 0;
+  color: #3A83EC;
+
+}
+
+.page-jxjj .page-jxxq .school-path img{
+  height: .35rem;
+  width: auto;
+  margin-right: .1rem;
+}
+
+.page-jxjj .page-jxxq .school-info .school-info-right .title .t2{
+  color: #FCD253;
+}
+
+.page-jxjj .page-jxxq .school-path .list-box-path .r-icon{
+  width: .15rem;
+  height: auto;
+}
+
+.page-jxjj .page-jxxq .school-info .school-info-left{
+  min-width: 1rem;
+  min-height: 1rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border:1px solid #ebebeb;
+  overflow: hidden;
+}
+.page-jxjj .page-jxxq .school-info .school-info-left img{
+  width: 100%;
+  height: 100%;
+}
+
+.page-jxxq .dd-school-box .dd-school-list .list-school-box{
+  position: static;
+}
+
+.page-jxxq .school-info .school-info-left img{
+  width: .8rem;
+}
+
+.page-jxxq .school-info .school-info-right{
+  margin-left: .2rem;
+}
+.page-jxxq .school-info .school-info-right .title .t1{
+  font-size: .34rem;
+  color: #fff;
+}
+
+.page-jxxq .school-info .school-info-right .title .t2{
+    color: #E2B73C;
+    border: 1px solid;
+    font-size: .24rem;
+    height: .35rem;
+    line-height: .35rem;
+    padding: 0 .07rem;
+    border-radius: .1rem;
+    margin-left: .2rem;
+}
+
+.page-jxxq .school-info .school-info-right .pingfen .t1 img{
+    width: .34rem;
+    height: .34rem;
+}
+
+.page-jxxq .school-info .school-info-right .pingfen .t2{
+    color: #9F9F9F;
+    font-size: .28rem;
+}
+
+.page-jxxq .school-path{
+    font-size: .3rem;
+    line-height: 1rem;
+    color: #fff;
+    margin-top: .2rem;
+    padding-right: .6rem;
+}
+
+.page-jxxq .school-path img{
+  width: .4rem;
+  height: .4rem;
+}
+
+.page-jxxq .school-path .list-box-path .r-icon{
+  position: absolute;
+  right: .2rem;
+}
+
+.page-jxxq .school-info-box{
+  background-color: rgba(49,61,87,.9);
+  padding: .2rem;
+  padding-bottom: 0;
+  position: relative;
+}
+.page-jxxq .school-cont-box{
+  margin-top: .2rem;
+}
+
+.page-jxxq .school-cont-box .title{
+   font-size: .32rem;
+   color: #434343;
+   padding: .2rem 0 .2rem .8rem;
+   border-bottom: 1px solid #EBEBEB;
+   background:url(../../images/title_icon1.png) no-repeat .2rem center;
+   background-size: .5rem !important;
+}
+
+.page-jxxq .school-cont-box .title .title-more{
+  float: right;
+  color: #A6A6A6;
+  background: url(../../images/rightjt.png) right .2rem center no-repeat;
+  background-size: .2rem;
+  padding-right: .5rem;
+  min-width: 1rem;
+  min-height: .45rem;
+}
+
+.page-jxxq .school-cont-box .title .title-more a{
+  color: #A6A6A6;
+}
+
+.page-jxxq .school-cont-box .title.type2{
+  background:url(../../images/title_icon2.png) no-repeat .2rem center;
+}
+.page-jxxq .school-cont-box .title.type3{
+  background:url(../../images/title_icon3.png) no-repeat .2rem center;
+}
+.page-jxxq .school-cont-box .title.type4{
+  background:url(../../images/title_icon4.png) no-repeat .2rem center;
+}
+
+.page-jxxq .dd-school-box .dd-school-list .list-school-box{
+  background-color: #fff;
+}
+
+.page-jxxq .list-box-pinglun li{
+  border-bottom:1px solid #ebebeb;
+}
+
+.page-jxxq .list-box-pinglun li:last-child{
+  border-bottom:0;
+}
+
+.page-jxxq .list-box-pinglun .header-img-left img{
+  width: .8rem;
+  height: .8rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border:1px solid #ebebeb;
+  margin-top: .5rem;
+}
+
+.page-jxxq .list-box-pinglun .text-box-right{
+  width: 100%;
+  margin-left: .2rem;
+  padding: .4rem 0;
+  min-height: 2rem;
+}
+.page-jxxq .list-box-pinglun .text-box-right .t1{
+  overflow: hidden;
+}
+.page-jxxq .list-box-pinglun .text-box-right .t2 img{
+  width: .3rem;
+  height: .3rem;
+}
+
+.page-jxxq .list-box-pinglun .text-box-right .t2{
+  margin-top: .1rem;
+}
+
+.page-jxxq .list-box-pinglun .text-box-right .t3{
+  font-size: .3rem;
+  color: #393939;
+  width: 5.4rem;
+  margin-top: .1rem;
+  line-height: .5rem;
+}
+.page-jxxq .list-box-pinglun .text-box-right .t3 .t3-img{
+  margin:.2rem 0;
+}
+.page-jxxq .list-box-pinglun .text-box-right .t3 .t3-img span{
+  margin-left: .2rem;
+}
+.page-jxxq .list-box-pinglun .text-box-right .t3 .t3-img span:first-child{
+  margin-left: 0;
+}
+.page-jxxq .list-box-pinglun .text-box-right .t3 .t3-img span img{
+  width: 100%;
+}
+
+.page-jxxq .list-box-pinglun .text-box-right .t3 .t3-time{
+  font-size: .28rem;
+  color: #B3B3B3;
+}
+
+.page-jxxq .list-box-pinglun .text-box-right .t3 .pinglun{
+  color:#3C3C3C;
+  letter-spacing: 1px;
+  font-size: .28rem;
+  background-color: #E5E5E5;
+  padding: .2rem;
+  margin-top: .2rem;
+  margin-bottom: .2rem;
+  border-radius: .1rem;
+}
+
+.page-jxxq .list-box-pinglun .text-box-right .t3 .pinglun .txt .txt-green{
+  color:#1DA68C;
+}
+
+.page-jxxq .list-box-pinglun .text-box-right .t4{
+  overflow: hidden;
+}
+.page-jxxq .list-box-pinglun .text-box-right .t4 .good-line{
+  float: right;
+}
+
+.page-jxxq .list-box-pinglun .text-box-right .t4 .border-left{
+  border-left:1px solid #B5B5B5;
+  margin:0 .2rem;
+}
+
+.page-jxxq .list-box-pinglun .text-box-right .t4 .good-line .img img{
+  width: .4rem;
+  height: .4rem;
+  margin-right: .1rem;
+}
+
+.page-jxxq .list-box-pinglun .text-box-right .t4 .good-line .num{
+  text-align: center;
+  font-size: .3rem;
+  color: #797979;
+}
+
+.page-jxxq .list-box-pinglun .text-box-right .nick-name{
+  color: #25A98F;
+  float: left;
+  font-size: .32rem;
+}
+.page-jxxq .list-box-pinglun .text-box-right .rt-date{
+  color: #808080;
+  float: right;
+  font-size: .28rem;
+}
+.page-jxxq .floor-fixed{
+  height: 1rem;
+  margin-top: .2rem;
+}
+.page-jxxq .floor-fixed .fixed-box{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1rem;
+  background-color: #fff;
+  border-top:1px solid #ebebeb;
+  font-size: .32rem;
+}
+.page-jxxq .floor-fixed .fixed-box p{
+  text-align: center;
+  line-height: 1rem;
+  height: 1rem;
+  color: #1ACEDD;
+
+}
+
+.page-jxxq .floor-fixed .fixed-box img{
+  display: inline;
+  width: .4rem;
+  margin-right: .2rem;
+}
+
+.page-jxxq .floor-fixed .fixed-box p{
+  border-right:1px solid #ebebeb;
+}
+.page-jxxq .floor-fixed .fixed-box p:last-child{
+  border-right:0;
+}
+.bx-price{
+  line-height: 1.11rem;
+  font-size: .4rem;
+  color: #FC7838;
+  margin-top: -.2rem;
+}
+    </style>
+    <script>
+
+    var openId=localStorage.getItem('openId');
+    localStorage.setItem('userid',openId);
+    var school_id = funs.getQueryString("id");
+    $(function(){
+         // 获取驾校信息
+      $.ajax({
+        url:"http://101.201.146.79:8088/dts/drivingInfo/selectByIds?dId="+school_id+"&callbackparam=?",
+        dataType:"jsonp",
+        success:function(msg){
+          latitude = msg.latitude;
+          longitude = msg.longitude;
+          $("#school_name").html(msg.name);
+          $("#school_address").html(msg.address);
+          $("#school_passrate").html(msg.passrate);
+          // $("#school_score").html(msg.score+"分");
+          $("#school_trainAddress").html(msg.trainAddress);
+          $("#school_trainVehicle").html(msg.trainVehicle);
+          $("#school_staffPersons").html(msg.staffPersons);
+          $("#school_schoolHonor").html(msg.schoolHonor);
+          $("#school_description").html(msg.description);
+          $("#school_schoolimg img").attr("src","http://www.dingdongxueche.com:9080/JXWeb/editContent/logoupload//"+msg.schoolimg);
+          $(".price").html(msg.startPrice);
+
+          if(msg.passrate == ""){
+            $("#school_passrate").parent().hide();
+          }
+           $("#school_address").click(function(){
+            window.location.href="../zjx/jxwz.html?latitude="+latitude+"&longitude="+longitude;
+          });
+        }
+      });
+
+
+
+
+    })
+    </script>
+</head>
+<body>
+<!--top开始-->
+<!-- <div class="top-box">
+    <div class="top-detail">
+        <a href="javascript:;">
+            <img class="top-return" src="../images/rtn.png" alt=""/>
+        </a>
+        <span>学员点评</span>
+        <a href="javascript:;" class="show-btn">
+            发布
+        </a>
+    </div>
+</div>
+<div class="top-detail-height"></div> -->
+<!--main开始-->
+
+<div class="main-box page-jxjj">
+    <!-- <div class="main-school">
+        <div class="school-img">
+            <img src="" alt=""/>
+        </div>
+        <div class="school-text">
+            <div class="sc-name"></div>
+            <div class="adr">
+                <img src="../images/adr.png" alt=""/>
+                <span></span>
+            </div>
+        </div>
+    </div> -->
+    <div class="page-jxxq">
+    <div class="school-info-box">
+    <div class="school-info flex">
+        <div class="school-info-left flex justify-content-center align-items-center" id="school_schoolimg">
+            <img />
+        </div>
+        <div class="school-info-right flex flex-column justify-content-space-between">
+            <p class="title">
+                <span class="t1" id="school_name">玉龙达驾校</span><span class="t2" style="display: none;">通过率<span id="school_passrate"></span></span>
+            </p>
+            <!-- <p class="pingfen flex">
+                <span class="t1 flex">
+                    <img src="../images/star2.png">
+                    <img src="../images/star2.png">
+                    <img src="../images/star2.png">
+                    <img src="../images/star2.png">
+                </span>
+                <span class="t2" id="school_score">4.5分</span>
+            </p> -->
+
+            <div class="school-path">
+                <p class="list-box-path flex  align-items-center">
+                    <img src="../images/dw_blue.png">
+                    <span id="school_address" class="w100 text-overflow">乌鲁木齐市新市区通嘉世纪城二期商铺21号楼2楼</span>
+                    <img class="r-icon" src="../images/r_blue.png">
+                </p>
+            </div>
+
+        </div>
+    <div class="bx-price flex align-items-center">¥ <span class="price"></span></div>
+    </div>
+
+    </div>
+</div>
+
+<div class="review-con">
+        <textarea name="" id="" placeholder="谈谈你的驾校"></textarea>
+        <div class="main-add">
+            <div class="add-img" id="add-img">
+
+            </div>
+            <div class="add-btn">
+                +
+            </div>
+        </div>
+    </div>
+    <ul class="main-review">
+        <li class="review-list">
+            <span class="review-name">服务</span>
+            <div class="star_bg">
+                <input type="radio" id="starScore1" class="score score_1" value="1" name="score">
+                <a href="#starScore1" class="star star_1"><label for="starScore1"></label></a>
+                <input type="radio" id="starScore2" class="score score_2" value="2" name="score">
+                <a href="#starScore2" class="star star_2"><label for="starScore2"></label></a>
+                <input type="radio" id="starScore3" class="score score_3" value="3" name="score">
+                <a href="#starScore3" class="star star_3"><label for="starScore3"></label></a>
+                <input type="radio" id="starScore4" class="score score_4" value="4" name="score">
+                <a href="#starScore4" class="star star_4"><label for="starScore4"></label></a>
+                <input type="radio" id="starScore5" class="score score_5" value="5" name="score">
+                <a href="#5" class="star star_5"><label for="starScore5"></label></a>
+            </div>
+            <span class="review-star">0星</span>
+        </li>
+        <li class="review-list">
+            <span class="review-name">教学</span>
+            <div class="star_bg">
+                <input type="radio" id="starScore6" class="score score_1" value="1" name="score1">
+                <a href="#starScore1" class="star star_1"><label for="starScore6"></label></a>
+                <input type="radio" id="starScore7" class="score score_2" value="2" name="score1">
+                <a href="#starScore2" class="star star_2"><label for="starScore7"></label></a>
+                <input type="radio" id="starScore8" class="score score_3" value="3" name="score1">
+                <a href="#starScore3" class="star star_3"><label for="starScore8"></label></a>
+                <input type="radio" id="starScore9" class="score score_4" value="4" name="score1">
+                <a href="#starScore4" class="star star_4"><label for="starScore9"></label></a>
+                <input type="radio" id="starScore10" class="score score_5" value="5" name="score1">
+                <a href="#5" class="star star_5"><label for="starScore10"></label></a>
+            </div>
+            <span class="review-star">0星</span>
+        </li>
+        <li class="review-list">
+            <span class="review-name">场地</span>
+            <div class="star_bg">
+                <input type="radio" id="starScore11" class="score score_1" value="1" name="score2">
+                <a href="#starScore1" class="star star_1"><label for="starScore11"></label></a>
+                <input type="radio" id="starScore12" class="score score_2" value="2" name="score2">
+                <a href="#starScore2" class="star star_2"><label for="starScore12"></label></a>
+                <input type="radio" id="starScore13" class="score score_3" value="3" name="score2">
+                <a href="#starScore3" class="star star_3"><label for="starScore13"></label></a>
+                <input type="radio" id="starScore14" class="score score_4" value="4" name="score2">
+                <a href="#starScore4" class="star star_4"><label for="starScore14"></label></a>
+                <input type="radio" id="starScore15" class="score score_5" value="5" name="score2">
+                <a href="#5" class="star star_5"><label for="starScore15"></label></a>
+            </div>
+            <span class="review-star">0星</span>
+        </li>
+        <li class="review-list">
+            <span class="review-name">收费</span>
+            <div class="star_bg">
+                <input type="radio" id="starScore16" class="score score_1" value="1" name="score4">
+                <a href="#starScore1" class="star star_1"><label for="starScore16"></label></a>
+                <input type="radio" id="starScore17" class="score score_2" value="2" name="score4">
+                <a href="#starScore2" class="star star_2"><label for="starScore17"></label></a>
+                <input type="radio" id="starScore18" class="score score_3" value="3" name="score4">
+                <a href="#starScore3" class="star star_3"><label for="starScore18"></label></a>
+                <input type="radio" id="starScore19" class="score score_4" value="4" name="score4">
+                <a href="#starScore4" class="star star_4"><label for="starScore19"></label></a>
+                <input type="radio" id="starScore20" class="score score_5" value="5" name="score4">
+                <a href="#5" class="star star_5"><label for="starScore20"></label></a>
+            </div>
+            <span class="review-star">0星</span>
+        </li>
+    </ul>
+    <!-- <div class="review-con">
+        <textarea name="" id="" placeholder="谈谈你的驾校"></textarea>
+        <div class="main-add">
+            <div class="add-img" id="add-img">
+
+            </div>
+            <div class="add-btn">
+                +
+            </div>
+        </div>
+    </div> -->
+
+
+    
+
+
+    <div class="check-box">
+        <input type="checkbox" id="checkbox-1-1" class="regular-checkbox">
+        <label for="checkbox-1-1"></label>
+        <span>隐藏您的头像和昵称</span>
+    </div>
+</div>
+<!--弹出-->
+<div class="mask-box"></div>
+<ul class="camera-box">
+    <li class="camera-list">
+        拍照
+        <input type="file" id="playeraddress" name="playeraddress" accept="image/*" capture="camera">
+    </li>
+    <li class="camera-list">
+        相册
+        <input id='filename' name='filename' type="file" accept="image/*" multiple/>
+    </li>
+    <li class="camera-list cur cancel-btn">
+        取消
+    </li>
+</ul>
+
+<div class="floor-fixed-confirm show-btn">
+  <div class="confirm flex align-items-center justify-content-center">
+      <span class="text">发布点评</span>
+  </div>
+</div>
+
+<script src="../js/rem.js"></script>
+
+<script src="../js/pdtp.js"></script>
+<script src="../js/zjx.js"></script>
+<script src="../js/mbUploadImg.js"></script>
+ <script type="text/javascript" src="../js/uploadPreview.js"></script>
+<script src="../js/jxcomment.js"></script>
+ <script src="../js/sweet-alert.min.js"></script>
+</body>
+</html>

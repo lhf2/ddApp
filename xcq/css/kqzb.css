@@ -1,0 +1,94 @@
+/*top开始*/
+body,html{
+    background: #fff!important;
+}
+.top-box{
+    background: linear-gradient(#20AA8E 0%,#28B793 50%,#34CC9C 100%);
+    background: -webkit-linear-gradient(#20AA8E 0%,#28B793 50%,#34CC9C 100%);
+    background: -moz-linear-gradient(#20AA8E 0%,#28B793 50%,#34CC9C 100%);
+    background: -o-linear-gradient(#20AA8E 0%,#28B793 50%,#34CC9C 100%);
+}
+.top-box span{
+    font-size: 18px;
+}
+.top-box .top-detail{
+    color: #fff;
+    text-align: center;
+    padding: .3rem 0;
+}
+.top-box .top-detail img{
+    display: block;
+    width: .3125rem;
+    height: .5625rem;
+    float: left;
+    padding-left: .4375rem;
+    vertical-align: bottom;
+}
+.top-box .top-detail span{
+    line-height:.5625rem ;
+}
+.top-box .top-detail .share-btn img{
+    float: right;
+    width: .5rem;
+    height: .5rem;
+    padding-right: .4375rem;
+}
+/*main开始*/
+.main-detail{
+    padding: 0 .23rem;
+    padding-top:.75rem;
+}
+.main-detail .main-title{
+    font-size: 18px;
+    color: #434343;
+}
+.main-detail .main-details .main-list:nth-child(1){
+    margin-top: .47rem;
+}
+.main-detail .main-details .main-list{
+    font-size: 16px;
+    margin-top: .78rem;
+    line-height: 20px;
+}
+.ling-detail{
+    padding-top: .4rem;
+}
+.ling-detail .main-img a img{
+    width: 9.55rem;
+    height: 6.25rem;
+    display: block;
+}
+.ling-detail .main-title{
+    margin-top: .55rem;
+}
+.xiazai-btn a{
+    float: right;
+    margin-right: .24rem;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -o-border-radius: 8px;
+    margin-top: .3rem;
+    display: block;
+    padding:.1rem .25rem;
+    height: .4rem;
+    border: 1px solid #1EA68C;
+    line-height: .4rem;
+}
+.video-proess{
+    height: 6px;
+    background: #1EA68C;
+    width: 100px;
+}
+.xiazai-btn a:hover{
+    text-decoration: none;
+}
+.xiazai-btn a .xz-img img{
+    width: .266rem;
+    height: .4rem;
+    vertical-align: bottom;
+}
+.xiazai-btn a span{
+    font-size: 14px;
+    color: #1EA68C;
+}

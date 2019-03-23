@@ -1,0 +1,51 @@
+body,html{
+    height: 100%;
+}
+.top-box{
+    padding:.4rem 0;
+    text-align: center;
+}
+.top-box img{
+    margin: 0 auto;
+    /*width: 4.4375rem;*/
+    height: .84375rem;
+}
+.main-box .main-title{
+    margin-top: 1rem;
+    text-align: center;
+}
+.main-box .main-title img{
+    height: .7rem;
+}
+.main-box .main-inner{
+    text-align: center;
+    margin-top: .2rem;
+    border-bottom: 1px solid #E5E5E5;
+}
+.main-box .main-inner img{
+    vertical-align: bottom;
+    width:95%;
+}
+.main-box .xz-btn{
+    width: 80%;
+    margin: 0 auto;
+    background: linear-gradient(#26C082 0%,#1AB66D 50%,#10AE5A 100%);
+    background: -webkit-linear-gradient(#26C082 0%,#1AB66D 50%,#10AE5A 100%);
+    background: -moz-linear-gradient(#26C082 0%,#1AB66D 50%,#10AE5A 100%);
+    background: -o-linear-gradient(#26C082 0%,#1AB66D 50%,#10AE5A 100%);
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -o-border-radius: 8px;
+    margin-top: .65rem;
+    text-align: center;
+    line-height: 1.3rem;
+}
+.main-box .xz-btn a{
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+}
+.main-box .xz-btn a:hover{
+    text-decoration: none;
+}

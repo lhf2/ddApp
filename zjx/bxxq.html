@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>班型详情</title>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/lhf-base.css"/>
+    <link rel="stylesheet" href="../css/bxxq.css"/>
+    <style type="text/css">
+        #xlsd tr td{ float: none; padding: 0 !important; vertical-align:middle; }
+        #xlsd tr td .tablecss{ display: block;  padding: 0 .4rem;  text-indent: 0;}
+    </style>
+</head>
+<body>
+<!--top开始-->
+<div class="top-box">
+    <div class="top-detail">
+        <a href="javascript:;">
+            <img class="top-return" src="../images/rtn.png" alt="">
+        </a>
+        <span>班型详情</span>
+        <span class="isRight"></span>
+    </div>
+</div>
+<div class="top-detail-height"></div>
+<!--main开始-->
+<div class="main-box">
+    <div class="main-top">
+        <div class="detail-summary-left">
+            <div class="summary-top"></div>
+            <div class="summary-con"></div>
+            <div class="summary-topic">
+                <span class="topic1"></span>
+                <span class="topic2Content"></span>
+            </div>
+        </div>
+        <div class="summary-price"></div>
+    </div>
+    <table id="xlsd">
+        <tbody>
+            <tr>
+                <td><span>训练时段</span></td>
+                <td><span class="tableR tablecss"></span></td>
+            </tr>
+            <tr>
+                <td><span>班型特点</span></td>
+                <td><span class="table_bxtd tablecss"></span></td>
+            </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+            <th>费用明细</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span>总费用</span></td>
+                <td><span class="price"></span></td>
+            </tr>
+            <tr>
+                <td><span>包含</span></td>
+                <td><span class="include"></span></td>
+            </tr>
+            <tr>
+                <td><span>不包含</span></td>
+                <td><span class="no-include"></span></td>
+            </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+        <th>班型说明</th>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span>驾照类型</span></td>
+            <td><span class="jz-type"></span></td>
+        </tr>
+        <tr>
+            <td><span>教练车型</span></td>
+            <td><span class="car-type"></span></td>
+        </tr>
+        <tr>
+            <td><span>培训课时</span></td>
+            <td><span class="class-time"></span></td>
+        </tr>
+        <tr>
+            <td><span>接送方式</span></td>
+            <td><span class="bus-type"></span></td>
+        </tr>
+        <tr>
+            <td><span>练车人数</span></td>
+            <td><span class="car-person"></span></td>
+        </tr>
+        <tr>
+            <td><span>服务特色</span></td>
+            <td><span class="seveice-topic"></span></td>
+        </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+        <th>可能额外费用</th>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span>补考费</span></td>
+            <td style="height: 1rem; line-height: .5rem"><span class="bx-fee"></span></td>
+        </tr>
+        <tr>
+            <td><span>模拟费</span></td>
+            <td><span class="mn-fee"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="view-btn">
+    <a href="javascript:;">
+        确认报名
+    </a>
+</div>
+<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+<script src="../js/jquery-1.7.2.min.js"></script>
+<script src="../js/pdtp.js"></script>
+<script src="../js/zjx.js"></script>
+<script src="../js/utils.js"></script>
+<script src="../js/eachclass.js"></script>
+<script>
+
+function eachclass(classid){
+    $.ajax({
+        type : 'post',
+        contentType : "application/json;charset=utf-8",
+        url : 'http://101.201.146.79:8088/dts/class/selectClassDetails?classId='+classid,
+        cache : false,
+        dataType : 'jsonp',
+        jsonp : "callbackparam",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(默认为:callback)
+        //data : {id:recordid},//recordid
+        success : function(msg) {
+		    var fistpay=msg.fistpay;
+                
+            $('.summary-top').html(msg.classname);
+            $('.summary-con').html(msg.drivingtype);
+
+
+            // $('.summary-top').html(msg.classname);
+            $('.topic1').html(msg.drivingtype);
+
+
+            
+            $('.isTypeSel').click(function(){
+                $('.isTypeSel').removeClass('cur');
+                $(this).addClass('cur');
+            });
+
+            if($('.topic1').text().length <= 2){
+                $(".isTypeSel").eq(1).remove();
+            }
+
+            var strArr = msg.characteristic.split(",");
+             for(var i = 0; i < strArr.length; i++){
+                    var span = $("<span class='topic2'>"+strArr[i]+"</span>");
+                    if(strArr[i] != "") span.appendTo('.topic2Content');
+                }
+            // if(msg.characteristic){
+               
+            //      $('.topic2').show().html(msg.characteristic);
+            // }else{
+            //     $('.topic2').hide();
+            // }
+            $('.summary-price').html('￥'+msg.price);
+
+
+            var feeArr = [msg.driverfee,msg.icfree,msg.physicalfree,msg.testfree,msg.trainingfee];
+            var feeText = ['工本费','IC卡费','体检费','考试费','培训费']
+            for(var i = 0; i < feeArr.length; i++){
+                if(feeArr[i] != 0){
+                    $('<span>'+feeText[i]+'</span>').appendTo($(".include"))
+                }else{
+                    $('<span>'+feeText[i]+'</span>').appendTo($(".no-include"))
+                }
+            };
+            //表格
+            $('.price').html(msg.price+'元');
+            $('.include').html(msg.include);
+            $('.no-include').html(msg.disinclude);
+            $('.jz-type').html(msg.drivingtype);
+            $('.car-type').html(msg.trainingmodels);
+            $('.class-time').html("<span>科二培训课时："+msg.coursehours2+"</span>&nbsp;<span>科三培训课时: "+msg.coursehours3+"</span>");
+            $('.bus-type').html(msg.bustake);
+            $('.car-person').html(msg.vehicle);
+            $('.seveice-topic').html(msg.characters);
+            $('.bx-fee').html("<p>科目一补考费："+msg.retakecost1+" 科目二补考费："+msg.retakecost1+"</p><p> 科目三补考费："+msg.retakecost1+" 科目四补考费："+msg.retakecost1+"</p>");
+            $('.mn-fee').html('<span>科目二模拟费：'+msg.simulationcost2+'</span> <span>科目三模拟费：</span>'+msg.simulationcost3);
+            $('.view-btn').click(function () {
+                location.href='../zjx/qrmm.html?classid='+msg.id+'&drivingId='+msg.driving_id+'&fistpay='+fistpay+'&price='+msg.price+'&drivingtype='+msg.drivingtype+'&classname='+msg.classname+'&characteristic='+msg.characteristic;
+            })
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown){
+            console.log(XMLHttpRequest.status + ' '
+            + XMLHttpRequest.readyState + ' ' + textStatus);
+        }
+    })
+}
+
+var classid=utils.request('classid');
+    eachclass(classid);
+	
+</script>
+
+</body>
+</html>

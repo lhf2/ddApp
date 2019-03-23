@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>考试考规</title>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/lhf-base.css"/>
+    <link rel="stylesheet" href="../css/jtbzdq.css"/>
+    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+    <script src="../js/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="../js/fun.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var urlHtml = funs.getQueryString("html");
+            var istitle = funs.getQueryString("istitle");
+            $("#istitle").text(istitle)
+            $("#iframe").attr("src","http://dd.dingdongxueche.com/DDWeb/static-resources/"+urlHtml);
+
+            document.title = istitle
+        })
+    </script>
+</head>
+<body>
+<!--top开始-->
+<div class="top-box">
+    <div class="top-detail top-ling">
+        <a href="javascript:window.history.back();">
+            <img class='top-return'  src="../images/rtn.png" alt="">
+        </a>
+        <span id="istitle">合格标准</span>
+        <span class="isRight"></span>
+    </div>
+</div>
+<div class="top-detail-height"></div>
+<!--main开始-->
+<iframe id="iframe" src="" width="100%" height="100%"></iframe>
+</body>
+</html>

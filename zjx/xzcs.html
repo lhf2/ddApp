@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选择城市</title>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/lhf-base.css"/>
+    <link rel="stylesheet" href="../css/xzcs.css"/>
+    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+</head>
+<body>
+<!--top开始-->
+<div class="top-box">
+    <div class="top-detail">
+        <a href="javascript:window.history.back();">
+            <img class="top-return" src="../images/rtn.png" alt=""/>
+        </a>
+        <span>选择城市</span>
+        <span class="isRight"></span>
+    </div>
+</div>
+<div class="top-detail-height"></div>
+<!--main开始-->
+<div class="main-box">
+    <div class="main-outtop">
+        <div class="main-top">
+            <span>自动定位</span>
+            <div class="top-img">
+                <a href="javascript:;">
+                    <img src="../images/dw2.png" alt="">
+                    <span id="city-name"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--a-z-->
+    <div class="order-box">
+        <ul class="order-lists">
+            <!-- <li class="order-list">
+                    <div class="order-number">B</div>
+                <ul class="number-lists">
+                    <li class="number-list">北京</li>
+                </ul>
+            </li>
+            <li class="order-list">
+                <div class="order-number">W</div>
+                <ul class="number-lists">
+                    <li class="number-list">乌鲁木齐</li>
+                </ul>
+            </li>
+            <li class="order-list">
+                <div class="order-number">X</div>
+                <ul class="number-lists">
+                    <li class="number-list">西安</li>
+                </ul>
+            </li> -->
+        </ul>
+        <ul class="num-box"></ul>
+    </div>
+</div>
+</body>
+<script src="../js/jquery-1.7.2.min.js"></script>
+<script src="../js/pdtp.js"></script>
+<script src="../js/zjxajax.js"></script>
+<script type="text/javascript">
+var cityName = [ "三亚","三明", "三门峡", "上海", "上饶", "东营", "临汾", "临沂", "临沧",
+"丹东", "丽水", "丽江", "乌鲁木齐", "乐山", "九江", "云浮", "佛山", "保定", "信阳", "六安",
+"兰州", "内江", "北京", "十堰", "南京", "南充", "南平", "南昌", "南通", "南阳", "厦门",
+"合肥", "吉安", "吉林", "吕梁", "周口", "咸宁", "咸阳", "商丘", "商洛", "嘉兴", "嘉峪关",
+"四平", "大同", "大连", "天水", "天津", "太原", "威海", "娄底", "孝感", "宁德", "宁波",
+"安庆", "安康", "安阳", "安顺", "定西", "宜宾", "宜昌", "宜春", "宝鸡", "宣城", "宿州",
+"宿迁", "岳阳", "巴中", "常州", "常德", "平凉", "平顶山", "广元", "广安", "广州", "庆阳",
+"廊坊", "延安", "开封", "张家口", "张家界", "张掖", "徐州", "德州", "德阳", "忻州", "怀化",
+"惠州", "成都", "扬州", "承德", "抚顺", "揭阳", "攀枝花", "新乡", "无锡", "昆明", "昭通",
+"晋中", "晋城", "曲靖", "朔州", "杭州", "松原", "枣庄", "株洲", "梅州", "榆林", "武威",
+"武汉", "永州", "汉中", "汕头", "汕尾", "江门", "池州", "沈阳", "沧州", "河源", "泉州",
+"泰安", "泰州", "泸州", "洛阳", "济南", "济宁", "海口", "淄博", "淮北", "淮南", "淮安",
+"深圳", "清远", "温州", "渭南", "湖州", "湘潭", "湛江", "滁州", "滨州", "漯河", "漳州",
+"潍坊", "潮州", "濮阳", "烟台", "焦作", "玉溪", "珠海", "白城", "白银", "益阳", "盐城",
+"盘锦", "眉山", "石家庄", "秦皇岛", "绍兴", "绵阳", "聊城", "肇庆", "自贡", "舟山", "芜湖",
+"苏州", "茂名", "荆州", "荆门", "萍乡", "营口", "葫芦岛", "蚌埠", "衡水", "衡阳", "衢州",
+"襄阳", "西宁", "西安", "许昌", "贵阳", "资阳", "赣州", "辽源", "达州", "运城", "连云港",
+"通化", "遂宁", "遵义", "邢台", "邯郸", "邵阳", "郑州", "郴州", "鄂州", "酒泉", "重庆",
+"金华", "金昌", "铜川", "铜陵", "锦州", "镇江", "长春", "长沙", "长治", "阜新", "阜阳",
+"阳江", "阳泉", "陇南", "随州", "雅安", "青岛", "鞍山", "韶关", "马鞍山", "驻马店", "鹤壁",
+"鹰潭", "黄冈", "黄山", "黄石", "龙岩" ];
+var cityNamePinYin = ["sanya","sanming","sanmenxia","shanghai","shangrao","dongying","linfen","linyi","lincang","dandong","lishui","lijiang","wulumuqi","leshan","jiujiang","yunfu","foshan","baoding","xinyang","luan","lanzhou","neijiang","beijing","shiyan","nanjing","nanchong","nanping","nanchang","nantong","nanyang","xiamen","hefei","jian","jilin","luliang","zhoukou","xianning","xianyang","shangqiu","shangluo","jiaxing","jiayuguan","siping","datong","dalian","tianshui","tianjin","taiyuan","weihai","loudi","xiaogan","ningde","ningbo","anqing","ankang","anyang","anshun","dingxi","yibin","yichang","yichun","baoji","xuancheng","suzhou","suqian","yueyang","bazhong","changzhou","changde","pingliang","pingdingshan","guangyuan","guangan","guangzhou","qingyang","langfang","yanan","kaifeng","zhangjiakou","zhangjiajie","zhangye","xuzhou","dezhou","deyang","xinzhou","huaihua","huizhou","chengdu","yangzhou","chengde","fushun","jieyang","panzhihua","xinxiang","wuxi","kunming","zhaotong","jinzhong","jincheng","qujing","shuozhou","hangzhou","songyuan","zaozhuang","zhuzhou","meizhou","yulin","wuwei","wuhan","yongzhou","hanzhong","shantou","shanwei","jiangmen","chizhou","shenyang","cangzhou","heyuan","quanzhou","taian","taizhou","luzhou","luoyang","jinan","jining","haikou","zibo","huaibei","huainan","huaian","shenzhen","qingyuan","wenzhou","weinan","huzhou","xiangtan","zhanjiang","chuzhou","binzhou","luohe","zhangzhou","weifang","chaozhou","puyang","yantai","jiaozuo","yuxi","zhuhai","baicheng","baiyin","yiyang","yancheng","panjin","meishan","shijiazhuang","qinhuangdao","shaoxing","mianyang","liaocheng","zhaoqing","zigong","zhoushan","wuhu","suzhou","maoming","jingzhou","jingmen","pingxiang","yingkou","huludao","bengbu","hengshui","hengyang","quzhou","xiangyang","xining","xian","xuchang","guiyang","ziyang","ganzhou","liaoyuan","dazhou","yuncheng","lianyungang","tonghua","suining","zunyi","xingtai","handan","shaoyang","zhengzhou","chenzhou","Ezhou","jiuquan","chongqing","jinhua","jinchang","tongchuan","tongling","jinzhou","zhenjiang","changchun","changsha","changzhi","fuxin","fuyang","yangjiang","yangquan","longnan","suizhou","yaan","qingdao","anshan","shaoguan","maanshan","zhumadian","hebi","yingtan","huanggang","huangshan","huangshi","longyan"];
+
+
+
+var arrAZ = [ "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+var sel = "";
+var arr = [];
+var isUl = $(".order-lists");
+var strLi = '<li class="order-list"><div class="order-number"></div> <ul class="number-lists"></ul></li>';
+var strDiv = "";
+for(var j = 0; j < arrAZ.length; j++){
+    sel = arrAZ[j].toLowerCase();
+    strDiv = '<div class="order-number">'+arrAZ[j]+'</div>';
+    isUl.append(strLi);
+    $(".num-box").append("<li class='num-list'><a href='javascript:;'>"+arrAZ[j]+"</a></li>")
+        
+    $(".order-number").eq(j).text(arrAZ[j]);
+    for(var i = 0; i < cityNamePinYin.length; i++){
+        if(cityNamePinYin[i][0].indexOf(sel) != -1){
+            //排序过后的
+            $(".order-list").eq(j).find(".number-lists").append("<li  class='number-list'>"+cityName[i]+"</li>")
+        }
+    }
+
+
+    if($(".number-lists").eq(j).text().length == 0){
+         $(".order-list").eq(j).css("display","none")
+         $(".num-list").eq(j).css("display","none")
+    }
+
+}
+
+var topDiv  = $(".top-detail").height();
+var topMain = $(".main-top").height();
+var topSel = $(".order-number").height();
+$(".num-list").click(function(){
+    var index = $(this).index();
+    var txt = $(this).text();
+    $(".num-list").removeClass("cur").removeClass("curMin")
+     $(this).addClass("cur");
+     $(".num-list").eq(index+1).addClass("curMin")
+     $(".num-list").eq(index-1).addClass("curMin")
+    $(".order-number").each(function(i){
+        if($(this).text() == txt){
+            var y = $(this).offset().top-(topDiv+topMain+topSel+22);
+            $("body").scrollTop(y);
+            return false;
+        }
+    });
+})
+</script>
+</html>

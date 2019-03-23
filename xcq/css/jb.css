@@ -1,0 +1,39 @@
+body,html{background: #F1F1F1!important;}
+.clear-box {
+    float: right;
+    margin-right: .3rem;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+}
+.clear-box:hover{
+    text-decoration: none;
+}
+/*top*/
+.top-detail{
+    overflow: hidden;
+}
+/*main*/
+.main-box{
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 2rem;
+}
+.main-box .main-img img{
+    display: block;
+    width: 1.89rem;
+    height: 1.83rem;
+    margin: 0 auto;
+}
+.main-box .main-text .jb-text{
+    font-size: 28px;
+    text-align: center;
+    color: #313131;
+    padding: .73rem 0;
+}
+.main-box .main-text p{
+    color: #A0A0A0;
+    font-size: 18px;
+    text-align: center;
+    line-height: 1.3;
+}

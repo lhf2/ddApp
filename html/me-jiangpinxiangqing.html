@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/resetStyle.css" />
+    <link rel="stylesheet" href="../css/me-child.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css">
+    <script type="text/javascript" src="../js/rem.js" ></script>		
+	<style type="text/css">
+        .main_shop{background-color: #fff; color:#737373; font-size: .32rem; overflow: hidden; }
+        .topImgBox{ height:5rem; overflow: hidden; position: relative;}
+        .iscur{ position: absolute; z-index: 100; bottom:.2rem; width: 100%; -webkit-display: flex;display: flex; -webkit-justify-content: center;justify-content: center;}
+        .iscur span.cur{background-color: #2EC399;}
+        .iscur span:nth-child(1){margin-left: 0;}
+        .iscur span{ display: block;width: .2rem;height: .2rem;background-color: #fff; border:.01rem solid rgba(0,0,0,.5); border-radius: 50%;margin-left: .2rem; }
+        .main_shop .topImg{ border-bottom:1px solid #ddd; width: 9999px;-webkit-transform: translate3d(0, 0, 0);-moz-transform: translate3d(0, 0, 0); -ms-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0);     transition: .3s; overflow: hidden; position: absolute;left:0;top: 0;}
+        .main_shop .topImg img{height: 5rem; overflow: hidden; background-color: #ccc; float: left;}
+        .main_shop .textTitle{ height: auto; padding:1px; border-bottom:1px solid #ddd;}
+        .main_shop .textTitle .p1,
+        .main_shop .textTitle .p2,
+        .main_shop .textTitle .p3{margin-top: .22rem; margin-left:.3rem;margin-right:.3rem; text-align: justify;}
+        .main_shop .textTitle .p1{ font-size: .48rem; color:#434343}
+        .main_shop .textTitle .p2{ font-size: .28rem; color:#737373}
+        .main_shop .textTitle .p2 .red{color:red;}
+        .main_shop .textTitle .p2 .span1{font-size: .36rem;}
+        .main_shop .textTitle .p2 .dele{text-decoration:line-through;margin-left: .2rem;}
+        .main_shop .textTitle .p3 {overflow:hidden; color:#737373; font-size: .32rem; color: #333; margin-bottom: .22rem; background: url("../images/rightjt.png") right center no-repeat; background-size:.2rem;}
+        .main_shop .textTitle .p3 img{width: .42rem; float:left}
+        .main_shop .textTitle .address{float:left; margin-left:.2rem;}
+        .main_shop .textTitle .p4{ overflow: hidden; margin:.2rem 0;margin-left: .2rem;}
+        .main_shop .textTitle .p4 .add,
+        .main_shop .textTitle .p4 .reduce{ float:left; height: .5rem;width: .5rem;text-align: center; line-height: .5rem;  border:1px solid #ccc; border-radius:.05rem; margin:0 .1rem;}
+        .main_shop .textTitle .p4 .goosnum{width: .4rem;text-align: center;float:left; height: .46rem; line-height: .46rem;}
+        .main_shop .textTitle .p4 .tit{float:left; height: .5rem; line-height: .5rem;margin-left:.12rem; color:#737373;}
+        .main_shop.isbox2{margin-top: .3rem;padding: 1px; border-top:1px solid #ddd; border-bottom:1px solid #ddd;}
+        .main_shop.isbox2 .main_shop_txt:last-child{margin-bottom:.2rem;}
+        .main_shop.isbox2 .main_shop_txt {margin:0 .3rem; margin-top: .2rem;color:#333; text-align: justify;}
+        .main_bottom{ position:fixed; bottom:0; left:0;height:1.2rem;line-height:1.2rem;text-align: center; width: 100%; background-color: #FF9A14; font-size: .42rem; color:#fff; }
+    </style>
+	<script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="../js/fun.js"></script>
+    <script type="text/javascript" src="DDPOP.js"></script>
+    <script type="text/javascript" src="../js/touch.min.js"></script>
+    <script>
+        var path = "http://dd.dingdongxueche.com/DDWeb";
+        var openId = localStorage.getItem("openId");
+        $(function(){
+        	
+        	var imgHei = 0;
+        	var isNum = 0;
+        	touch.on($(".topImg"), 'swipeleft',function(){
+        		if($(".topImg").find("img").length > 1){
+        			isNum++;
+        			if(isNum > $(".topImg").find("img").length-1) isNum = $(".topImg").find("img").length-1;
+        			$(".topImg").css({
+        				"left":-isNum*$(window).width()+"px"
+        			});
+
+                    $(".iscur span").eq(isNum).addClass('cur').siblings().removeClass('cur');
+        		}
+        	});
+
+                                             
+        	
+        	touch.on($(".topImg"), 'swiperight',function(){
+        		if($(".topImg").find("img").length > 1){
+        			isNum--;
+        			if(isNum <= 0) isNum = 0;
+        			$(".topImg").css({
+        				"left":-isNum*$(window).width()+"px"
+        			});
+        		}
+                $(".iscur span").eq(isNum).addClass('cur').siblings().removeClass('cur');
+        	});
+
+
+            $(".textTitle .p3").click(function(){
+                window.location.href = "../html/me-dizhiguanli.html"
+            });
+
+            $(".textTitle .add").click(function(){
+                var num = parseInt($(".goosnum").val());
+                num++;
+                if(num > 99){
+                    num = 99
+                    alert("不能再多了！");
+                }
+                $(".goosnum").val(num);
+            });
+
+            $(".textTitle .reduce").click(function(){
+                var num = parseInt($(".goosnum").val());
+                num--;
+                if(num < 1){
+                    num = 1
+                    alert("亲，不能再少了哦！");
+                }
+                $(".goosnum").val(num);
+            });
+
+            $(".goosnum").change(function(){
+                var val = parseInt($(this).val().replace(/\D/g,""));
+                    if(val < 1){
+                        val = 1;
+                        alert("亲，不能再少了哦！");
+                    }else if(val > 99){
+                        val = 99;
+                        alert("不能再多了！");
+                    }
+                    $(this).val(val);
+
+            });
+
+            //进入页面后加载商品详情信息
+            $.post(path+"/wxGoodsController/queryGoodsById.htm?openID="+openId+"&id="+funs.getQueryString("id"),shopingShow);
+        });
+
+        function shopingShow(msg){
+            var data = $.parseJSON(msg);
+            var maxW = $(window).width();
+            console.log(data)
+//          $(".topImg").find("img").width(maxW)[0].src = path+splitsrc(data.good.photos);
+            var imgstr = "";
+            var arrimgsrc = data.good.photos.split(",");
+            var len = arrimgsrc.length
+            for(var i = 0; i < len; i++){
+            	imgstr+='<img src="'+path+arrimgsrc[i]+'" width='+maxW+'">';
+            }
+            $(".topImg").html(imgstr);
+            $(".topImg").height($(".topImg").find("img").eq(0).height());
+            $(".textTitle").find(".p1").text(data.good.name);
+            $(".textTitle").find(".p2").find(".span1 span").text(data.good.integral);
+            $(".textTitle").find(".p2").find(".dele").text("原价:￥"+data.good.price);
+            $("#main_shop_content").text(data.good.introduce);
+            if(data.address == ""){
+//          	var str = istype(data.address[0].address,data.good.type)
+                $(".textTitle").find(".address").text("");
+                $(".textTitle").find(".address").parent(".p3").hide();
+            }else if(data.address == "" && data.good.type == "0"){
+            	$(".textTitle").find(".address").parent(".p3").hide();
+            }else if(data.address != ""){
+            	$(".textTitle").find(".address").text(data.address[0].address);
+            }
+            $(".main_bottom").click(function(){
+                if(data.good.type == "1"){
+                    if($(".textTitle").find(".address").text().length > 0){
+                        isconfirmgood();
+                    }else{
+                        confirm("您还没有收货地址，是否立即添加？","",{
+                            callback:{
+                                btn1:function(){
+                                    window.location.href = "../html/me-creatnew.html";
+                                }
+                            }
+                        });
+                    }
+                }else{
+                    isconfirmgood();
+                }
+            });
+
+            var curSpan = "";
+            
+            for(var i = 0; i < $(".topImg").find("img").length; i++){
+                curSpan+="<span></span>";
+            }
+            $(".iscur").html(curSpan).find("span").eq(0).addClass("cur");
+
+            //确认兑换
+            function isconfirmgood(){
+
+
+                confirm("是否花费"+(data.good.integral*parseInt($(".goosnum").val()))+"积分兑换该商品？","",{
+                    callback:{
+                        btn1:function(){
+                            var integralExchange;
+                            if(!data.address[0]){
+                                integralExchange = {
+                                    openid:openId,
+                                    goodsid:funs.getQueryString("id"),
+                                    icon:splitsrc(data.good.photos),
+                                    name:data.good.name,
+                                    integral:data.good.integral*parseInt($(".goosnum").val()),
+                                    number:parseInt($(".goosnum").val()),
+                                    receiver:"",
+                                    phone:"",
+                                    address:"1",
+                                    city:data.good.city,
+                                    mark:""
+                                };
+                            }else{
+                                integralExchange = {
+                                    openid:openId,
+                                    goodsid:funs.getQueryString("id"),
+                                    icon:splitsrc(data.good.photos),
+                                    name:data.good.name,
+                                    integral:data.good.integral*parseInt($(".goosnum").val()),
+                                    number:parseInt($(".goosnum").val()),
+                                    receiver:data.address[0].receiver,
+                                    phone:data.address[0].phone,
+                                    address:data.address[0].address,
+                                    city:data.good.city,
+                                    mark:""
+                                };
+                            }
+							
+							var url_1 = "../html/me-success.html";//实物商品兑换成功提示页面
+							
+							if(data.good.type == "0"){
+								var url_1 = "../html/me-success_yhq.html";//虚拟商品兑换成功提示页面
+							}
+                            $.ajax({
+                                url:path+"/myIntegral/addIntegralExchange.htm",
+                                data:integralExchange,
+                                success:function(msg){
+                                    console.log(msg)
+                                    switch(msg){
+                                        case "1":
+                                            window.location.href = url_1;
+                                            break;
+                                        case "2":
+                                            alert("商品库存不足！");
+                                            break;
+                                        case "3":
+                                            alert("用户积分不足!");
+                                            break;
+                                        case "4":
+                                        	alert("商品已下架！");
+                                        	break;
+                                        default:
+                                            alert("兑换失败！");
+                                    };
+                                }
+                            });
+
+                        }
+                    }
+                });
+            };
+
+        };
+
+
+        //如果是电子券的话就不展示地址
+//      function istype(_str,_type){
+//          var str = "";
+//          if(_type == "1") {
+//              str = _str;
+//          }
+//          return str
+//      };
+
+
+        //如果展示列表图片有多张则分割显示第一张
+        function splitsrc(_src){
+            var src = _src.split(",");
+            var s = "";
+            if(src.length > 1){
+                s = src[0]
+            }else{
+                s = _src;
+            }
+            return s
+        };
+    </script>
+	<title>奖品详情</title>
+</head>
+<body>
+
+
+	<div class="body">
+        <div class="topTitle">
+          <div class="titleMsg">奖品详情</div>
+          <div class="back" onclick="window.history.back()"></div>
+          <div class="topTitleHeight"></div>
+        </div>
+
+        <div class="main_shop">
+            <div class="topImgBox">
+                <div class="topImg">
+                    <img src="">
+                </div>
+                <div class='iscur'></div>
+            </div>
+            <div class="textTitle">
+                <div class="p1"></div>
+                <div class="p2"><span class="red"><span class="span1">现价：<span></span></span>积分</span> <span class="dele"></span></div>
+                <div class="p3"><img src="../images/wzfbx.png" /><span class="address"></span></div>
+                <div class="p4">
+                    <div class="tit">数量：</div>
+                    <div class="add">+</div>
+                    <input type="text" value="1" class="goosnum" />
+                    <div class="reduce">-</div>
+                </div>
+            </div>
+        </div>
+        <div class="main_shop isbox2">
+            <p class="main_shop_txt">奖品介绍：</p>
+            <p class="main_shop_txt" id="main_shop_content"></p>
+           <!-- <p class="main_shop_txt">1.【有效期】2016年12月31日内有效。</p>-->
+            <!--<p class="main_shop_txt">2.商品寄出概不退换。</p>
+            <p class="main_shop_txt">3.活动最终解释权归本公司所有。</p>-->
+        </div>
+        <div style="height: 1.2rem;"></div>
+        <div class="main_bottom">
+            <p>立即兑换</p>
+        </div>
+    </div>
+
+	
+</body>
+</html>

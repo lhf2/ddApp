@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>话题内容</title>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/lhf-base.css"/>
+    <link rel="stylesheet" href="../css/jquery.sinaEmotion.css"/>
+    <link rel="stylesheet" href="../css/xcq.css"/>
+    <link rel="stylesheet" href="../css/htnr.css"/>
+    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+    <script src="../js/jquery-1.7.2.min.js"></script>
+    <script src="../js/sinaFaceAndEffec.js"></script>
+    <script src="../js/xcq.js"></script>
+    <script src="../js/pdtp.js"></script>
+    <script src="../js/myinfor.js"></script>
+    <script src="../js/htnr1.js"></script>
+    <style type="text/css">
+        body{font-family: "微软雅黑"}
+        .post-content img,.emotion img,.dao_textarea_con img{ height: 22px; }
+        .emotion img{margin-top: .2rem;}
+        #isface{background-color: #fff; overflow: hidden; position: fixed; display: none; bottom:0; z-index: 100}
+        #isface img{ height: 1rem;}
+        .hf-conbox img{width: .6rem;}
+    </style>
+</head>
+<body>
+<!--top开始-->
+<div class="top-box">
+    <div class="top-detail">
+        <a href="javascript:;">
+            <img class="page-return" src="../images/rtn.png" alt="">
+        </a>
+        <span>话题内容</span>
+        <!-- <div class="set-btn">
+            <span>设置</span>
+        </div> -->
+    </div>
+    <div class="set-box">
+        <div class="sj"></div>
+        <ul class="set-lists">
+            <li class="set-list report-btn">
+                <a href="javascript:;">举报</a>
+            </li>
+            <li class="set-list share-btn">
+                <a href="javascript:;">分享</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--main开始-->
+<ul class="main-box"></ul>
+<!--举报-->
+<ul class="report-box">
+    <li class="report-list-ling">
+        <div class="report-left">
+            <img src="../images/1.png" alt=""/>
+            <span>举报</span>
+        </div>
+        <div class="report-fsbtn">
+            <a href="javascript:;">发送</a>
+        </div>
+    </li>
+    <li class="report-list report-lists">欺诈</li>
+    <li class="report-list report-lists">色情</li>
+    <li class="report-list report-lists">谣言</li>
+    <li class="report-list report-lists">恶意营销</li>
+    <li class="report-list cur cancel-btn">取消</li>
+</ul>
+<div class="mask-hide"></div>
+<!--显示大图-->
+<div class="bigimg-box"></div>
+
+
+<div id="isface">
+    
+</div>
+<script type="text/javascript">
+    var emoji = {
+          f001 : "[大笑]",
+          f002 : "[满足]",
+          f003 : "[挤眼]",
+          f004 : "[吐舌头]",
+          f005 : "[亲亲]",
+          f006 : "[飞吻]",
+          f007 : "[憨笑]",
+          f008 : "[狡猾]",
+          f009 : "[害羞]",
+          f010 : "[哭笑]",
+          f011 : "[痛哭]",
+          f012 : "[傻眼]",
+          f013 : "[无奈]",
+          f014 : "[囧]",
+          f015 : "[惊呼]",
+          f016 : "[生气]",
+          f017 : "[愤怒]",
+          f018 : "[开心]",
+          f019 : "[微笑]",
+          f020 : "[鬼脸]",
+          f021 : "[色]",
+          f022 : "[汗]",
+          f023 : "[尴尬]",
+          f024 : "[苦逼]",
+          f025 : "[咖啡]",
+          f026 : "[感冒]",
+          f027 : "[鄙视]",
+          f028 : "[甜蜜]",
+          f029 : "[胜利]",
+          f030 : "[赞]",
+          f031 : "[心碎]",
+          f032 : "[玫瑰]",
+          f033 : "[大便]",
+          f034 : "[猪]",
+          f035 : "[爱情]",
+          f036 : "[西瓜]"
+        }
+        for(var i = 0; i < 36; i++){
+            var n = "0";
+            if(i < 9){
+                n = "00";
+            }else{
+                n = "0";
+            }
+            $("#isface").append("<img src='http://101.201.146.79:8088/emoji/f"+n+(i+1)+".png'/>");
+        }
+
+</script>
+</body>
+</html>

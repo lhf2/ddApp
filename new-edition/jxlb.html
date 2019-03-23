@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<title>驾校列表</title>
+	<link rel="stylesheet" type="text/css" href="../css/resetStyle.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../js/rem.js"></script>
+	<script type="text/javascript" src="../js/zepto.js"></script>
+	<script type="text/javascript" src="../js/fun.js"></script>
+	<script type="text/javascript" src="../js/touch.min.js"></script>
+	<script type="text/javascript" src="../js/DDPOP.js"></script>
+  <script type="text/javascript" src="js/request.js"></script>
+  <script type="text/javascript">
+    $(function(){
+      var city = localStorage.getItem("city") || "";
+      request.url = "http://dd.dingdongxueche.com/DDWeb/drivingInfo/selectByConditions.htm";
+      var andH = $(".dd-navbar").height()+$(".dd-select").height();
+      var pageNum = 1;
+
+   var citydata = [{
+    name: "北京",
+    cities: ["北京", "西城", "东城", "崇文", "宣武", "朝阳", "海淀", "丰台", "石景山", "门头沟", "房山", "通州", "顺义", "大兴", "昌平", "平谷", "怀柔", "密云", "延庆"]
+},
+{
+    name: "天津",
+    cities: ["天津", "和平","河东", "河西", "南开", "河北", "红桥", "塘沽", "汉沽", "大港", "东丽", "西青", "北辰", "津南", "武清", "宝坻", "宁河", "静海", "蓟县"]
+},
+{
+    name: "河北",
+    cities: ["石家庄", "秦皇岛", "廊坊", "保定", "邯郸", "唐山", "邢台", "衡水", "张家口", "承德", "沧州"]
+},
+{
+    name: "山西",
+    cities: ["太原", "大同", "长治", "晋中", "晋城", "吕梁", "阳泉", "朔州", "运城", "临汾", "忻州"]
+},
+{
+    name: "内蒙古",
+    cities: ["呼和浩特", "包头", "乌海", "赤峰", "通辽", "鄂尔多斯", "呼伦贝尔", "巴彦淖尔", "乌兰察布", "兴安", "阿拉善", "锡林郭勒", "兴安"]
+},
+{
+    name: "辽宁",
+    cities: ["大连", "沈阳", "鞍山", "抚顺", "营口", "锦州", "丹东", "朝阳", "辽阳", "阜新", "铁岭", "盘锦", "本溪", "葫芦岛"]
+},
+{
+    name: "吉林",
+    cities: ["长春", "吉林", "四平", "辽源", "通化", "延边", "白山", "松原", "白城"]
+},
+{
+    name: "黑龙江",
+    cities: ["哈尔滨", "齐齐哈尔", "鸡西", "鹤岗", "双鸭山", "大庆", "伊春", "佳木斯", "七台河", "牡丹江", "黑河", "绥化", "大兴安岭"]
+},
+{
+    name: "上海",
+    cities: ["上海", "黄浦", "卢湾", "徐汇", "长宁", "静安", "普陀", "闸北", "虹口", "杨浦", "闵行", "宝山", "嘉定", "浦东", "金山", "松江", "青浦", "崇明", "奉贤", "南汇"]
+},
+{
+    name: "江苏",
+    cities: ["南京", "苏州", "无锡", "常州", "扬州", "徐州", "南通", "镇江", "泰州", "淮安", "连云港", "宿迁", "盐城"]
+},
+{
+    name: "浙江",
+    cities: ["杭州", "金华", "宁波", "温州", "嘉兴", "绍兴", "丽水", "湖州", "台州", "舟山", "衢州"]
+},
+{
+    name: "安徽",
+    cities: ["合肥", "芜湖", "蚌埠", "淮南", "马鞍山", "淮北", "铜陵", "安庆", "黄山", "滁州", "阜阳", "宿州", "巢湖", "六安", "亳州", "池州", "宣城"]
+},
+{
+    name: "福建",
+    cities: ["福州", "厦门", "莆田", "三明", "泉州", "漳州", "南平", "龙岩", "宁德"]
+},
+{
+    name: "江西",
+    cities: ["南昌", "景德镇", "萍乡", "新余", "九江", "鹰潭", "赣州", "吉安", "宜春", "抚州", "上饶"]
+},
+{
+    name: "山东",
+    cities: ["济南", "青岛", "淄博", "枣庄", "东营", "烟台", "潍坊", "济宁", "泰安", "威海", "日照", "莱芜", "临沂", "德州", "荷泽", "聊城", "滨州"]
+},
+{
+    name: "河南",
+    cities: ["郑州", "开封", "洛阳", "平顶山", "安阳", "鹤壁", "新乡", "焦作", "濮阳", "许昌", "漯河", "三门峡", "南阳", "商丘", "信阳", "周口", "驻马店"]
+},
+{
+    name: "湖北",
+    cities: ["武汉", "黄石", "十堰", "宜昌", "襄阳", "鄂州", "荆门", "孝感", "荆州", "黄冈", "咸宁", "随州", "恩施"]
+},
+{
+    name: "湖南",
+    cities: ["长沙", "株洲", "湘潭", "衡阳", "邵阳", "岳阳", "常德", "张家界", "益阳", "郴州", "永州", "怀化", "湘西", "娄底"]
+},
+{
+    name: "广东",
+    cities: ["广州", "韶关", "深圳", "珠海", "汕头", "佛山", "江门", "湛江", "茂名", "肇庆", "惠州", "梅州", "汕尾", "河源", "阳江", "清远", "东莞", "中山", "潮州", "揭阳", "云浮"]
+},
+{
+    name: "广西",
+    cities: ["南宁", "桂林", "柳州", "梧州", "北海", "防城港", "钦州", "贵港", "玉林", "百色", "贺州", "河池", "来宾", "崇左"]
+},
+{
+    name: "海南",
+    cities: ["海口", "三亚", "三沙"]
+},
+{
+    name: "重庆",
+    cities: ["重庆", "渝中", "大渡口", "江北", "沙坪坝", "九龙坡", "南岸", "北碚", "万盛", "双桥", "渝北", "巴南", "万州", "涪陵", "黔江", "长寿"]
+},
+{
+    name: "四川",
+    cities: ["成都", "自贡", "攀枝花", "泸州", "德阳", "绵阳", "广元", "遂宁", "内江", "乐山", "南充", "眉山", "宜宾", "广安", "达州", "雅安", "巴中", "资阳", "阿坝", "甘孜", "凉山"]
+},
+{
+    name: "贵州",
+    cities: ["贵阳", "遵义", "六盘水", "安顺", "铜仁", "黔西南", "毕节", "黔东南", "黔南"]
+},
+{
+    name: "云南",
+    cities: ["昆明", "曲靖", "玉溪", "保山", "昭通", "丽江", "思茅", "临沧", "楚雄", "红河哈", "文山", "西双版纳", "大理", "德宏", "怒江", "迪庆"]
+},
+{
+    name: "西藏",
+    cities: ["拉萨", "林芝", "日喀则", "昌都", "山南", "那曲", "阿里"]
+},
+{
+    name: "陕西",
+    cities: ["西安", "铜川", "宝鸡", "咸阳", "渭南", "延安", "汉中", "榆林", "安康", "商洛"]
+},
+{
+    name: "甘肃",
+    cities: ["兰州", "嘉峪关", "金昌", "白银", "天水", "武威", "张掖", "平凉", "酒泉", "庆阳", "定西", "陇南", "临夏", "甘南"]
+},
+{
+    name: "青海",
+    cities: ["黄南", "海南", "西宁", "海东", "海西", "海北", "果洛", "玉树"]
+},
+{
+    name: "宁夏",
+    cities: ["银川", "吴忠", "石嘴山", "固原", "中卫"]
+},
+{
+    name: "新疆",
+    cities: ["乌鲁木齐", "克拉玛依", "吐鲁番", "哈密", "昌吉", "博尔塔拉", "巴音郭楞", "阿克苏", "克孜勒苏", "喀什", "和田", "伊犁哈萨克", "塔城", "阿勒泰"]
+}];
+
+
+      createCityList();
+      //创建城市列表 
+      function createCityList(){
+        var str = "";
+        var len = citydata.length;
+        for(var i = 0;  i < len; i++){
+          str+="<li>"+citydata[i].name+"</li>";
+        }
+        $(".c-left-list").html(str);
+        $(".c-left-list").find("li").eq(0).addClass("cur");
+        createCityList_right(0);
+      }
+
+      //创建省列表 
+      function createCityList_right(_index){
+        var str = "";
+        for(var i = 0, len = citydata[_index].cities.length; i < len; i++){
+          str+="<li>"+citydata[_index].cities[i]+"</li>";
+        }
+        $(".c-right-list").html(str);
+      }
+
+      //自动显示班型
+       function showClassType(showIndex){
+      var classId = $(".dd-school-list").eq(showIndex).attr("school_id");
+        $.ajax({
+          url:"http://101.201.146.79:8088/dts/class/selectClassess?drivingId="+classId+"&count=100&currentNum=1&callbackparam=?",
+          dataType:"jsonp",
+          success:function(msg){
+              var str = "";
+            if(msg.length > 0){
+
+              var _this = $(".dd-school-list").eq(showIndex).find(".list-school-box");
+              _this.addClass("show");
+              var islen = msg.length > 2 ? 2 : msg.length;
+              for(var i = 0; i < islen; i++){
+                // _this.find(".con-l-1").eq(i).html(msg[i].classname+"<span>"+msg[i].drivingtype+"</span>");
+                //
+                var charactersHtml = "";
+                var charactersArr = msg[i].characteristic.split(",");
+                if(charactersArr[0] != ''){
+                    var charactersLen = charactersArr.length;
+                    for(var k = 0; k < charactersLen; k++){
+                        charactersHtml += "<span>"+charactersArr[k]+"</span>";
+                    }
+                }
+                str+='<div class="list-box" thisId="'+msg[i].id+'">'+
+                   '<div class="list-box-sclMsg w100">'+
+                      '<div class="con-l">'+
+                        '<p class="con-l-1 type'+((i%4)+1)+'"><span class="sleft" >'+msg[i].classname+' <span>'+msg[i].drivingtype+'</span></span><span class="sf-num" style="display:'+(msg[i].fistpay>0?"block":"none")+'">首付'+msg[i].fistpay+'</span></p>'+
+                        '<p class="con-l-2">'+
+                          charactersHtml+
+                        '</p>'+
+                      '</div>'+
+                      '<div class="con-r">'+
+                        '<p class="con-r-1">￥'+msg[i].price+'</p>'+
+                        '<p class="con-r-2">'+
+                          '<span class="con-r-2-button"">我要报名</span>'+
+                        '</p>'+
+                      '</div>'+
+                   '</div>'+
+                 '</div>';
+              }
+              var moreHTML = '<p class="look-more-school">'+
+                               '查看所有班型'+
+                               '<img src="../images/rightjt.png">'+
+                             '</p>';
+              _this.html(str+moreHTML);
+              _this.find(".list-box").click(function(){
+                window.location.href = "bxxq.html?school_id="+$(this).attr("thisId")+"&dId="+school_id;
+              });
+              }
+              return
+            }
+          
+        });
+      }
+
+      
+      //去掉.00
+      function selnum(num){
+        var str = num
+        var str1 = num.indexOf(".00");
+        if(str1 != -1){
+          str = num.substring(0,str1);
+        }
+        return str
+      }   
+
+      var autoLook = {
+        attr:{
+          dom:$(".dd-school-list"),
+          // downH:$(".dd-school-list .list-school-box").height(),
+          listHeight:[]//所有列表的高度
+        },
+        init:{
+          t_start:function(){
+            var _this = this;
+            this.init();
+            var showIndex = 0;
+            var ingShowIndex;
+            var timer;
+            $(window).scroll(function(){
+              clearTimeout(timer);
+              timer = setTimeout(function(){
+                for(var i = 0; i < autoLook.attr.listHeight.length; i++){
+                  var i_offsettop = $(this).scrollTop()-autoLook.attr.listHeight[i].offsetTop+andH;//每个块距离屏幕顶部短距离
+                  if(i_offsettop >= -autoLook.attr.listHeight[i].height){
+                    showIndex = i
+                  }
+                }
+                autoLook.attr.dom.find(".list-school-box").removeClass("show").removeClass("remove");
+                if(autoLook.attr.listHeight.length  == 0){
+                  return
+                }
+                if($(this).scrollTop()-autoLook.attr.listHeight[0].offsetTop+andH <= 5){
+                  // autoLook.attr.dom.eq(0).find(".list-school-box").addClass("show");
+                  showClassType(0)
+                }else{
+                   showClassType(showIndex);
+                   // autoLook.attr.dom.eq(showIndex).find(".list-school-box").addClass("show");
+                }
+               },500);
+            });
+
+          showClassType(0);
+
+         },
+         // 初始化 --如有动态数据，请在加载完成后先初始化一下
+         init:function(){
+          $.extend(autoLook.attr,{
+            listHeight:[],
+            dom:$(".dd-school-list"),
+          });
+          $(".dd-school-list").each(function(){
+            autoLook.attr.listHeight.push({
+              height:$(this).height(),
+              offsetTop:$(this).offset().top,
+              bottomBoxH:$(this).find(".list-school-box").height()
+            })
+          });
+
+          // autoLook.attr.dom.eq(0).find(".list-school-box").addClass("show");
+         }
+        }
+      }
+      $(".city-button").text(city);
+
+
+      $(".select-button").click(function(){
+        menu_show($(".page-menu-box.select"));
+      });
+
+      $(".city-button").click(function(){
+        menu_show($(".page-menu-box.city"));
+      });
+
+      $(".page-menu-box.city").click(function(){
+        menu_show($(".page-menu-box.city"));
+      });
+
+      $(".page-menu-box.city .city-box").click(function(e){
+        e.stopPropagation();
+      });
+
+      $(".page-menu-box.city .c-left-list li").click(function(){
+        var index = $(this).index();
+        classCur($(this));
+        createCityList_right(index)
+      });
+
+      $(".page-menu-box.select .cont-box span").click(function(){
+        classCur($(this));
+      });
+
+      $(".dd-school-box").on("click",".dd-school-list",function(){
+        window.location.href = "jxxq.html?school_id="+$(this).attr("school_id");
+      });
+
+      $("#dd-select .dd-select-list").click(function(){
+           pageNum = 1;
+          $(".dd-school-box").attr("request","true");
+          classCur($(this));
+          var sortType = $(this).attr("sortType");
+
+          if(sortType == "1"){
+            selectRecommendDrivings();
+            return
+          }
+
+          if(sortType == "3,4"){
+            var priceType = $(this).attr("sort");
+            if(priceType == "1"){
+              sortType = "3";
+              $(this).find(".jiantou").addClass("up");
+              $(this).attr("sort","2");
+            }else{
+              sortType = "4";
+              $(this).find(".jiantou").removeClass("up");
+              $(this).attr("sort","1");
+            }
+          }
+
+          if(sortType == "5"){
+            $(".dd-school-box").attr("request","false");
+          }
+        request.func.start({
+           sortType: sortType || "",
+           currentNum:(sortType == "5" ? "" : 1),  //-------------当前页
+           count:(sortType == "5" ? "" : 30)
+        },function(_data){
+          createlistDom(_data);
+          $("body")[0].scrollTop = 0;
+        });
+      });
+
+      //筛选推荐驾校
+      function selectRecommendDrivings(_callback){
+        var city = localStorage.getItem("city");
+          $.post("http://dd.dingdongxueche.com/DDWeb/drivingInfo/selectRecommendDrivings.htm?city="+city+"&latitude="+(localStorage.getItem("latitude") || "")+"&longitude="+(localStorage.getItem("longitude") || ""),function(_data){
+              var data = JSON.parse(_data)
+              var isId = "";
+              for(var i = 0; i < data.length; i++){
+                isId+=data[i].id+",";
+              }
+              console.log("http://dd.dingdongxueche.com/DDWeb/drivingInfo/selectRecommendDrivings.htm?city="+city+"&latitude="+(localStorage.getItem("latitude") || "")+"&longitude="+(localStorage.getItem("longitude") || ""))
+              createlistDom(data);
+              request.func.start({
+      //                city: city || "",  //-------------城市
+      //             keyword: "",  //-------------关键字
+      //               price: "",  //-------------价格
+      //                area: "",  //-------------区域
+      //            district: "",  //-------------街区
+      //            sortType: sortType || "",  //-------------排序类型
+      //                 wom: "",  //-------------评分
+      //        licenseLevel: "",  //-------------驾照类型
+      //             haveBus: "",   //-------------有无班车  1 有 0 无
+      //        haveExamSite: "",   //-------------自带考场  1 有 0 无
+      // authenticationAgent: "",   //-------------认证代理  1 有 0 无
+      //           promotion: "",   //-------------活动优惠  ""  1 有 0 无
+      //            distance: "",   //-------------距离
+      //            latitude: localStorage.getItem("latitude") || "",   //-------------纬度
+      //           longitude: localStorage.getItem("longitude") || "",   //-------------经度
+      //           peopleNum: "",   //-------------练车人数
+      //           classType: "",   //-------------班级类型
+      //          currentNum: pageNum,  //-------------当前页
+      //               count: "30"    //-------------每页数量
+
+
+                 latitude: localStorage.getItem("latitude") || "",   //-------------纬度
+                longitude: localStorage.getItem("longitude") || "",   //-------------经度
+                     city:city,
+                 sortType: "",
+               currentNum: "1"  //-------------全部的
+              },function(_data){
+                createlistDom(_data,true,isId);
+                _callback && _callback();
+              });
+            });
+      }
+
+
+      $(".c-right-list").on("click","li",function(){
+        pageNum = 1;
+        var text = $(this).text();
+        $(".city-button").text(text);
+        localStorage.setItem("city",text);
+        if(sortType == "1"){
+          selectRecommendDrivings(function(){
+            $(".city-button").click();
+          });
+        }else{
+          request.func.start({
+              city:text,
+          },function(_data){
+            createlistDom(_data);
+            $(".city-button").click();
+            // localStorage.setItem("city",text);
+          });
+        }
+
+        
+      });
+
+
+
+
+      function classCur(_this){
+        _this.addClass("cur").siblings().removeClass("cur");
+      }
+
+      function menu_show(dom){
+        if(!dom.is(".show")){
+          $(".page-menu-box").removeClass("show");
+          dom.addClass("show");
+        }else{
+          dom.removeClass("show");
+        }
+      }
+
+      
+
+
+      // 列表请求开始-----------------------------------------
+
+      
+
+      //通过率
+          function passrate(_data,_index){
+              var passrateS;
+              if(_data.passrate==''){
+                  passrateS = "";
+                  $(".dd-school-list").eq(_index).find(".tongguo").hide();
+              }else{
+                   passrateS = '<span class="tongguo">通过率'+_data.passrate+'</span>';
+              }
+              return passrateS;
+          };
+
+          //驾校头像
+          function schoolimg(_data){
+              var schoolimgS;
+              var header='http://jx.dingdongxueche.com/JXWeb/editContent/logoupload/';
+              var header1='http://jx.dingdongxueche.com/JXWeb/editContent/logoupload';
+              if(_data.schoolimg==''){
+                  schoolimgS = '../images/school_default.png';
+              }else{
+                  if(_data.schoolimg.substring(0,1)=='/'){
+                      schoolimgS = header1+_data.schoolimg;
+                  }else{
+                      schoolimgS = header+_data.schoolimg;
+                  }
+              }
+              return schoolimgS;
+
+          };
+
+          //认证图标
+          function authenticationAgent(_data){
+              var AgentS;
+                  if(_data.authenticationAgent==1 && _data.grantAgent == 1){
+                          // $(".Agent").eq(i).attr("src","../images/school_shouquan.png");
+                      AgentS = '<img class="Agent" src="../images/school_shouquan.png" />'
+                  }else if(_data.authenticationAgent==1){
+                      // $(".Agent").eq(i).attr("src","../images/yirenzheng.png");
+                      AgentS = '<img class="Agent" src="../images/yirenzheng.png" />'
+                  }else if(_data.grantAgent == 1){
+                       // $(".Agent").eq(i).attr("src","../images/school_shouquan.png");
+                      AgentS = '<img class="Agent" src="../images/school_shouquan.png" />'
+                  }else{
+                      AgentS = "";
+                  }
+              return AgentS;
+          };
+
+
+
+      var sortType = funs.getQueryString("sortType");
+
+      $("#dd-select").find(".dd-select-list").each(function(){
+        var sortText = $(this).attr("sortType") || ""
+        if(sortText.indexOf(sortType) != -1){
+          if($(this).attr("sortType") == "3,4"){
+            $(this).attr("sort","2"); 
+          }
+          classCur($(this));
+        }
+      });
+
+
+
+      
+
+      if(sortType == "1"){
+        selectRecommendDrivings();
+      }else{
+        request.func.start({
+               city: city || "",  //-------------城市
+            keyword: "",  //-------------关键字
+              price: "",  //-------------价格
+               area: "",  //-------------区域
+           district: "",  //-------------街区
+           sortType: sortType || "",  //-------------排序类型
+                wom: "",  //-------------评分
+       licenseLevel: "",  //-------------驾照类型
+            haveBus: "",   //-------------有无班车  1 有 0 无
+       haveExamSite: "",   //-------------自带考场  1 有 0 无
+authenticationAgent: "",   //-------------认证代理  1 有 0 无
+          promotion: "",   //-------------活动优惠  ""  1 有 0 无
+           distance: "",   //-------------距离
+           latitude: localStorage.getItem("latitude") || "",   //-------------纬度
+          longitude: localStorage.getItem("longitude") || "",   //-------------经度
+          peopleNum: "",   //-------------练车人数
+          classType: "",   //-------------班级类型
+         currentNum: pageNum,  //-------------当前页
+              count: "30"    //-------------每页数量
+        },function(_data){
+          createlistDom(_data)
+        });
+      }
+      
+
+      $(".goSelect").click(function(){
+        pageNum = 1;
+        $(".dd-school-box").attr("request","true");
+        request.func.start({
+            city:$(".city-button").text(),
+            licenseLevel:zhuanhua(0),
+            promotion:(zhuanhua(1) == "限时特惠"?"1":""),
+            price:zhuanhua(2),
+            peopleNum:(zhuanhua(3) == "一人一车" ? "1" : zhuanhua(3) == "二人一车" ? "2" : zhuanhua(3) == "多人一车" ? "3" : ""),
+            classType:zhuanhua(4),
+            haveBus:(zhuanhua(5) == "自带班车"?"1":""),
+            haveExamSite:(zhuanhua(5) == "自带考场"?"1":""),
+            authenticationAgent:(zhuanhua(5) == "认证代理"?"1":""),
+            currentNum:"1", //-------------当前页
+          },function(_data){
+            createlistDom(_data);
+            $(".select-button").click();
+            $("body")[0].scrollTop = 0;
+          });
+      });
+
+      $(".dd-navbar-goSearch").click(function(){
+        pageNum = 1;
+        $(".dd-school-box").attr("request","true");
+        var val = $(".dd-navbar-search input").val();
+        $(".page-menu-box").removeClass("show");
+        request.func.start({
+                keyword:val,
+                   city:$(".city-button").text(),
+             currentNum:"1"
+        },function(_data){
+          createlistDom(_data);
+        });
+      });
+
+
+      //把“不限”转换成空
+      function zhuanhua(index){
+        var str = $.trim($(".page-menu-box .cont").eq(index).find(".cont-select .cur").text());
+        if(str == "不限"){
+          str = ""
+        }
+        return str
+      }
+
+
+
+      function createlistDom(_data,_state,_idStr){
+        var dom = "";
+            autoLook.init.init();
+
+            //评分 星星
+           function pingfenDom(i){
+            var pingfenDom = "";
+             for(var k = 0; k <  Math.round(_data[i].score); k++){
+                pingfenDom+='<img src="../images/star2.png">';
+              }
+              for(var k = 0; k <  5-Math.round(_data[i].score); k++){
+                pingfenDom+='<img src="../images/star1.png">';
+              }
+              return pingfenDom
+           };
+          for(var i = 0; i < _data.length; i++){
+            if(_idStr){
+              if(_idStr.indexOf(_data[i].id) != -1){
+                continue
+              }
+            }
+            dom+='<li class="dd-school-list" school_id="'+_data[i].id+'">'+
+             '<div class="list-box flex justify-content-space-between">'+
+                '<div class="list-box-1 w100"><img src="'+schoolimg(_data[i])+'" width="100%" height="100%"></div>'+
+                '<div class="list-box-2 w100 flex flex-column justify-content-space-around">'+
+                  '<p class="p-1"><span class="title">'+_data[i].name+'</span> '+passrate(_data[i],i)+'</p>'+
+                  '<p class="p-2  flex">'+
+                    '<span class="pingfen-1 flex">'+
+                      pingfenDom(i)+
+                    '</span> '+
+                    '<span class="pingfen-2">'+_data[i].score+'分</span>'+
+                  '</p>'+
+                  '<p class="p-3">距您'+_data[i].distance+'KM</p>'+
+                '</div>'+
+                '<div class="list-box-3 flex flex-column justify-content-center">'+
+                  '<p class="flex">'+
+                    '<span class="renzheng-icon flex flex-column justify-content-center">'+authenticationAgent(_data[i])+'</span>'+
+                    '<span class="price">￥'+(_data[i].startPrice == "-1" ? "在线咨询" : _data[i].startPrice)+'</span>'+
+                  '</p>'+
+                '</div>'+
+             '</div>'+
+             '<div class="list-box">'+
+               '<p class="list-box-path text-overflow"><img src="../images/new_dw.png">地址：'+_data[i].address+'</p>'+
+             '</div>'+
+             '<div class="list-school-box">'+
+               // '<div class="list-box">'+
+               //   '<div class="list-box-sclMsg w100">'+
+               //      '<div class="con-l">'+
+               //        '<p class="con-l-1 type1">普通班 <span>C1</span></p>'+
+               //        '<p class="con-l-2">'+
+               //          '<span>班车接送</span><span>2人一车</span><span>2人一车</span>'+
+               //        '</p>'+
+               //      '</div>'+
+               //      '<div class="con-r">'+
+               //        '<p class="con-r-1">￥4700</p>'+
+               //        '<p class="con-r-2">'+
+               //          '<span class="con-r-2-button">我要报名</span>'+
+               //        '</p>'+
+               //      '</div>'+
+               //   '</div>'+
+               // '</div>'+
+               '<div class="list-box">'+
+                 '<div class="list-box-sclMsg w100">'+
+                    '<div class="con-l">'+
+                      '<p class="con-l-1 type2"></p>'+
+                      '<p class="con-l-2">'+
+                        // '<span>班车接送</span><span>2人一车</span><span>2人一车</span>'+
+                      '</p>'+
+                   '</div>'+
+                    '<div class="con-r">'+
+                      '<p class="con-r-1"></p>'+
+                      '<p class="con-r-2">'+
+                        '<span class="con-r-2-button">我要报名</span>'+
+                      '</p>'+
+                    '</div>'+
+                 '</div>'+
+               '</div>'+
+               // '<p class="look-more-school">'+
+               //   '查看所有班型'+
+               //   '<img src="../images/rightjt.png">'+
+               // '</p>'+
+             '</div>'+
+          '</li>';
+          };
+          if(_state){
+            $(".dd-school-box").append(dom);
+          }else{
+            $(".dd-school-box").html(dom);
+          }
+          
+
+          // autoLook.init.init();
+          autoLook.init.t_start();
+
+
+
+      };
+
+
+
+
+
+
+
+
+
+      //下拉加载
+      if($(".dd-school-box").attr("isrequest") == "true"){
+        downLoad();
+      }
+      
+      function downLoad(){
+        
+
+
+        touch.on(".dd-school-box","touchend",function(){
+            var scrollT = $("body").scrollTop();
+            var maxH = $("body").height()-$(window).height();
+            // console.log(scrollT + " >= " + maxH)
+
+            
+            var selectType = $(".dd-select-list.cur")
+            var sortType = selectType.attr("sortType");
+
+         
+            if(sortType == "3,4"){
+              var priceType = selectType.attr("sort");
+              if(priceType == "2"){
+                sortType = "3";
+                selectType.attr("sort","2");
+              }else{
+                sortType = "4";
+                selectType.attr("sort","1");
+              }
+            }
+
+              if(scrollT >= maxH){
+                $(".dd-school-box").attr("isrequest","false");
+                if($(".dd-school-box").attr("request") == "true"){
+                    pageNum++;
+                    console.log("第"+pageNum+"页")
+                    request.func.start({
+                         sortType: sortType || "",
+                       currentNum:(sortType == "5" ? "" : pageNum),  //-------------当前页
+                        count:(sortType == "5" ? "" : 30)
+                    },function(_data){
+                      $(".dd-school-box").attr("isrequest","true")
+                        
+                      if(sortType == "5"){
+                        createlistDom(_data);
+                        
+                        $(".dd-school-box").attr("request","false");
+                      }else{
+                        createlistDom(_data,true);
+                      }
+                      
+                      if(_data.length == 0){
+                        console.log("没有数据，停止加载")
+                        $(".dd-school-box").attr("request","false");
+                      }
+                    });
+                }
+                  
+              }
+          isDown = false;
+        });
+      }
+
+
+
+    });
+  </script>
+</head>
+<body>
+	<div class="page-content">
+      <div class="isgoTop"><a href="#"><img src="../images/goTop.png"></a></div>
+      <div class="dd-navbar  flex justify-content-space-between">
+            <div class="dd-navbar-tit city-button">北京</div>
+            <div class="dd-navbar-tit select-button">筛选</div>
+            <div class="col-40 dd-navbar-tit dd-navbar-search">
+              <input type="text" placeholder="请输入驾校名" />
+            </div>
+            <div class="dd-navbar-tit dd-navbar-goSearch">确定</div>
+      </div>
+      <div class="dd-select  flex justify-content-space-between" id="dd-select">
+            <div class="dd-select-list cur" sortType="1" >推荐<span class="rline"></span></div>
+            <div class="dd-select-list" sortType="5">距离<span class="rline"></span></div>
+            <div class="dd-select-list" sortType="3,4" sort="1">价格 <span class="jiantou">↓</span><span class="rline"></span></div>
+            <div class="dd-select-list" sortType="2">好评<span class="rline"></span></div>
+            <div class="dd-select-list" sortType="6">通过率</div>
+      </div>
+      <ul class="dd-school-box" isrequest="true" request="true">
+      	<!-- <li class="dd-school-list">
+           <div class="list-box flex justify-content-space-between">
+              <div class="list-box-1 w100"><img src="../images/list.png" width="100%" height="100%"></div>
+              <div class="list-box-2 w100 flex flex-column justify-content-space-around">
+                <p class="p-1"><span class="title">宏瑞驾校</span> <span class="tongguo">通过率96.8%</span></p>
+                <p class="p-2  flex">
+                  <span class="pingfen-1 flex">
+                    <img src="../images/star2.png">
+                    <img src="../images/star2.png">
+                    <img src="../images/star2.png">
+                    <img src="../images/star2.png">
+                    <img src="../images/star2.png">
+                  </span> 
+                  <span class="pingfen-2">4.6分</span>
+                </p>
+                <p class="p-3">距您2KM</p>
+              </div>
+              <div class="list-box-3 flex flex-column justify-content-center">
+                <p class="flex">
+                  <span class="renzheng-icon flex flex-column justify-content-center"><img src="../images/yirenzheng.png"></span>
+                  <span class="price">￥4700</span>
+                </p>
+              </div>
+           </div>
+           <div class="list-box">
+             <p class="list-box-path"><img src="../images/new_dw.png">地址：笨的人看不见地址</p>
+           </div>
+           <div class="list-school-box show">
+             <div class="list-box">
+               <div class="list-box-sclMsg w100">
+                  <div class="con-l">
+                    <p class="con-l-1 type1">普通班 <span>C1</span></p>
+                    <p class="con-l-2">
+                      <span>班车接送</span><span>2人一车</span><span>2人一车</span>
+                    </p>
+                  </div>
+                  <div class="con-r">
+                    <p class="con-r-1">￥4700</p>
+                    <p class="con-r-2">
+                      <span class="con-r-2-button">我要报名</span>
+                    </p>
+                  </div>
+               </div>
+             </div>
+             <div class="list-box">
+               <div class="list-box-sclMsg w100">
+                  <div class="con-l">
+                    <p class="con-l-1 type2">周末班 <span>C1/C2</span> <span class="sf-num">首付400</span></p>
+                    <p class="con-l-2">
+                      <span>班车接送</span><span>2人一车</span><span>2人一车</span>
+                    </p>
+                  </div>
+                  <div class="con-r">
+                    <p class="con-r-1">￥4700</p>
+                    <p class="con-r-2">
+                      <span class="con-r-2-button">我要报名</span>
+                    </p>
+                  </div>
+               </div>
+             </div>
+             <p class="look-more-school">
+               查看所有班型
+               <img src="../images/rightjt.png">
+             </p>
+           </div>
+        </li> -->
+      </ul>
+    <div class="page-menu-box select">
+      <div class="cont-box">
+        <div class="cont">
+          <p class="cont-title">驾考类型</p> 
+          <div class="cont-select">
+            <span class="cur">不限</span>
+            <span>C1</span>
+            <span>C2</span>
+            <span>B2</span>
+            <span>A1</span>
+            <span>A3</span>
+          </div>
+        </div>
+        <div class="cont">
+          <p class="cont-title">活动特惠</p> 
+          <div class="cont-select">
+            <span class="cur">不限</span>
+            <span>限时特惠</span>
+           <!--  <span>团购立减</span> -->
+          </div>
+        </div>
+        <div class="cont">
+          <p class="cont-title">价格区间</p> 
+          <div class="cont-select">
+            <span class="cur">不限</span>
+            <span>3k以下</span>
+            <span>3k-4k</span>
+            <span>4k-5k</span>
+            <span>5k以上</span>
+          </div>
+        </div>
+        <div class="cont">
+          <p class="cont-title">人数</p> 
+          <div class="cont-select">
+            <span class="cur">不限</span>
+            <span>一人一车</span>
+            <span>二人一车</span>
+            <span>多人一车</span>
+          </div>
+        </div>
+        <div class="cont">
+          <p class="cont-title">班型</p> 
+          <div class="cont-select">
+            <span class="cur">不限</span>
+            <span>平日班</span>
+            <span>周末班</span>
+            <span>计时班</span>
+            <span>全周班</span>
+            <span>贵宾班</span>
+          </div>
+        </div>
+        <div class="cont">
+          <p class="cont-title">其他</p> 
+          <div class="cont-select">
+            <span class="cur">不限</span>
+            <span>自带班车</span>
+            <span>自带考场</span>
+            <span>认证代理</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-box">
+        <div class="goSelect">确定</div>
+      </div>
+    </div>
+
+    <div class="page-menu-box city">
+      <div class="city-box flex">
+        <ul class="c-left-list w100">
+          <li class="cur">北京</li>
+          <li>上海</li>
+          <li>重庆</li>
+          <li>黑龙江</li>
+          <li>北京</li>
+          <li>吉林</li>
+          <li>北京</li>
+          <li>辽宁</li>
+          <li>青海</li>
+          <li>甘肃</li>
+          <li>山西</li>
+          <li>北京</li>
+          <li>上海</li>
+          <li>重庆</li>
+          <li>黑龙江</li>
+          <li>北京</li>
+          <li>吉林</li>
+          <li>北京</li>
+          <li>辽宁</li>
+          <li>青海</li>
+          <li>甘肃</li>
+          <li>山西</li>
+        </ul>
+        <ul class="c-right-list w100">
+          <li>全北京</li>
+          <li>海淀</li>
+          <li>朝阳</li>
+          <li>全北京</li>
+          <li>海淀</li>
+          <li>朝阳</li>
+          <li>全北京</li>
+          <li>海淀</li>
+          <li>朝阳</li>
+          <li>全北京</li>
+          <li>海淀</li>
+          <li>朝阳</li>
+          <li>全北京</li>
+          <li>海淀</li>
+          <li>朝阳</li>
+          <li>全北京</li>
+          <li>海淀</li>
+          <li>朝阳</li>
+          <li>全北京</li>
+          <li>海淀</li>
+          <li>朝阳</li>
+          <li>全北京</li>
+          <li>海淀</li>
+          <li>朝阳</li>
+          <li>全北京</li>
+          <li>海淀</li>
+          <li>朝阳</li>
+        </ul>
+      </div>
+    </div>
+</body>
+</html>

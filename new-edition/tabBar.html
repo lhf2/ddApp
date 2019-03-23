@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<title>tabBar</title>
+	<link rel="stylesheet" type="text/css" href="../css/resetStyle.css">
+  <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="../js/rem.js"></script>
+	<script type="text/javascript" src="../js/zepto.js"></script>
+  <script type="text/javascript" src="../js/fun.js"></script>
+	<script type="text/javascript" src="../js/touch.min.js"></script>
+	<script type="text/javascript" src="../js/DDPOP.js"></script>
+  <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
+  <style type="text/css">
+    body{background-color:  #F6F9FF;}
+    .main-tab-bar{
+      height: 1rem;
+      margin-top: .2rem;
+    }
+    .main-tab-bar-fixed{
+      position: fixed;
+      left:0;
+      right: 0;
+      bottom:0;
+      height: 1rem;
+      z-index: 100;
+      background:-webkit-gradient(linear, 0% 0%, 0% 90%, from(#fff), to(#E6E6E6));
+      border-top:1px solid #ebebeb;
+    }
+    .main-tab-bar .tab{
+      width: 100%;
+      height: 100%;
+    }
+    .main-tab-bar .tab .main-tab-title{
+      height: 100%;
+      width: 100%;
+      text-align: center;
+    }
+  
+    .main-tab-bar a{
+     color:#8B8B8B;
+    }
+
+    .main-tab-bar .tab span{
+      color:#8B8B8B;
+      font-size: .26rem;
+    }
+    .main-tab-bar .tab img{
+      height: .4rem;
+      display: inline;
+    }
+    .main-tab-bar .tab.cur{
+      color: #0586FF;
+    }
+
+    .swiper-pagination-bullet-active{
+        background-color: #EE9912;
+    }
+    
+  </style>
+  <script type="text/javascript">
+    $(function(){
+      $(".main-tab-bar-fixed .tab").click(function(){
+         tabCur($(this));
+      })
+     
+      //.cur 切换
+      function tabCur(dom){
+        return dom.addClass("cur").siblings().removeClass("cur");
+      };
+
+      // var swiper_baoming = new Swiper('.swiper-container', {
+      //     pagination: '.swiper-pagination',
+      //     paginationClickable: true,
+      // });
+
+
+
+      $.post("bm.html",function(dom){
+        console.log(dom)
+        $(".cont-baoming").append(dom);
+         var swiper_baoming = new Swiper('.swiper-container.page-baoming', {
+              pagination: '.swiper-pagination',
+              paginationClickable: true,
+              autoplay : 2000,
+              onSlideChangeStart:function(e){
+                $(".tab-cur span").eq(e.activeIndex).addClass("cur").siblings().removeClass("cur");
+              }
+          });
+      });
+    });
+  </script>
+</head>
+<body>
+  <!-- <div class="page-cont-box">
+
+    <div class="swiper-container">
+        <div class="swiper-wrapper"> -->
+            <div class="swiper-slide">
+              <div class="cont-baoming"></div>
+            </div>
+       <!--      <div class="swiper-slide" >
+              <div class="cont-jiakao" ></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="cont-xuechequan">2</div>
+            </div>
+            <div class="swiper-slide">
+              <div class="cont-wode">3</div>
+            </div> 
+        </div>
+    </div>
+
+  </div> -->
+
+
+
+
+
+  <div class="main-tab-bar">
+    <div class="main-tab-bar-fixed flex w100 justify-content-space-between">
+      <div class="tab cur">
+        <p class="main-tab-title flex justify-content-center flex-column">
+          <span><img src="../images/baoming-icon-cur.png"></span>
+          <span>报名</span>
+        </p>
+      </div>
+      <div class="tab">
+          <a href="../index00.html">
+            <p class="main-tab-title flex justify-content-center flex-column">
+                <span><img src="../images/jiakao-icon.png"></span>
+                <span>驾考</span>
+            </p>
+          </a>
+      </div>
+      <div class="tab">
+        <p class="main-tab-title flex justify-content-center flex-column">
+          <span><img src="../images/xuechequan-icon.png"></span>
+          <span>学车圈</span>
+        </p>
+      </div>
+      <div class="tab">
+        <p class="main-tab-title flex justify-content-center flex-column">
+          <span><img src="../images/my-icon.png"></span>
+          <span>我的</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

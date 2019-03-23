@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<title>驾校详情</title>
+	<link rel="stylesheet" type="text/css" href="../css/resetStyle.css">
+  	<link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
+	<script type="text/javascript" src="../js/rem.js"></script>
+	<script type="text/javascript" src="../js/zepto.js"></script>
+  <script type="text/javascript" src="../js/swiper.jquery.min.js"></script>
+  <script type="text/javascript" src="../js/fun.js"></script>
+	<script type="text/javascript" src="../js/touch.min.js"></script>
+	<script type="text/javascript" src="../js/DDPOP.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      var school_id = funs.getQueryString("school_id");
+      var openId = localStorage.getItem("openId");
+
+      $("#tit_jxjj").click(function(){
+        window.location.href="jxjj.html?school_id="+school_id;
+      });
+      
+      $("#bus").click(function(){
+        window.location.href="bus.html?school_id="+school_id;
+      });
+
+
+            
+      
+
+
+      //查询驾校分组
+      $.ajax({
+        url:"http://101.201.146.79:8088/dts/drivPicture/selectPictureLabels?drivingId="+school_id+"&callbackparam=?",
+        dataType:"jsonp",
+        success:function(msg_1){
+          if(msg_1.length == 0) return
+          $.ajax({
+                url:"http://101.201.146.79:8088/dts/drivPicture/selectPictures?tpsId="+msg_1[0].id+"&callbackparam=?",
+                dataType:"jsonp",
+                success:function(msg_2){
+                  var photo = msg_2[0].photo;
+
+                  for(var i = 0; i < msg_2.length; i++){
+                    if(msg_2[i].photo.length != 0) {
+                      photo = msg_2[i].photo;
+                      break
+                    }
+                  }
+                  
+                   var str = '';
+                   var len =  photo.length;
+                   for(var i = 0; i < len; i++){
+                    if(i >= 6){
+                      break
+                    }
+                    str+='<div class="swiper-slide">'+
+                      '<img src="http://www.dingdongxueche.com:9080/JXWeb/upload_imgs/'+photo[i].photourl+'" width="100%">'+
+                    '</div>';
+                   }
+
+                   $("#header-img").html(str);
+                   var swiper = new Swiper('.swiper-container', {
+                      pagination: '.swiper-pagination',
+                      paginationClickable: true,
+                      autoplay : 1000,
+                      paginationType : 'progress'
+                  });
+                }
+              });
+        }
+      });
+     
+
+      var latitude,longitude;
+
+      // 获取驾校信息
+      $.ajax({
+        url:"http://101.201.146.79:8088/dts/drivingInfo/selectByIds?dId="+school_id+"&callbackparam=?",
+        dataType:"jsonp",
+        success:function(msg){
+          console.log(msg)
+          latitude = msg.latitude;
+          longitude = msg.longitude;
+          $("#school_name").text(msg.name);
+          $("#school_address").text("考场地址："+msg.address);
+          $("#school_passrate").text(msg.passrate);
+          $("#header-img .swiper-slide img").eq(0).attr("src","http://jx.dingdongxueche.com/JXWeb/editContent/logoupload/"+msg.schoolimg)
+          $("#school_score").text(msg.score+"分");
+          if(msg.passrate == ""){
+            $("#school_passrate").parent().hide();
+          }
+
+          if(msg.authenticationAgent == "1" && msg.grantAgent == "1" || msg.authenticationAgent == "1"){
+            $("#iconAgent").attr("src","../images/yirenzheng.png").show();
+          }else if(msg.grantAgent == "1"){
+            $("#iconAgent").attr("src","../images/school_shouquan.png").show();
+          }
+
+          $(".pingfen").find(".t1").html(pingfenDom());
+           //评分 星星
+           function pingfenDom(i){
+            var pingfenDom = "";
+             for(var k = 0; k <  Math.round(msg.score); k++){
+                pingfenDom+='<img src="../images/star2.png">';
+              }
+              for(var k = 0; k <  5-Math.round(msg.score); k++){
+                pingfenDom+='<img src="../images/star1.png">';
+              }
+              return pingfenDom
+           };
+           $(".zx-tel").find("a").attr("href",(msg.tel == ""?"":"tel:")+msg.tel);
+            // $(".zx-tel").click(function(){
+            //   $(this).find("a").click();
+            // });
+        }
+      });
+
+      $("#school_address").click(function(){
+        window.location.href="../zjx/jxwz.html?latitude="+latitude+"&longitude="+longitude;
+      });
+
+      //去掉.00
+      function selnum(num){
+        var str = num
+        var str1 = num.indexOf(".00");
+        if(str1 != -1){
+          str = num.substring(0,str1);
+        }
+        return str
+      }      
+
+      // 获取驾校评论
+      getCom();
+      function getCom(){
+        $.ajax({
+          url:"http://101.201.146.79:8088/dts/evaluate/selectEvaluates?drivingId="+school_id+"&userId="+openId+"&currentNum=1&count=2&callbackparam=?",
+          dataType:"jsonp",
+          success:function(msg){
+            var str = "";
+             //评分 星星
+             function pingfenDom(i){
+              var pingfenDom = "";
+               for(var k = 0; k <  Math.round(msg[i].average); k++){
+                  pingfenDom+='<img src="../images/star2.png">';
+                }
+                for(var k = 0; k <  5-Math.round(msg[i].average); k++){
+                  pingfenDom+='<img src="../images/star1.png">';
+                }
+                return pingfenDom
+             };
+
+            for(var i = 0; i < msg.length; i++){
+              str+='<li class="flex" >'+
+                    '<div class="header-img-left">'+
+                      '<img src="'+msg[i].image+'" />'+
+                    '</div>'+
+                   ' <div class="text-box-right flex flex-column justify-content-space-between">'+
+                     ' <div class="t1">'+
+                        '<span class="nick-name">'+msg[i].nickname+'</span>'+
+                      '<span class="rt-date">'+msg[i].evaluate_time+'</span>'+
+                      '</div>'+
+                      '<div class="t2 flex">'+
+                        pingfenDom(i)+
+                      '</div>'+
+                      '<div class="t3 text-overflow">'+
+                        msg[i].evaluate+
+                      '</div>'+
+                      '<div class="t4">'+
+                       '<div class="good-line flex" isid='+msg[i].id+'>'+
+                          '<span class="img">'+
+                           '<img src="../images/good'+(msg[i].isZambia == "1"?"":"1")+'.png" isgood="'+(msg[i].isZambia == "1"?"1":"0")+'" />'+
+                          '</span>'+
+                         ' <span class="num">'+
+                            msg[i].zambia+
+                          '</span>'+
+                        '</div>'+
+                      '</div>'+
+                    '</div>'+
+                   '</li>';
+            }
+
+            $(".list-box-pinglun").html(str);
+          }
+        });
+      }
+
+      //点赞
+      $(".list-box-pinglun").on("click",".good-line",function(){
+        var num = parseInt($(this).find(".num").text());
+        var isgood = $(this).find("img").attr("isgood");
+        $.ajax({
+          url:"http://101.201.146.79:8088/dts/evaluate/updZambias?id="+$(this).attr("isid")+"&userId="+openId+"&updType="+(isgood=="1"?"0":"1")+"&callbackparam=?",
+          dataType:"jsonp",
+          success:function(msg){
+            getCom();
+
+          }
+        });
+      });
+
+      // 查询驾校班型列表
+      $.ajax({
+        url:"http://101.201.146.79:8088/dts/class/selectClassess?drivingId="+school_id+"&count=100&currentNum=1&callbackparam=?",
+        dataType:"jsonp",
+        success:function(msg){
+          var str = "";
+          for(var i = 0; i < msg.length; i++){
+            var charactersHtml = "";
+            var charactersArr = msg[i].characteristic.split(",");
+            if(charactersArr[0] != ''){
+                var charactersLen = charactersArr.length;
+                for(var k = 0; k < charactersLen; k++){
+                    charactersHtml += "<span>"+charactersArr[k]+"</span>";
+                }
+            }
+            str+='<div class="list-box" thisId="'+msg[i].id+'">'+
+               '<div class="list-box-sclMsg w100">'+
+                  '<div class="con-l">'+
+                    '<p class="con-l-1 type'+((i%4)+1)+'"><span class="sleft">'+msg[i].classname+' <span>'+msg[i].drivingtype+'</span> </span><span class="sf-num" style="display:'+(msg[i].fistpay>0?"block":"none")+'">首付'+msg[i].fistpay+'</span></p>'+
+                    '<p class="con-l-2">'+
+                      charactersHtml+
+                    '</p>'+
+                  '</div>'+
+                  '<div class="con-r">'+
+                    '<p class="con-r-1">￥'+selnum(msg[i].price)+'</p>'+
+                    '<p class="con-r-2">'+
+                      '<span class="con-r-2-button"">我要报名</span>'+
+                    '</p>'+
+                  '</div>'+
+               '</div>'+
+             '</div>';
+          }
+          $("#all_classType").append(str);
+          $("#all_classType .list-box").click(function(){
+            window.location.href = "bxxq.html?school_id="+$(this).attr("thisId")+"&dId="+school_id;
+          })
+        }
+      });
+
+      $("#xydpMore").click(function(){
+        window.location.href="xydp.html?school_id="+school_id;
+      });
+
+
+    });  
+  </script>
+  
+</head>
+<body>
+  <div class="page-jxxq">
+    <div class="top-banner">
+    	
+      <!-- swiper start -->
+      <div class="swiper-container">
+          <div class="swiper-wrapper" id="header-img">
+              <div class="swiper-slide">
+                    <img src="" width="100%">
+              </div>
+          </div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination"></div>
+      </div>
+      <!-- swiper end -->
+    </div>
+	
+	<div class="school-info-box">
+
+	    <div class="school-info flex">
+	    	<div class="school-info-left">
+	    		<img src="../images/school_shouquan.png" id="iconAgent" style="display: none">
+	    	</div>
+	    	<div class="school-info-right flex flex-column justify-content-space-around">
+	    		<p class="title">
+	    			<span class="t1" id="school_name"></span><span class="t2">通过率<span id="school_passrate"></span></span>
+	    		</p>
+	    		<p class="pingfen flex">
+	    			<span class="t1 flex">
+	    			</span>
+	    			<span class="t2" id="school_score"></span>
+	    		</p>
+	    	</div>
+	    </div>
+
+	    <div class="school-path">
+	    	<p class="list-box-path flex  align-items-center">
+		    	<img src="../images/bn1.png">
+		    	<span id="school_address" class="text-overflow"></span>
+		    	<img class="r-icon" src="../images/btn-r.png">
+	    	</p>
+	    </div>
+	</div>
+	<div class="school-cont-box dd-school-box">
+		<div class="dd-school-list">
+           <div class="list-school-box show" id="all_classType">
+	   		<div class="title">全部热销班型</div>
+             <!-- <div class="list-box">
+               <div class="list-box-sclMsg w100">
+                  <div class="con-l">
+                    <p class="con-l-1 type1">普通班 <span>C1</span></p>
+                    <p class="con-l-2">
+                      <span>班车接送</span><span>2人一车</span><span>2人一车</span>
+                    </p>
+                  </div>
+                  <div class="con-r">
+                    <p class="con-r-1">￥4700</p>
+                    <p class="con-r-2">
+                      <span class="con-r-2-button">我要报名</span>
+                    </p>
+                  </div>
+               </div>
+             </div>
+             <div class="list-box">
+               <div class="list-box-sclMsg w100">
+                  <div class="con-l">
+                    <p class="con-l-1 type2">周末班 <span>C1/C2</span> </p>
+                    <p class="con-l-2">
+                      <span>班车接送</span><span>2人一车</span><span>2人一车</span>
+                    </p>
+                  </div>
+                  <div class="con-r">
+                    <p class="con-r-1">￥4700</p>
+                    <p class="con-r-2">
+                      <span class="con-r-2-button">我要报名</span>
+                    </p>
+                  </div>
+               </div>
+             </div>
+             <div class="list-box">
+               <div class="list-box-sclMsg w100">
+                  <div class="con-l">
+                    <p class="con-l-1 type3">周末班 <span>C1/C2</span> </p>
+                    <p class="con-l-2">
+                      <span>班车接送</span><span>2人一车</span><span>2人一车</span>
+                    </p>
+                  </div>
+                  <div class="con-r">
+                    <p class="con-r-1">￥4700</p>
+                    <p class="con-r-2">
+                      <span class="con-r-2-button">我要报名</span>
+                    </p>
+                  </div>
+               </div>
+             </div>
+             <div class="list-box">
+               <div class="list-box-sclMsg w100">
+                  <div class="con-l">
+                    <p class="con-l-1 type4">周末班 <span>C1/C2</span> <span class="sf-num">首付400</span></p>
+                    <p class="con-l-2">
+                      <span>班车接送</span><span>2人一车</span><span>2人一车</span>
+                    </p>
+                  </div>
+                  <div class="con-r">
+                    <p class="con-r-1">￥4700</p>
+                    <p class="con-r-2">
+                      <span class="con-r-2-button">我要报名</span>
+                    </p>
+                  </div>
+               </div>
+             </div> -->
+           </div>
+        </div>
+        <div class="dd-school-list">
+           <div class="list-school-box show" id="pinglunBox">
+	   		<div class="title type2">学员点评<span class="title-more" id="xydpMore"><a href="#">查看更多</a></span></div>
+             <div class="list-box">
+               <ul class="list-box-pinglun">
+               	 <!-- <li class="flex">
+               	 	<div class="header-img-left">
+               	 		<img src="../images/icon3.png" />
+               	 	</div>
+               	 	<div class="text-box-right flex flex-column justify-content-space-between">
+               	 		<div class="t1">
+               	 			<span class="nick-name">昵称</span>
+							<span class="rt-date">2017年3月11日 13:05</span>
+               	 		</div>
+               	 		<div class="t2 flex">
+               	 			<img src="../images/star2.png">
+               	 			<img src="../images/star2.png">
+               	 			<img src="../images/star2.png">
+               	 			<img src="../images/star2.png">
+               	 		</div>
+               	 		<div class="t3 text-overflow">
+               	 			这个驾校真好啊真想去啊我了个去！这个驾校真好啊真想去啊我了个去！这个驾校真好啊真想去啊我了个去！
+               	 		</div>
+               	 		<div class="t4">
+               	 			<div class="good-line flex">
+	               	 			<span class="img">
+	               	 				<img src="../images/good.png" />
+	               	 			</span>
+	               	 			<span class="num">
+	               	 				12
+	               	 			</span>
+               	 			</div>
+               	 		</div>
+               	 		
+               	 	</div>
+               	 </li>
+               	 <li class="flex">
+               	 	<div class="header-img-left">
+               	 		<img src="../images/icon3.png" />
+               	 	</div>
+               	 	<div class="text-box-right flex flex-column justify-content-space-between">
+               	 		<div class="t1">
+               	 			<span class="nick-name">昵称</span>
+							<span class="rt-date">2017年3月11日 13:05</span>
+               	 		</div>
+               	 		<div class="t2 flex">
+               	 			<img src="../images/star2.png">
+               	 			<img src="../images/star2.png">
+               	 			<img src="../images/star2.png">
+               	 			<img src="../images/star2.png">
+               	 		</div>
+               	 		<div class="t3 text-overflow">
+               	 			这个驾校真好啊真想去啊我了个去！这个驾校真好啊真想去啊我了个去！这个驾校真好啊真想去啊我了个去！
+               	 		</div>
+               	 		<div class="t4">
+               	 			<div class="good-line flex">
+	               	 			<span class="img">
+	               	 				<img src="../images/good.png" />
+	               	 			</span>
+	               	 			<span class="num">
+	               	 				12
+	               	 			</span>
+               	 			</div>
+               	 		</div>
+               	 		
+               	 	</div>
+               	 </li> -->
+               </ul>
+             </div>
+           </div>
+        </div>
+        <div class="dd-school-list">
+           <div class="list-school-box show">
+	   		<div class="title type3" id="tit_jxjj">驾校简介<span class="title-more"></span></div>
+	   		<div class="title type4" id="bus" style="border-bottom:0">班车/公交直达<span class="title-more"></span></div>
+           </div>
+        </div>
+	</div>
+	
+
+  
+
+	<div class="floor-fixed">
+		<div class="fixed-box flex">
+			<p class="w100 flex align-items-center justify-content-center">
+        <img src="../images/zxxj.png">
+				<span>在线询价</span>
+			</p>
+			<p class="w100 flex align-items-center justify-content-center zx-tel">
+				<img src="../images/dhzx.png">
+				<span><a href="####">电话咨询</a></span>
+			</p>
+		</div>
+	</div>
+  </div>
+
+</body>
+</html>

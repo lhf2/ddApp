@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的错题</title>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/lhf-base.css"/>
+    <link rel="stylesheet" href="../css/resetStyle.css"/>
+    <link rel="stylesheet" href="../css/jtbzdq.css"/>
+    <style type="text/css">
+        .listBox ul{margin-top: .2rem;}
+        .listBox ul li{  margin-top: 1px;padding: .5rem 0; overflow: hidden; background-color: #fff; margin-top: 1px;
+    overflow: hidden;
+    background: url(../images/rightjt.png) no-repeat right .2rem center #fff;
+    background-size: .28rem;}
+        .listBox ul li span:nth-child(1){width: .5rem;height: .5rem;text-align: center; line-height: .5rem; color: #333; border-radius:.05rem;}
+        .listBox ul li span{float: left;line-height: .5rem;margin-left: .2rem; font-size: .4rem;}
+        .listBox ul li .is2{width: 100%; margin-right: .7rem;}
+    </style>
+    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+    <script src="../js/jquery-1.11.2.js"></script>
+    <script src="../js/fun.js"></script>
+    <script type="text/javascript">
+         $(function(){
+        var subjectType = funs.getQueryString("stype");
+        var city=localStorage.getItem("city");
+        var openId=localStorage.getItem("openId");
+        var vtype=localStorage.getItem("vtype");
+            $.post('http://dd.dingdongxueche.com/DDWeb/wxquestion/getQuestionRecords.htm?flag=1&subjectType='+subjectType+'&vehicleType='+vtype+'&openid='+openId+'',anlist);
+            
+            $(".isRight").click(function(){
+                if(confirm("确认清空当前列表？")){
+                    $.post('http://dd.dingdongxueche.com/DDWeb/wxquestion/clearQuestionRecords.htm?flag=1&subjectType='+subjectType+'&vehicleType='+vtype+'&openid='+openId+'',ajaxClear);
+                }
+            });
+
+            
+            $(".listBox").on("click","li",function(){
+                window.location.href = "../index-topic/topic.html?&stype="+subjectType+"&testtype=0&city="+city+"&me="+$("#istitle").text();
+            });
+        });
+
+        function ajaxClear(msg){
+            if(msg == "0"){
+                alert("清空失败！");
+            }else{
+                $(".listBox ul").html("");
+                $(".isshoucang").show();
+            }
+        }
+
+        function anlist(msg){
+            var data = $.parseJSON(msg);
+            var listBox = $(".listBox");
+            var str = "";
+            for(var i = 0; i < data.length; i++){
+               str+='<li class="flex">'+
+                        '<span class="is1">'+(i+1)+'</span>'+
+                        '<span class="is2">'+data[i].details+'</span>'+
+                    '</li>';
+            }
+            $(".listBox ul").html(str);
+            if(data.length < 1){
+                 $(".isshoucang").show();
+            }
+        };
+    </script>
+</head>
+<body>
+<!--top开始-->
+<div class="top-box">
+    <div class="top-detail top-ling">
+        <a href="javascript:window.history.back();">
+            <img class='top-return'  src="../images/rtn.png" alt="" style="margin-right: 1.2rem">
+        </a>
+        <span id="istitle">我的错题</span>
+        <span class="isRight">清空记录</span>
+    </div>
+</div>
+<div class="top-detail-height"></div>
+<div class="isshoucang" style="display: none">
+    <p class="isshoucang_title">您好没有错题，答错的题会出自动现在这里！</p>
+    <p class="isshoucang_bottom" onclick="window.location.href = '../index.html'">马上练习</p>
+</div>
+<div class="listBox">
+    <ul>
+    </ul>
+</div>
+</body>
+</html>

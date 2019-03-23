@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>考试</title>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/lhf-base.css"/>
+    <link rel="stylesheet" href="../css/jtbzdq.css"/>
+    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+    <script src="../js/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="../js/fun.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var subjectType = funs.getQueryString("subjectType");
+            var type = funs.getQueryString("type");
+            var istitle = "";
+            if(type == "0"){
+                document.title = istitle = "自学直考"
+                subjectType = ""
+            }else{
+                document.title = istitle = "考试攻略"
+                istitle = "考试攻略"
+            }
+            console.log("http://dd.dingdongxueche.com/DDWeb/wxStudyGuide/getStudyGuides.htm?subjectType=1&subjectType="+subjectType)
+            $.post("http://dd.dingdongxueche.com/DDWeb/wxStudyGuide/getStudyGuides.htm?"+type+"=1&subjectType="+subjectType,function(msg){
+                var data = $.parseJSON(msg);
+                var str = "";
+                var len = data.length
+                for(var i = 0; i < len; i++){
+                    str+="<p class='text' id='"+data[i].id+"'> <span>"+(i+1)+".</span> <a href='href.html?istitle="+istitle+"&html="+data[i].url+"'>"+data[i].title+"</a></p>"
+                }
+                $("#istitle").text(istitle)
+                $("body").append(str);
+                console.log(data)
+            });
+        })
+    </script>
+    <style type="text/css">
+        a{color: #333;}
+        .text{font-size: .48rem; margin-left: .32rem; line-height: 1rem;  }
+    </style>
+</head>
+<body>
+<!--top开始-->
+<div class="top-box">
+    <div class="top-detail top-ling">
+        <a href="javascript:window.history.back();">
+            <img class='top-return'  src="../images/rtn.png" alt="">
+        </a>
+        <span id="istitle"></span>
+        <span class="isRight"></span>
+    </div>
+</div>
+<div class="top-detail-height"></div>
+</body>
+</html>

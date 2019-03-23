@@ -1,0 +1,70 @@
+/*top开始*/
+.top-box {
+    background: linear-gradient(#20AA8E 0%,#28B793 50%,#34CC9C 100%);
+}
+.top-box .top-detail {
+    color: #fff;
+    text-align: center;
+    padding: .3rem 0;
+}
+.top-box .top-detail img {
+    display: block;
+    width: .3125rem;
+    height: .5625rem;
+    float: left;
+    padding-left: .4375rem;
+    vertical-align: bottom;
+}
+.top-box .top-detail span {
+    line-height: .5625rem;
+}
+.top-box span {
+    font-size: 18px;
+}
+/*main开始*/
+.main-box .share-box{
+    background: linear-gradient(#FFFFFF 0%,#FAFAFA 50%,#F4F4F4 100%);
+    padding-bottom: 1rem;
+    overflow: hidden;
+    border-bottom: 1px solid #F8F8F8;
+    box-shadow: 2px 2px 10px #DBDBDB;
+}
+.main-box .share-box .share-list{
+    margin-top: .7rem;
+    width: 33.3333%;
+    text-align: center;
+    float: left;
+}
+.main-box .share-box .left{
+    text-align: left;
+}
+.main-box .share-box .left img{
+    text-align: left;
+}
+.main-box .share-box .share-list .share-img img{
+    width: 1.33rem;
+    height: 1.33rem;
+    display: block;
+    margin: 0 auto;
+}
+.main-box .share-box .share-list a .share-text{
+    font-size: 16px;
+    color: #434343;
+    margin-top: .3rem;
+}
+.main-box .share-box .share-list a:hover{
+    text-decoration: none;
+}
+.main-box .erm-box .erm-title{
+    font-size: 16px;
+    color: #434343;
+    text-align: center;
+    padding: .75rem 0;
+}
+.main-box .erm-box .erm-img img{
+    width: 5.47rem;
+    height: 5.47rem;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/resetStyle.css" />
+    <link rel="stylesheet" href="../css/me-child.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css">
+    <script type="text/javascript" src="../js/rem.js" ></script>		
+	<!-- <script type="text/javascript" src="../js/zepto.js" ></script> -->
+	<script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
+	<script type="text/javascript" src="../js/me.js" ></script>、
+	<script type="text/javascript" src="../js/doAjax.js"></script>
+	<script type="text/javascript" >
+	   function toRedirect(){
+	     window.location.href="http://wx.dingdongxueche.com/html/me.html";
+	   }
+	</script>
+	<title>我的账户</title>
+</head>
+<body>
+	<div class="body">
+		<div class="topTitle">
+			<div class="titleMsg">我的账户</div>
+			<div class="back" onclick="toRedirect()"></div>
+			<div class="topTitleHeight"></div>
+		</div>
+		<div class="tabx2_parent">
+			<div class="tabx2_child cur">已领取的优惠</div>
+			<div class="tabx2_child" onclick="$(this).off()">我的积分</div>
+		</div>
+		<div id="wdzh"></div>
+	</div>
+	
+</body>
+</html>
